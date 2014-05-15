@@ -5,6 +5,10 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WonderZoo", "WonderZoo\WonderZoo.csproj", "{AEC66CC2-FE89-41B9-A9FE-813B78582DBD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Klassen", "Klassen\Klassen.csproj", "{950BE038-1C2B-4F5C-A87C-6210521B02D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Databasekoppeling", "Databasekoppeling\Databasekoppeling.csproj", "{7A52BABB-2CA4-4964-9E11-EBD85226B446}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{AEC66CC2-FE89-41B9-A9FE-813B78582DBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEC66CC2-FE89-41B9-A9FE-813B78582DBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEC66CC2-FE89-41B9-A9FE-813B78582DBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{950BE038-1C2B-4F5C-A87C-6210521B02D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{950BE038-1C2B-4F5C-A87C-6210521B02D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{950BE038-1C2B-4F5C-A87C-6210521B02D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{950BE038-1C2B-4F5C-A87C-6210521B02D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A52BABB-2CA4-4964-9E11-EBD85226B446}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A52BABB-2CA4-4964-9E11-EBD85226B446}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A52BABB-2CA4-4964-9E11-EBD85226B446}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A52BABB-2CA4-4964-9E11-EBD85226B446}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
