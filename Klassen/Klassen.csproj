@@ -39,8 +39,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Administratie.cs" />
+    <Compile Include="Beheer.cs" />
+    <Compile Include="Dier.cs" />
+    <Compile Include="Dierenarts.cs" />
+    <Compile Include="Diersoort.cs" />
+    <Compile Include="Dierverzorger.cs" />
+    <Compile Include="Directeur.cs" />
+    <Compile Include="Huisvesting.cs" />
+    <Compile Include="Medicijn.cs" />
+    <Compile Include="Persoon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ras.cs" />
+    <Compile Include="Vaccinatie.cs" />
+    <Compile Include="Voeding.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
