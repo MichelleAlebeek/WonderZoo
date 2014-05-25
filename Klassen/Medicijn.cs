@@ -11,12 +11,14 @@ namespace Klassen
         private string bijwerking;
         private string hoeveelheid;
         private Medicijnnaam medicijnnaam;
+        private DateTime startdatum;
 
-        public Medicijn (Medicijnnaam Medicijnnaam, string Hoeveelheid, string Bijwerking)
+        public Medicijn (Medicijnnaam medicijnnaam, string hoeveelheid, string bijwerking, DateTime startdatum)
         {
-            this.Medicijnnaam = Medicijnnaam;
-            this.Hoeveelheid = Hoeveelheid;
-            this.Bijwerking = Bijwerking;
+            this.medicijnnaam = medicijnnaam;
+            this.hoeveelheid = hoeveelheid;
+            this.bijwerking = bijwerking;
+            this.startdatum = startdatum;
         }
 
         public string Bijwerking
@@ -24,7 +26,11 @@ namespace Klassen
             get { return bijwerking; }
             set { bijwerking = value; }
         }
-
+        public DateTime Startdatum
+        {
+            get { return startdatum; }
+            set { startdatum = value; }
+        }
         public string Hoeveelheid
         {
             get { return hoeveelheid; }
@@ -39,7 +45,7 @@ namespace Klassen
 
         public override string ToString()
         {
-            return Medicijnnaam + Hoeveelheid + Bijwerking;
+            return medicijnnaam + hoeveelheid + bijwerking + startdatum;
         }
     }
 

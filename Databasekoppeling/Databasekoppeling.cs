@@ -17,15 +17,14 @@ namespace Databasekoppeling
         private static OracleConnection connection;
 
         public Databasekoppeling()
-        {
-           
-           // string connectie = Settings.Default.ConnectieString;
-           // connection = new OracleConnection(connectie);
+        {    
+            string connectie = Settings.Default.ConnectieString;
+            connection = new OracleConnection(connectie);
         }
 
-        public void MethodeNaam()
-        {
+        //public void MethodeNaam()
+        //{
 
-        }
+        //}
     }
 }

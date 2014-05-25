@@ -15,17 +15,16 @@ namespace Klassen
         private HuisvestingSoort soorthuisvesting;
         private List<Dier> dieren;
 
-        public Huisvesting(int Huisvestingnummer, HuisvestingSoort SoortHuisvesting, HuisvestingMateriaal Materiaal, Gedragsverrijking Gedragsverrijking, int AantalDieren)
+        public Huisvesting(int huisvestingnummer, HuisvestingSoort soorthuisvesting, HuisvestingMateriaal materiaal, Gedragsverrijking gedragsverrijking, int aantalDieren)
         {
-            this.Huisvestingnummer = Huisvestingnummer;
-            this.SoortHuisvesting = SoortHuisvesting;
-            this.Materiaal = Materiaal;
-            this.Gedragsverrijking = Gedragsverrijking;
-            this.AantalDieren = AantalDieren;
+            this.huisvestingnummer = huisvestingnummer;
+            this.soorthuisvesting = soorthuisvesting;
+            this.materiaal = materiaal;
+            this.gedragsverrijking = gedragsverrijking;
+            this.aantalDieren = aantalDieren;
             dieren = new List<Dier>();
         }
 
-        //Na kijken of dit klopt.
         public List<Dier> Dieren
         {
             get { return new List<Dier>(dieren);}

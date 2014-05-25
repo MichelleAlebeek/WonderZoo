@@ -8,5 +8,16 @@ namespace Klassen
 {
     class Beheer
     {
+        private Administratie administratie;
+
+        public Beheer(Administratie administratie)
+        {
+            this.administratie = administratie;
+        }
+
+        public Administratie Administratie
+        {
+            get { return administratie; }
+        }
     }
 }

@@ -13,12 +13,12 @@ namespace Klassen
         private string naamVoeding;
         private Soortvoeding soortVoeding;
 
-        public Voeding (string NaamVoeding, string HoeveelheidVoeding, DateTime HoudbaarTot, Soortvoeding Soortvoeding)
+        public Voeding (string naamVoeding, string hoeveelheidVoeding, DateTime houdbaarTot, Soortvoeding soortVoeding)
         {
-            this.NaamVoeding = NaamVoeding;
-            this.HoeveelheidVoeding = HoeveelheidVoeding;
-            this.HoudbaarTot = HoudbaarTot;
-            this.SoortVoeding = SoortVoeding;
+            this.naamVoeding = naamVoeding;
+            this.hoeveelheidVoeding = hoeveelheidVoeding;
+            this.houdbaarTot = houdbaarTot;
+            this.soortVoeding = soortVoeding;
         }
 
         public Soortvoeding SoortVoeding
