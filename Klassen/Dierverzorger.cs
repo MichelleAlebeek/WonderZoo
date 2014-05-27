@@ -119,7 +119,7 @@ namespace Klassen
             return null;
         }
 
-        public Dier ZoekInfo(string naamdier)
+        public Dier ZoekInfoDier(string naamdier)
         { // TODO zoek alle info over het dier waarvan de naam overeenkomt met de naam die je meegeeft
             return null;
         }
