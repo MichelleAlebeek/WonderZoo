@@ -107,7 +107,7 @@ namespace Klassen
             return null;
         }
 
-        public Dier ZoekDiersoort(string diersoortnaam)
+        public Diersoort ZoekDiersoort(string diersoortnaam)
         {
             // TODO zoek het dier in de lijst met diersoorten waarvan de naam overeenkomt met de naam die je meegeeft
             return null;

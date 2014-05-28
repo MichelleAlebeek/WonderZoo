@@ -92,7 +92,7 @@ namespace Klassen
             return null;
         }
 
-        public Dierenarts Zoek(string dierenartsnaam)
+        public Dierenarts ZoekArts(string dierenartsnaam)
         {
             // TODO geef alle informatie van de dierenarts terug waarvan de naam overeenkomt met de naam die je meegeeft
             return null;
@@ -122,11 +122,11 @@ namespace Klassen
             return new DateTime(0-00-0000);
         }
 
-        //public Dierverzorger Zoek(string dierverzorgernaam)
-        //{
-        //    // TODO zoek alle info die bij de dierverzorger hoort waarvan de naam overeenkomt met de naam die je meegeeft
-        //    return null;
-        //}
+        public Dierverzorger ZoekVerzorger(string dierverzorgernaam)
+        {
+            // TODO zoek alle info die bij de dierverzorger hoort waarvan de naam overeenkomt met de naam die je meegeeft
+            return null;
+        }
 
         public override string ToString()
         {

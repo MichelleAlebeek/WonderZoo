@@ -48,16 +48,16 @@ namespace Klassen
             return null;
         }
 
-        public Huisvesting ZoekVerblijf(int diernummer)
+        public Huisvesting ZoekVerblijfDier(int diernummer)
         {
             // TODO zoek het verblijf die bij het meegegeven diernummer hoort.
             return null;
         }
 
-        //public Huisvesting ZoekVerblijf(int diersoortnummer)
-        //{
-        //    // TODO zoek het verblijf die bij het meegegeven diersoortnummer hoort.
-        //    return null;
-        //}
+        public Huisvesting ZoekVerblijf(int diersoortnummer)
+        {
+            // TODO zoek het verblijf die bij het meegegeven diersoortnummer hoort.
+            return null;
+        }
     }
 }
