@@ -181,7 +181,7 @@ namespace Databasekoppeling
         #endregion
 
         #region Veelvoorkomende ziektes diersoort
-        public string VerwijderDier(int diersoortnummer)
+        public string VeelVoorkomendeZiektes(int diersoortnummer)
         {
             using (OracleConnection conn = new OracleConnection(connectie))
             {
@@ -316,7 +316,7 @@ namespace Databasekoppeling
         #endregion
 
         #region Naam dierverzorgers opvragen
-        public string NaamDierverzorgers()
+        public List<String> NaamDierverzorgers()
         {
             using (OracleConnection conn = new OracleConnection(connectie))
             {
@@ -326,7 +326,9 @@ namespace Databasekoppeling
 
                 if (rdr.Read())
                 {
-                    string dierverzorgernaam = Convert.ToString(rdr["dierverzorgernaam"]);
+                    string naam = Convert.ToString(rdr["dierverzorgernaam"]);
+                    List<String> dierverzorgernaam = new List<string>();
+                    dierverzorgernaam.Add(naam);
                     return dierverzorgernaam;
                 }
                 return null;

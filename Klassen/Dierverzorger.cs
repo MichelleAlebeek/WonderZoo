@@ -18,6 +18,7 @@ namespace Klassen
         private string typeContract;
         private List<Vaccinatie> vaccinaties;
         private List<Diersoort> diersoorten;
+        private Beheer beheerder;
 
         public Dierverzorger( DateTime datumAangenomen, int dierverzorgerNummer, string geslacht, string hoofddiersoort, int rekeningnummer, int telefoonnummerPrivé, int telefoonnummerZakelijk, string typeContract, string naam, int leeftijd, string wachtwoord)
             : base (naam, leeftijd, wachtwoord)
@@ -32,6 +33,7 @@ namespace Klassen
             this.typeContract = typeContract;
             vaccinaties = new List<Vaccinatie>();
             diersoorten = new List<Diersoort>();
+            beheerder = new Beheer();
         }
  
         public List<Vaccinatie> Vacinaties
@@ -87,54 +89,74 @@ namespace Klassen
         public int AantalDieren()
         {
             // Todo het aantal dieren opvragen
-            return 0;
+            int dieren = beheerder.TotaalAantalDieren();
+            return dieren;
         }
 
-        public void HaalPlattegrondOp()
-        {
-            // TODO: download de plattegrond
-        }
+        //public void HaalPlattegrondOp() // GEEN MUST HAVE
+        //{
+        //    // TODO: download de plattegrond
+        //}
 
-        public string ZoekVeelvoorkomendeZiektes(string rasnaam)
+        public string ZoekVeelvoorkomendeZiektes(int diersoortnummer)
         {
-            // TODO zoek de veelvoorkomende ziektes op die bij het ras horen met het meegegeven rasnaam
-            return null;
+            // TODO zoek de veelvoorkomende ziektes op die bij het diersoort horen met het meegegeven rasnaam
+            string veelvoorkomendeziektes = beheerder.VeelVoorkomendeZiektesDiersoort(diersoortnummer);
+            return veelvoorkomendeziektes;
         }
 
         public Dier ZoekDier(string diernaam)
         {
-            // TODO zoek het dier in de lijst met dieren waarvan de naam overeenkomt met de naam die je meegeeft
+            // TODO zoek het dier in de lijst waarvan de naam overeenkomt met de naam die je meegeeft
             return null;
         }
 
         public Diersoort ZoekDiersoort(string diersoortnaam)
         {
             // TODO zoek het dier in de lijst met diersoorten waarvan de naam overeenkomt met de naam die je meegeeft
+            foreach (Diersoort diersoort in diersoorten)
+            {
+                if (diersoort.Familie == diersoortnaam)
+                {
+                    return diersoort;
+                }               
+            }
             return null;
         }
 
-        public Diersoort ZoekInfo(string diersoortnaam)
+        public Diersoort ZoekInfoDiersoort(int diersoortnummer)
         {
             // TODO zoek alle info over het diersoort waarvan de naam overeenkomt met de naam die je meegeeft
-            return null;
+            Diersoort diersoort = (Diersoort)beheerder.ZoekDiersoort(diersoortnummer);
+            return diersoort;
         }
 
         public Dier ZoekInfoDier(string naamdier)
         { // TODO zoek alle info over het dier waarvan de naam overeenkomt met de naam die je meegeeft
-            return null;
+            Dier dier = (Dier)beheerder.InfoDier(naamdier);
+            return dier;
         }
 
-        public Ras ZoekRas(string naamdier)
-        {
-            // TODO zoek het ras op dat bij het dier hoort waarvan de naam overeenkomt met de naam die je meegeeft
-            return null;
-        }
+        //public Ras ZoekRas(int diernummer)
+        //{
+        //    // TODO zoek het ras op dat bij het dier hoort waarvan de naam overeenkomt met de naam die je meegeeft
+        //    string rasnaam = beheerder.RasVanDier(diernummer);
+        //    foreach(Ras ras in rassen)
+        //    {
+        //        if (ras.Rasnaam = rasnaam)
+        //        {
+        //            return Ras;
+        //        }
+        //    }
+        //    return null;
+        //}
 
-        public Voeding ZoekVoeding(string naamdier)
-        {
-            // TODO zoek het voeding op dat bij het dier hoort waarvan de naam overeenkomt met de naam die je meegeeft
-            return null;
-        }
+        //public Voeding ZoekVoeding(string naamdier)
+        //{
+        //    // TODO zoek het voeding op dat bij het dier hoort waarvan de naam overeenkomt met de naam die je meegeeft
+        //    Voeding voeding = beheerder.VoedingDiersoort(diersoortnummer);
+        //    return null;
+        //}
 
         public override string ToString()
         {
