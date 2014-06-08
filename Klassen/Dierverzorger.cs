@@ -137,26 +137,36 @@ namespace Klassen
             return dier;
         }
 
-        //public Ras ZoekRas(int diernummer)
-        //{
-        //    // TODO zoek het ras op dat bij het dier hoort waarvan de naam overeenkomt met de naam die je meegeeft
-        //    string rasnaam = beheerder.RasVanDier(diernummer);
-        //    foreach(Ras ras in rassen)
-        //    {
-        //        if (ras.Rasnaam = rasnaam)
-        //        {
-        //            return Ras;
-        //        }
-        //    }
-        //    return null;
-        //}
+        public Ras ZoekRas(int diernummer)
+        {
+            // TODO zoek het ras op dat bij het dier hoort waarvan de naam overeenkomt met de naam die je meegeeft
+            string rasnaam = beheerder.RasVanDier(diernummer);
+            foreach (Ras ras in beheerder.Rassen)
+            {
+                if (ras.Rasnaam == rasnaam)
+                {
+                    return ras;
+                }
+            }
+            return null;
+        }
 
-        //public Voeding ZoekVoeding(string naamdier)
-        //{
-        //    // TODO zoek het voeding op dat bij het dier hoort waarvan de naam overeenkomt met de naam die je meegeeft
-        //    Voeding voeding = beheerder.VoedingDiersoort(diersoortnummer);
-        //    return null;
-        //}
+        public string ZoekVoeding(string naamdier)
+        {
+            // TODO zoek het voeding op dat bij het dier hoort waarvan de naam overeenkomt met de naam die je meegeeft
+            int diersoortnummer;
+
+            foreach (Dier dier in beheerder.Dieren)
+            {
+                if (dier.Diernaam == naamdier)
+                {
+                    diersoortnummer = dier.Diersoortnummer;
+                    string voeding = beheerder.VoedingDiersoort(diersoortnummer);
+                    return voeding;
+                }              
+            }         
+            return null;
+        }
 
         public override string ToString()
         {

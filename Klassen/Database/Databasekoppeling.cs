@@ -637,7 +637,7 @@ namespace Databasekoppeling
         #endregion
 
         #region Vaccinatie verlopen op: met dierverzorgernummer
-        public DateTime VaccinatieVerlopen(int dierverzorgernummer)
+        public DateTime VaccinatieVerlopenOp(int dierverzorgernummer)
         {
             using (OracleConnection conn = new OracleConnection(connectie))
             {
@@ -657,7 +657,7 @@ namespace Databasekoppeling
         #endregion
 
         #region Vaccinatie verlopen op: met dierverzorgernaam
-        public DateTime VaccinatieVerlopen(int dierverzorgernaam)
+        public DateTime VaccinatieVerlopen(string dierverzorgernaam)
         {
             using (OracleConnection conn = new OracleConnection(connectie))
             {
@@ -677,7 +677,7 @@ namespace Databasekoppeling
         #endregion
 
         #region Vaccinaties dierverzorger
-        public string VaccinatiesDierverzorger(int dierverzorgernummer)
+        public List<Vaccinatie> VaccinatiesDierverzorger(int dierverzorgernummer)
         {
             using (OracleConnection conn = new OracleConnection(connectie))
             {
@@ -686,18 +686,23 @@ namespace Databasekoppeling
                 cmd.Parameters.Add("nummer", dierverzorgernummer);
                 OracleDataReader rdr = cmd.ExecuteReader();
 
+                List<Vaccinatie> vaccinaties = new List<Vaccinatie>();
+
                 if (rdr.Read())
                 {
                     string vaccinatienaam = Convert.ToString(rdr["vaccinatienaam"]);
-                    return vaccinatienaam;
+                    string werkingstijd = Convert.ToString(rdr["werkingstijd"]);
+                    string uitPreventieVoor = Convert.ToString(rdr["uitPreventieVoor"]);
+                    double Prijs = Convert.ToDouble(rdr["Prijs"]);
+                    vaccinaties.Add(new Vaccinatie(vaccinatienaam, werkingstijd, uitPreventieVoor, Prijs));
                 }
-                return null;
+                return vaccinaties;
             }
         }
         #endregion
 
         #region Vaccinaties dierverzorger met naam
-        public string VaccinatiesDierverzorger(string dierverzorgernaam)
+        public List<Vaccinatie> VaccinatiesDierverzorger(string dierverzorgernaam)
         {
             using (OracleConnection conn = new OracleConnection(connectie))
             {
@@ -706,12 +711,17 @@ namespace Databasekoppeling
                 cmd.Parameters.Add("naam", dierverzorgernaam);
                 OracleDataReader rdr = cmd.ExecuteReader();
 
+                List<Vaccinatie> vaccinaties = new List<Vaccinatie>();
+
                 if (rdr.Read())
                 {
                     string vaccinatienaam = Convert.ToString(rdr["vaccinatienaam"]);
-                    return vaccinatienaam;
+                    string werkingstijd = Convert.ToString(rdr["werkingstijd"]);
+                    string uitPreventieVoor = Convert.ToString(rdr["uitPreventieVoor"]);
+                    double Prijs = Convert.ToDouble(rdr["Prijs"]);
+                    vaccinaties.Add(new Vaccinatie(vaccinatienaam, werkingstijd, uitPreventieVoor, Prijs));
                 }
-                return null;
+                return vaccinaties;
             }
         }
         #endregion

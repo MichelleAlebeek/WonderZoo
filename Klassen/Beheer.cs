@@ -11,10 +11,29 @@ namespace Klassen
     class Beheer
     {
         private Databasekoppeling.Databasekoppeling db;
+        private List<Dier> dieren;
+        private List<Huisvesting> huisvestings;
+        private List<Ras> rassen;
         public Beheer()
         {
             db = new Databasekoppeling.Databasekoppeling();
-            
+            dieren = new List<Dier>();
+            huisvestings = new List<Huisvesting>();
+            rassen = new List<Ras>();
+        }
+
+        public List<Dier> Dieren
+        {
+            get { return new List<Dier>(dieren); }
+        }
+        public List<Huisvesting> Huisvestings
+        {
+            get { return new List<Huisvesting>(huisvestings); }
+        }
+
+        public List<Ras> Rassen
+        {
+            get { return new List<Ras>(rassen); }
         }
 
         #region Totaal aantal dieren op het park
@@ -165,5 +184,160 @@ namespace Klassen
 
         #endregion
 
+        #region Telefoonnummer dierenarts opvragen met naam
+        public int TelefoonNrDierenarts(string dierenartsnaam)
+        {
+            int telefoon = db.TelefoonDierenarts(dierenartsnaam);
+            return telefoon;
+        }
+        #endregion
+
+        #region Telefoonnummer dierverzorger opvragen
+        public int TelefoonNrDierverzorger(int dierverzorgernummer)
+        {
+            int telefoon = db.TelPriveDierverzorger(dierverzorgernummer);
+            return telefoon;
+        }
+        #endregion
+
+        #region Telefoonnummer dierverzoger opvragen met naam
+        public int TelefoonNrDierverzorger(string dierverzorgernaam)
+        {
+            int telefoon = db.TelPriveDierverzorger(dierverzorgernaam);
+            return telefoon;
+        }
+        #endregion
+
+        #region Telefoonnummer zakelijk dierverzorger opvragen met naam
+        public int TelefoonNrZakelijkDierverzorger(int dierverzorgernummer)
+        {
+            int telefoon = db.TelZakelijkDierverzorger(dierverzorgernummer);
+            return telefoon;
+        }
+        #endregion
+
+        #region Telefoonnummer zakelijk dierverzorger opvragen
+        public int TelefoonNrZakelijkDierverzorger(int dierverzorgernummer)
+        {
+            int telefoon = db.TelZakelijkDierverzorger(dierverzorgernummer);
+            return telefoon;
+        }
+        #endregion
+
+        #region Rekeningnummer dierverzorger opvragen met naam
+        public int RekeningNrDierverzorger(string dierverzorgernaam)
+        {
+            int rekeningnummer = db.RekNrDierverzorger(dierverzorgernaam);
+            return rekeningnummer;
+        }
+        #endregion
+
+        #region Rekeningnummer dierenarts opvragen met naam
+        public int RekeningNrDierenarts(string dierenartsnaam)
+        {
+            int rekeningnummer = db.RekNrDierenarts(dierenartsnaam);
+            return rekeningnummer;
+        }
+        #endregion
+
+        #region Rekeningnummer dierverzorger opvragen met nummer
+        public int RekeningNrDierverzorger(int dierverzorgernummer)
+        {
+            int rekeningnummer = db.RekeningnrDierverzorger(dierverzorgernummer);
+            return rekeningnummer;
+        }
+        #endregion
+
+        #region Rekeningnummer dierenarts opvragen met nummer
+        public int RekeningNrDierenarts(int dierenartsnummer)
+        {
+            int rekeningnummer = db.RekeningnrDierenarts(dierenartsnummer);
+            return rekeningnummer;
+        }
+        #endregion
+
+        #region Werkingsduur vaccinatie opvragen met naam
+        public string WerkingsduurVaccinatie(string vaccinatienaam)
+        {
+            string werkingsduur = db.WerkingsduurVaccinatie(vaccinatienaam);
+            return werkingsduur;
+        }
+        #endregion
+
+        #region Werkingsduur vaccinatie opvragen met dierverzorgernummer
+        public string WerkingsduurVaccinatie(int dierverzorgernummer)
+        {
+            string werkingsduur = db.DuurVaccinatie(dierverzorgernummer);
+            return werkingsduur;
+        }
+        #endregion
+
+        #region Werkingsduur vaccinatie opvragen met dierverzorgernaam
+        public string WerkingsduurVaccinatie(string dierverzorgernaam)
+        {
+            string werkingsduur = db.WerkingsduurVaccinatie(dierverzorgernaam);
+            return werkingsduur;
+        }
+        #endregion
+
+        #region Vaccinatie verlopen op met dierverzorgernummer
+        public DateTime VaccinatieVerlopenOp(int dierverzorgernummer)
+        {
+            DateTime verlopen = (DateTime)db.VaccinatieVerlopenOp(dierverzorgernummer);
+            return verlopen;
+        }
+        #endregion
+
+        #region Vaccinatie verlopen op met dierverzorgernaam
+        public DateTime VaccinatieVerlopenOp(string dierverzorgernaam)
+        {
+            DateTime datum = (DateTime)db.VaccinatieVerlopen(dierverzorgernaam);
+            return datum;
+        }
+        #endregion
+
+        #region Vaccinaties van dierverzoger opvragen
+        public List<Vaccinatie> VaccinatieDierverzorger(int dierverzorgernummer)
+        {
+            List<Vaccinatie> vaccinaties = (List<Vaccinatie>)db.VaccinatiesDierverzorger(dierverzorgernummer);
+            return vaccinaties;
+        }
+        #endregion
+
+        #region Vaccinaties van dierverzorger opvragen met naam
+        public List<Vaccinatie> VaccinatiesDierverzorger(int dierverzorgernummer)
+        {
+            List<Vaccinatie> vaccinaties = (List<Vaccinatie>)db.VaccinatiesDierverzorger(dierverzorgernummer);
+            return vaccinaties;
+        }
+        #endregion
+
+        #region Dierverzorger toevoegen
+        public void VoegToe(Dierverzorger dierverzorger)
+        {
+            db.DierverzorgerToevoegen(dierverzorger);
+        }
+        #endregion
+
+        #region Dierverzorger verwijderen
+        public void Verwijder(int dierverzorgernummer)
+        {
+            db.VerwijderDierverzorger(dierverzorgernummer);
+        }
+        #endregion
+
+        #region Dierenarts toevoegen
+        public void VoegToe(Dierenarts dierenarts)
+        {
+            db.DierenartsToevoegen(dierenarts);
+        }
+        #endregion
+
+        #region Dierenarts verwijderen
+        public void Verwijder(int dierenartsnummer)
+        {
+            db.VerwijderDierenarts(dierenartsnummer);
+        }
+        #endregion
     }
 }
