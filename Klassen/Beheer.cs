@@ -14,12 +14,14 @@ namespace Klassen
         private List<Dier> dieren;
         private List<Huisvesting> huisvestings;
         private List<Ras> rassen;
+        private List<Medicijn> medicijnen;
         public Beheer()
         {
             db = new Databasekoppeling.Databasekoppeling();
             dieren = new List<Dier>();
             huisvestings = new List<Huisvesting>();
             rassen = new List<Ras>();
+            medicijnen = new List<Medicijn>();
         }
 
         public List<Dier> Dieren
@@ -34,6 +36,11 @@ namespace Klassen
         public List<Ras> Rassen
         {
             get { return new List<Ras>(rassen); }
+        }
+
+        public List<Medicijn> Medicijnen
+        {
+            get { return new List<Medicijn>(medicijnen); }
         }
 
         #region Totaal aantal dieren op het park
