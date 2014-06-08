@@ -121,7 +121,7 @@ namespace Databasekoppeling
         #endregion
 
         #region Medicijn van dier opvragen
-        public string MedicijnDierOpvragen(int diernummer)
+        public List<Medicijn> MedicijnDierOpvragen(int diernummer)
         {
             using (OracleConnection conn = new OracleConnection(connectie))
             {
@@ -130,10 +130,16 @@ namespace Databasekoppeling
                 cmd.Parameters.Add("nummer", diernummer);
                 OracleDataReader rdr = cmd.ExecuteReader();
 
+                List<Medicijn> medicijnen = new List<Medicijn>();
+
                 if (rdr.Read())
                 {
-                    string medicijn = Convert.ToString(rdr["medicijnnaam"]);
-                    return medicijn;
+                    Medicijnnaam medicijnnaam = (Medicijnnaam)Enum.Parse(typeof(Medicijnnaam), Convert.ToString(rdr["medicijnnaam"]));
+                    string hoeveelheid = Convert.ToString(rdr["hoeveelheid"]);
+                    string bijwerking = Convert.ToString(rdr["bijwerking"]);
+                    DateTime startdatum = Convert.ToDateTime(rdr["startdatum"]);
+                    medicijnen.Add(new Medicijn(medicijnnaam, hoeveelheid, bijwerking, startdatum));
+                    return medicijnen;
                 }
                 return null;
             }

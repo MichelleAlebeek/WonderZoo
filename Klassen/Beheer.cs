@@ -15,6 +15,10 @@ namespace Klassen
         private List<Huisvesting> huisvestings;
         private List<Ras> rassen;
         private List<Medicijn> medicijnen;
+        private List<Persoon> personen;
+        private List<Dierenarts> dierenartsen;
+        private List<Diersoort> diersoorten;
+        private List<Dierverzorger> dierverzorgers;
         public Beheer()
         {
             db = new Databasekoppeling.Databasekoppeling();
@@ -22,6 +26,10 @@ namespace Klassen
             huisvestings = new List<Huisvesting>();
             rassen = new List<Ras>();
             medicijnen = new List<Medicijn>();
+            personen = new List<Persoon>();
+            dierenartsen = new List<Dierenarts>();
+            diersoorten = new List<Diersoort>();
+            dierverzorgers = new List<Dierverzorger>();
         }
 
         public List<Dier> Dieren
@@ -41,6 +49,26 @@ namespace Klassen
         public List<Medicijn> Medicijnen
         {
             get { return new List<Medicijn>(medicijnen); }
+        }
+
+        public List<Persoon> Personen
+        {
+            get { return new List<Persoon>(personen); }
+        }
+
+        public List<Dierenarts> Dierenartsen
+        {
+            get { return new List<Dierenarts>(dierenartsen); }
+        }
+
+        public List<Diersoort> Diersoorten
+        {
+            get { return new List<Diersoort>(diersoorten); }
+        }
+
+        public List<Dierverzorger> Dierverzorgers
+        {
+            get { return new List<Dierverzorger>(dierverzorgers); }
         }
 
         #region Totaal aantal dieren op het park
@@ -83,9 +111,9 @@ namespace Klassen
         #endregion
 
         #region Medicijn van dier opvragen
-        public string MedicijnVanDier(int diernummer)
+        public List<Medicijn> MedicijnVanDier(int diernummer)
         {
-           string medicijn = db.MedicijnDierOpvragen(diernummer);
+           List<Medicijn> medicijn = (List<Medicijn>)db.MedicijnDierOpvragen(diernummer);
            return medicijn;
         }
         #endregion
@@ -312,9 +340,9 @@ namespace Klassen
         #endregion
 
         #region Vaccinaties van dierverzorger opvragen met naam
-        public List<Vaccinatie> VaccinatiesDierverzorger(int dierverzorgernummer)
+        public List<Vaccinatie> VaccinatiesDierverzorger(string dierverzorgernaam)
         {
-            List<Vaccinatie> vaccinaties = (List<Vaccinatie>)db.VaccinatiesDierverzorger(dierverzorgernummer);
+            List<Vaccinatie> vaccinaties = (List<Vaccinatie>)db.VaccinatiesDierverzorger(dierverzorgernaam);
             return vaccinaties;
         }
         #endregion
@@ -341,10 +369,14 @@ namespace Klassen
         #endregion
 
         #region Dierenarts verwijderen
-        public void Verwijder(int dierenartsnummer)
+        public void VerwijderArts(int dierenartsnummer)
         {
             db.VerwijderDierenarts(dierenartsnummer);
         }
         #endregion
+
+        // TODO diersoort toevoegen (diersoort diersoort)
+
+        // TODO zoek verblijf (int diersoortnummer) : huisvesting
     }
 }

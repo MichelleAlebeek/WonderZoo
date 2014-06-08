@@ -59,18 +59,11 @@ namespace Klassen
             return 0;
         }
 
-        public Medicijn ZoekMedicijn(int diernummer)
+        public List<Medicijn> ZoekMedicijn(int diernummer)
         {
             // TODO zoek bij het meegegeven diernummer het medicijn op die dit dier gebruikt.
-            string medicijn = beheerder.MedicijnVanDier(diernummer);
-            foreach (Medicijn medicijndier in beheerder.Medicijnen)
-            {
-                if (medicijndier.Medicijnnaam == (Medicijnnaam)Enum.Parse(typeof(Medicijnnaam), Convert.ToString(medicijn)))
-                {
-                    return medicijndier;
-                }
-            }
-            return null;
+            List<Medicijn> medicijn = beheerder.MedicijnVanDier(diernummer);
+            return medicijn;
         }
 
         public string ZoekVeelvoorkomendeZiektes(string rasnaam)

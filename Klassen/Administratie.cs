@@ -10,12 +10,14 @@ namespace Klassen
     {
         private int telefoonnummer;
         private List<Diersoort> diersoorten;
+        private Beheer beheerder;
 
         public Administratie(int telefoonnummer, string naam, int leeftijd, string wachtwoord)
             : base(naam, leeftijd, wachtwoord)
         {
             this.telefoonnummer = telefoonnummer;
             diersoorten = new List<Diersoort>();
+            beheerder = new Beheer();
         }
 
         public List<Diersoort> Diersoorten
@@ -32,99 +34,154 @@ namespace Klassen
         public int AantalDieren()
         {
             // Todo het aantal dieren opvragen
-            return 0;
+            int aantal = beheerder.TotaalAantalDieren();
+            return aantal;
         }
 
-        public DateTime GeldigTot(string vaccinatienaam)
+        public DateTime GeldigTot(string dierverzorgernaam)
         {
             // TODO zoek op tot wanneer de vaccinatie geldig is
-            return new DateTime(0-00-0000);
+            DateTime geldigtot = beheerder.VaccinatieVerlopenOp(dierverzorgernaam);
+            return geldigtot;
         }
 
-        public void PlattegrondAanpassen()
-        {
-            // TODO pas de plattegrond aan (opnieuw toevoegen)
-        }
+        // GEEN MUSTHAVE
+        //public void PlattegrondAanpassen() 
+        //{
+        //    // TODO pas de plattegrond aan (opnieuw toevoegen)
+        //}
 
-        public void PlattegrondOpvragen()
-        {
-            // TODO download de plattegrond
-        }
+        // GEEN MUSTHAVE
+        //public void PlattegrondOpvragen()
+        //{
+        //    // TODO download de plattegrond
+        //}
 
-        public void Verwijder(string dierverzorgernaam)
+        public void Verwijder(int dierverzorgernummer)
         {
             // TODO verwijder de dierverzorger waarvan de naam overeenkomt met de naam die je meegeeft
+            beheerder.Verwijder(dierverzorgernummer);
         }
 
-        public void VerwijderDierenarts(string dierenartsnaam)
+        public void VerwijderDierenarts(int dierenartsnummer)
         {
             // TODO verwijder de dierenarts waarvan de naam overeenkomt met de naam die je meegeeft
+            beheerder.VerwijderArts(dierenartsnummer);
         }
 
         public void VoegToe(Dierenarts arts)
         {
             // TODO voeg de dierenarts toe aan de applicatie
+            beheerder.VoegToe(arts);
         }
 
         public void VoegToe(Dierverzorger verzorger)
         {
             // TODO voeg de dierverzorger toe aan de applicatie
+            beheerder.VoegToe(verzorger);
         }
 
         public void VoegToe(Dier dier)
         {
             // TODO voeg het dier toe aan de applicatie
+            beheerder.VoegDierToe(dier);
         }
 
-        public void VoegToe(Diersoort diersoort)
-        {
-            // TODO voeg de diersoort toe aan de applicatie
-        }
+        // Nog geen commando voor in de database voor
+        //public void VoegToe(Diersoort diersoort)
+        //{
+        //    // TODO voeg de diersoort toe aan de applicatie
+        //    beheerder.VoegToe(diersoort);
+        //}
 
-        public void VoegToeVaccinatiedatum (string dierverzorgernaam, DateTime datum)
-        {
-            // TODO voeg de vaccinatiedatum toe aan de dierverzorger waarvan de naam overeenkomt met de naam die je meegeeft
-        }
+        // Nog geen commando voor in de database voor
+        //public void VoegToeVaccinatiedatum (string dierverzorgernaam, DateTime datum)
+        //{
+        //    // TODO voeg de vaccinatiedatum toe aan de dierverzorger waarvan de naam overeenkomt met de naam die je meegeeft
+            
+        //}
 
-        public string WerkingsduurVaccinatieOpvragen(string dierverzorgernaam)
+        public string WerkingsduurVaccinatieOpvragen(int dierverzorgernummer)
         {
             // TODO vraag de werkingsduur van de vaccinatie op waarvan de naam van de dierverzorger overeenkomt met de naam je meegeeft
-            return null;
+            string werkingsduur = beheerder.WerkingsduurVaccinatie(dierverzorgernummer);
+            return werkingsduur;
         }
 
         public Dierenarts ZoekArts(string dierenartsnaam)
         {
             // TODO geef alle informatie van de dierenarts terug waarvan de naam overeenkomt met de naam die je meegeeft
+            foreach(Dierenarts arts in beheerder.Dierenartsen)
+            {
+                if(arts.Naam == dierenartsnaam)
+                {
+                    return arts;
+                }
+            }
             return null;
         }
 
         public Dier ZoekDier(string diernaam)
         {
             // TODO geef alle informatie van het dier terug waarvan de naam overeenkomt met de naam die je meegeeft
+            foreach (Dier dier in beheerder.Dieren)
+            {
+                if (dier.Diernaam == diernaam)
+                {
+                    return dier;
+                }
+            }
             return null;
         }
 
         public Diersoort ZoekDiersoort(string geslacht)
         {
             // TODO geef alle informatie van de diersoort terug waarvan het geslacht overeenkomt met het geslacht dat je meegeeft
+            foreach (Diersoort diersoort in beheerder.Diersoorten)
+            {
+                if (diersoort.Diersoortgeslacht == geslacht)
+                {
+                    int diersoortnummer = diersoort.Diersoortnummer;
+                    Diersoort diersoortje = beheerder.ZoekDiersoort(diersoortnummer);
+                    return diersoortje;
+                }
+            }        
             return null;
         }
 
-        public Medicijn ZoekMedicijn(string diernaam)
+        public List<Medicijn> ZoekMedicijn(string diernaam)
         {
             // TODO zoek het medicijn die bij het dier met het meegegeven diernaam hoort
-            return null;
+            List<Medicijn> medicijnen = new List<Medicijn>();
+
+            foreach(Dier dier in beheerder.Dieren)
+            {
+                if (dier.Diernaam == diernaam)
+                {
+                    int diernummer = dier.Diernummer;
+                    medicijnen = (List<Medicijn>)beheerder.MedicijnVanDier(diernummer);
+                }
+            }
+            return medicijnen;
         }
 
-        public DateTime ZoekVaccinatieDatum(string dierverzogernaam)
+        public List<Vaccinatie> ZoekVaccinaties(string dierverzogernaam)
         {
             // TODO zoek de datum van de vaccinatie op van de dierverzorger waarvan de naam overeenkomt met de naam die je meegeeft
-            return new DateTime(0-00-0000);
+            List<Vaccinatie> vaccinaties = (List<Vaccinatie>)beheerder.VaccinatiesDierverzorger(dierverzogernaam);
+            return vaccinaties;
         }
 
         public Dierverzorger ZoekVerzorger(string dierverzorgernaam)
         {
             // TODO zoek alle info die bij de dierverzorger hoort waarvan de naam overeenkomt met de naam die je meegeeft
+            foreach (Dierverzorger verzorger in beheerder.Dierverzorgers)
+            {
+                if (verzorger.Naam == dierverzorgernaam)
+                {
+                    return verzorger;
+                }
+            }
             return null;
         }
 

@@ -14,6 +14,7 @@ namespace Klassen
         private HuisvestingMateriaal materiaal;
         private HuisvestingSoort soorthuisvesting;
         private List<Dier> dieren;
+        private Beheer beheerder;
 
         public Huisvesting(int huisvestingnummer, HuisvestingSoort soorthuisvesting, HuisvestingMateriaal materiaal, Gedragsverrijking gedragsverrijking, int aantalDieren)
         {
@@ -23,6 +24,7 @@ namespace Klassen
             this.gedragsverrijking = gedragsverrijking;
             this.aantalDieren = aantalDieren;
             dieren = new List<Dier>();
+            beheerder = new Beheer();
         }
 
         public List<Dier> Dieren
@@ -64,7 +66,8 @@ namespace Klassen
         {
             // TODO: 
             // Bereken het aantal dieren in het verblijf met het huisvestingnummer dat wordt meegegeven
-            return 0;
+            int aantal = beheerder.AantalDierenVeblijf(huisvestingnummer);
+            return aantal;
         }
 
         public override string ToString()
