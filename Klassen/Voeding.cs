@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Klassen
 {
-    class Voeding
+    public class Voeding
     {
         private string hoeveelheidVoeding;
         private DateTime houdbaarTot;

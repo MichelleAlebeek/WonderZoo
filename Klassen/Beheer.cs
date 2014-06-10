@@ -8,7 +8,7 @@ using Databasekoppeling;
 
 namespace Klassen
 {
-    class Beheer
+    public class Beheer
     {
         private Databasekoppeling.Databasekoppeling db;
         private List<Dier> dieren;
@@ -244,9 +244,9 @@ namespace Klassen
         #endregion
 
         #region Telefoonnummer zakelijk dierverzorger opvragen met naam
-        public int TelefoonNrZakelijkDierverzorger(int dierverzorgernummer)
+        public int TelefoonNrZakelijkDierverzorger(string dierverzorgernaam)
         {
-            int telefoon = db.TelZakelijkDierverzorger(dierverzorgernummer);
+            int telefoon = db.TelZakelijkDierverzorger(dierverzorgernaam);
             return telefoon;
         }
         #endregion
@@ -308,7 +308,7 @@ namespace Klassen
         #endregion
 
         #region Werkingsduur vaccinatie opvragen met dierverzorgernaam
-        public string WerkingsduurVaccinatie(string dierverzorgernaam)
+        public string WerkingsduurVaccinatieVerzorger(string dierverzorgernaam)
         {
             string werkingsduur = db.WerkingsduurVaccinatie(dierverzorgernaam);
             return werkingsduur;

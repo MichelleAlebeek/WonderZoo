@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Klassen
 {
-    class Diersoort
+    public class Diersoort
     {
         private string afdeling;
         private int diersoortnummer;

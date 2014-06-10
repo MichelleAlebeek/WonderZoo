@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Klassen
 {
-    class Huisvesting
+    public class Huisvesting
     {
         private int aantalDieren;
         private Gedragsverrijking gedragsverrijking;

@@ -7,7 +7,6 @@ using Oracle.DataAccess.Client;
 using Oracle.DataAccess.Types;
 using Oracle.DataAccess;
 using System.Configuration;
-using System.Configuration;
 using Klassen.Properties;
 using Klassen;
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Klassen
 {
-    class Vaccinatie
+    public class Vaccinatie
     {
         private double prijs;
         private string uitPreventieVoor;

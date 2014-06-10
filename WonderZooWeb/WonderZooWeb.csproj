@@ -28,6 +28,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -57,22 +58,97 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Administratie.aspx" />
     <Content Include="Bootstrap\bootstrap-min.css" />
     <Content Include="Bootstrap\bootstrap.css" />
-    <Content Include="test.aspx" />
+    <Content Include="Contact.aspx" />
+    <Content Include="Dierenarts.aspx" />
+    <Content Include="Dierverzorger.aspx" />
+    <Content Include="Directeur.aspx" />
+    <Content Include="Home.aspx" />
+    <Content Include="Images\achtergrond.jpg" />
+    <Content Include="Images\logomini.png" />
+    <Content Include="Images\reuzenmiereneterkop.jpg" />
+    <Content Include="Inloggen.aspx" />
+    <Content Include="Plattegrond.aspx" />
+    <Content Include="Vacatures.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="test.aspx.cs">
-      <DependentUpon>test.aspx</DependentUpon>
+    <Compile Include="Administratie.aspx.cs">
+      <DependentUpon>Administratie.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="test.aspx.designer.cs">
-      <DependentUpon>test.aspx</DependentUpon>
+    <Compile Include="Administratie.aspx.designer.cs">
+      <DependentUpon>Administratie.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Contact.aspx.cs">
+      <DependentUpon>Contact.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contact.aspx.designer.cs">
+      <DependentUpon>Contact.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Dierenarts.aspx.cs">
+      <DependentUpon>Dierenarts.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Dierenarts.aspx.designer.cs">
+      <DependentUpon>Dierenarts.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Dierverzorger.aspx.cs">
+      <DependentUpon>Dierverzorger.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Dierverzorger.aspx.designer.cs">
+      <DependentUpon>Dierverzorger.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Directeur.aspx.cs">
+      <DependentUpon>Directeur.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Directeur.aspx.designer.cs">
+      <DependentUpon>Directeur.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Home.aspx.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Home.aspx.designer.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Inloggen.aspx.cs">
+      <DependentUpon>Inloggen.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inloggen.aspx.designer.cs">
+      <DependentUpon>Inloggen.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Masterpage.Master.cs">
+      <DependentUpon>Masterpage.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Masterpage.Master.designer.cs">
+      <DependentUpon>Masterpage.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Plattegrond.aspx.cs">
+      <DependentUpon>Plattegrond.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Plattegrond.aspx.designer.cs">
+      <DependentUpon>Plattegrond.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vacatures.aspx.cs">
+      <DependentUpon>Vacatures.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Vacatures.aspx.designer.cs">
+      <DependentUpon>Vacatures.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Masterpage.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

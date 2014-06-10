@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Klassen
 {
-    class Dier : Ras
+    public class Dier : Ras
     {
         private DateTime datumAanschaf;
         private string diernaam;

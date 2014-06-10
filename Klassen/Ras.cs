@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Klassen
 {
-    class Ras : Diersoort
+    public class Ras : Diersoort
     {
         private int draagtijd;
         private int rasgewicht;

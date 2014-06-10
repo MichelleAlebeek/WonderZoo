@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Klassen
 {
-    class Dierverzorger : Persoon
+    public class Dierverzorger : Persoon
     {
         private DateTime datumAangenomen;
         private int dierverzorgerNummer;

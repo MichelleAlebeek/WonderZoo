@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Klassen
 {
-    class Medicijn
+    public class Medicijn
     {
         private string bijwerking;
         private string hoeveelheid;
