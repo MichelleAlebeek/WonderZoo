@@ -87,19 +87,17 @@ namespace Klassen
             beheerder.VoegDierToe(dier);
         }
 
-        // Nog geen commando voor in de database voor
-        //public void VoegToe(Diersoort diersoort)
-        //{
-        //    // TODO voeg de diersoort toe aan de applicatie
-        //    beheerder.VoegToe(diersoort);
-        //}
+        public void VoegToe(Diersoort diersoort)
+        {
+            // TODO voeg de diersoort toe aan de applicatie
+            beheerder.VoegToeDiersoort(diersoort);
+        }
 
-        // Nog geen commando voor in de database voor
-        //public void VoegToeVaccinatiedatum (string dierverzorgernaam, DateTime datum)
-        //{
-        //    // TODO voeg de vaccinatiedatum toe aan de dierverzorger waarvan de naam overeenkomt met de naam die je meegeeft
-            
-        //}
+        public void VoegToeVaccinatiedatum (int dierverzorgernummer, string vaccinatienaam, DateTime datumgevaccineerd, DateTime datumverlopen, string bijwerking)
+        {
+            // TODO voeg de vaccinatiedatum toe aan de dierverzorger waarvan de naam overeenkomt met de naam die je meegeeft
+            beheerder.VoegToeVaccinatiedatum(dierverzorgernummer, vaccinatienaam, datumgevaccineerd, datumverlopen, bijwerking);
+        }
 
         public string WerkingsduurVaccinatieOpvragen(int dierverzorgernummer)
         {

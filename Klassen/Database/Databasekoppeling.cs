@@ -63,7 +63,63 @@ namespace Databasekoppeling
 				cmd.Parameters.Add("DiersoortNummer", dier.Diersoortnummer);
 				cmd.Parameters.Add("RasNummer", dier.Rasnummer);
                 cmd.Parameters.Add("NaamMoeder", dier.NaamMoeder);
-				cmd.Parameters.Add("NaamVader", dier.NaamVader);		
+				cmd.Parameters.Add("NaamVader", dier.NaamVader);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+        #endregion
+
+        #region Diersoort toevoegen
+        public void VoegDiersoortToe(Diersoort diersoort)
+        {
+            using (OracleConnection conn = new OracleConnection(connectie))
+            {
+                OracleCommand cmd = new OracleCommand("insert into diersoort values(:DiersoortNummer, :Afdeling, :Klasse, :Orde, :Familie, :Geslacht, :DierenartsNummer", conn);
+
+                cmd.Parameters.Add("DiersoortNummer", diersoort.Diersoortnummer);
+                cmd.Parameters.Add("Afdeling", diersoort.Afdeling);
+                cmd.Parameters.Add("Klasse", diersoort.Klasse);
+                cmd.Parameters.Add("Orde", diersoort.Orde);
+                cmd.Parameters.Add("Familie", diersoort.Familie);
+                cmd.Parameters.Add("Geslacht", diersoort.Diersoortgeslacht);
+
+                if(diersoort.Orde == "Zoogdieren")
+                {
+                    cmd.Parameters.Add("DierenartsNummer", 111);
+                }
+                else if(diersoort.Orde =="Vogels")
+                {
+                    cmd.Parameters.Add("DierenartsNummer", 113);
+                }
+                else if(diersoort.Orde == "Reptielen")
+                {
+                    cmd.Parameters.Add("DierenartsNummer", 112);
+                }
+                else
+                {
+                    cmd.Parameters.Add("DierenartsNummer", null);
+                }
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+        #endregion
+
+        #region Vaccinatiedatum toevoegen
+        public void VoegVaccinatiedatumToe(int dierverzorgernummer, string vaccinatienaam, DateTime datumgevaccineerd, DateTime datumverlopen, string bijwerking)
+        {
+            using (OracleConnection conn = new OracleConnection(connectie))
+            {
+                OracleCommand cmd = new OracleCommand("INSERT INTO DIERVERZORGER_VACCINATIE VALUES(:DierverzorgerNummer, :VaccinatieNaam, :DatumGevaccineerd, :DatumVerlopen, :Bijwerking)", conn);
+
+                cmd.Parameters.Add("DierverzorgerNummer", dierverzorgernummer);
+                cmd.Parameters.Add("VaccinatieNaam", vaccinatienaam);
+                cmd.Parameters.Add("DatumGevaccineerd", datumgevaccineerd);
+                cmd.Parameters.Add("DatumVerlopen", datumverlopen);
+                cmd.Parameters.Add("Bijwerking", bijwerking);
+
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -77,6 +133,8 @@ namespace Databasekoppeling
 
                 cmd.Parameters.Add("diernummer", diernummer);
                 cmd.Parameters.Add("diernaam", diernaam);
+
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -166,7 +224,7 @@ namespace Databasekoppeling
         }
         #endregion
 
-        #region Ras dier
+        #region Ras dier opvragen
         public string RasDierOpvragen(int diernummer)
         {
             using (OracleConnection conn = new OracleConnection(connectie))
@@ -226,8 +284,8 @@ namespace Databasekoppeling
         }
         #endregion
 
-        #region Huisvesting diersoort
-        public string HuisvestingDiersoort(int diersoortnummer)
+        #region Huisvesting naam diersoort
+        public string HuisvestingnaamDiersoort(int diersoortnummer)
         {
             using (OracleConnection conn = new OracleConnection(connectie))
             {
@@ -239,6 +297,32 @@ namespace Databasekoppeling
                 if (rdr.Read())
                 {
                     string huisvesting = Convert.ToString(rdr["huisvesting.soorthuisvesting"]);
+                    return huisvesting;
+                }
+                return null;
+            }
+        }
+        #endregion
+
+        #region Huisvesting diersoort opvragen
+        public Huisvesting HuisvestingDiersoort(int diersoortnummer)
+        {
+            using (OracleConnection conn = new OracleConnection(connectie))
+            {
+                OracleCommand cmd = new OracleCommand("select * from huisvesting, diersoort, dier where huisvesting.huisvestingnummer = dier.huisvestingnummer and dier.diersoortnummer = diersoort.diersoortnummer and dier.diersoortnummer = :nummer;", conn);
+
+                cmd.Parameters.Add("nummer", diersoortnummer);
+                OracleDataReader rdr = cmd.ExecuteReader();
+                Huisvesting huisvesting;
+
+                if (rdr.Read())
+                {
+                    int huisvestingnummer = Convert.ToInt32(rdr["huisvesting.nummer"]);
+                    HuisvestingSoort soorthuisvesting = (HuisvestingSoort)Enum.Parse(typeof(HuisvestingSoort), Convert.ToString(rdr["soorthuisvesting"]));
+                    HuisvestingMateriaal materiaal = (HuisvestingMateriaal)Enum.Parse(typeof(HuisvestingMateriaal), Convert.ToString(rdr["materiaal"]));
+                    Gedragsverrijking gedragsverrijking = (Gedragsverrijking)Enum.Parse(typeof(Gedragsverrijking), Convert.ToString(rdr["materiaal"]));
+                    int aantaldieren = Convert.ToInt32(rdr["aantal"]);
+                    huisvesting = new Huisvesting(huisvestingnummer, soorthuisvesting, materiaal, gedragsverrijking, aantaldieren);
                     return huisvesting;
                 }
                 return null;
@@ -749,8 +833,8 @@ namespace Databasekoppeling
                 cmd.Parameters.Add("telzakelijk", verzorger.TelefoonnummerZakelijk);
                 cmd.Parameters.Add("rekeningnummer", verzorger.Rekeningnummer);
                 cmd.Parameters.Add("hoofddiersoort", verzorger.Hoofddiersoot);
-   
-                OracleDataReader rdr = cmd.ExecuteReader();              
+
+                cmd.ExecuteNonQuery();           
             }
         }
         #endregion
@@ -763,8 +847,8 @@ namespace Databasekoppeling
                 OracleCommand cmd = new OracleCommand("delete from dierverzorger where dierverzorger.dierverzorgernummer = :nummer;", conn);
 
                 cmd.Parameters.Add("nummer", dierverzorgernummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
+                
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -783,7 +867,8 @@ namespace Databasekoppeling
                 cmd.Parameters.Add("telefoonnummer", arts.Dierenartsnummer);
                 cmd.Parameters.Add("rekeningnummer", arts.Dierenartsnummer);
                 cmd.Parameters.Add("spoednummer", arts.Dierenartsnummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
+
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -796,7 +881,8 @@ namespace Databasekoppeling
                 OracleCommand cmd = new OracleCommand("delete from dierenarts where dierenarts.dierenartsnummer = :nummer;", conn);
 
                 cmd.Parameters.Add("nummer", dierenartsnummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
+
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -811,7 +897,8 @@ namespace Databasekoppeling
 
                 cmd.Parameters.Add("naam", oudenaam);
                 cmd.Parameters.Add("nieuwenaam", nieuwenaam);
-                OracleDataReader rdr = cmd.ExecuteReader();
+
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -825,7 +912,8 @@ namespace Databasekoppeling
 
                 cmd.Parameters.Add("nummer", dierverzorgernummer);
                 cmd.Parameters.Add("nieuwenaam", nieuwenaam);
-                OracleDataReader rdr = cmd.ExecuteReader();
+
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -839,7 +927,8 @@ namespace Databasekoppeling
 
                 cmd.Parameters.Add("naam", oudenaam);
                 cmd.Parameters.Add("nieuwenaam", nieuwenaam);
-                OracleDataReader rdr = cmd.ExecuteReader();
+
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -853,7 +942,8 @@ namespace Databasekoppeling
 
                 cmd.Parameters.Add("nummer", dierenartsnummer);
                 cmd.Parameters.Add("nieuwenaam", nieuwenaam);
-                OracleDataReader rdr = cmd.ExecuteReader();
+
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -867,7 +957,8 @@ namespace Databasekoppeling
 
                 cmd.Parameters.Add("nummer", dierenartsnummer);
                 cmd.Parameters.Add("telnr", telefoonnummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
+
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -881,7 +972,7 @@ namespace Databasekoppeling
 
                 cmd.Parameters.Add("naam", dierenartsnaam);
                 cmd.Parameters.Add("telnr", telefoonnummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -895,7 +986,7 @@ namespace Databasekoppeling
 
                 cmd.Parameters.Add("nummer", dierverzorgernummer);
                 cmd.Parameters.Add("telnr", telefoonnummerprive);
-                OracleDataReader rdr = cmd.ExecuteReader();
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -909,7 +1000,7 @@ namespace Databasekoppeling
 
                 cmd.Parameters.Add("naam", dierverzorgernaam);
                 cmd.Parameters.Add("telnr", telefoonnummerprive);
-                OracleDataReader rdr = cmd.ExecuteReader();
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -923,7 +1014,7 @@ namespace Databasekoppeling
 
                 cmd.Parameters.Add("nummer", dierverzorgernummer);
                 cmd.Parameters.Add("telnr", telefoonnummerprive);
-                OracleDataReader rdr = cmd.ExecuteReader();
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -937,7 +1028,7 @@ namespace Databasekoppeling
 
                 cmd.Parameters.Add("naam", dierverzorgernaam);
                 cmd.Parameters.Add("telnr", telefoonnummerprive);
-                OracleDataReader rdr = cmd.ExecuteReader();
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -951,7 +1042,7 @@ namespace Databasekoppeling
 
                 cmd.Parameters.Add("nummer", dierverzorgernummer);
                 cmd.Parameters.Add("reknr", rekeningnummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -965,7 +1056,7 @@ namespace Databasekoppeling
 
                 cmd.Parameters.Add("naam", dierverzorgernaam);
                 cmd.Parameters.Add("reknr", rekeningnummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -979,7 +1070,7 @@ namespace Databasekoppeling
 
                 cmd.Parameters.Add("nummer", dierenartsnummer);
                 cmd.Parameters.Add("reknr", rekeningnummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -993,7 +1084,7 @@ namespace Databasekoppeling
 
                 cmd.Parameters.Add("naam", dierenartsnaam);
                 cmd.Parameters.Add("reknr", rekeningnummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -1011,7 +1102,7 @@ namespace Databasekoppeling
                 cmd.Parameters.Add("einddatum", einddatum);
                 cmd.Parameters.Add("bijwerking", bijwerking);
 
-                OracleDataReader rdr = cmd.ExecuteReader();
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion
@@ -1028,7 +1119,7 @@ namespace Databasekoppeling
                 cmd.Parameters.Add("datum", medicijn.Startdatum);
                 cmd.Parameters.Add("bijwerking", medicijn.Bijwerking);
 
-                OracleDataReader rdr = cmd.ExecuteReader();
+                cmd.ExecuteNonQuery();
             }
         }
         #endregion

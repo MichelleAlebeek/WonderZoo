@@ -154,7 +154,7 @@ namespace Klassen
         #region Huisvesting van diersoort opvragen
         public string HuisvestingDiersoort(int diersoortnummer)
         {
-            string huisvesting = db.HuisvestingDiersoort(diersoortnummer);
+            string huisvesting = db.HuisvestingnaamDiersoort(diersoortnummer);
             return huisvesting;
         }
         #endregion
@@ -375,8 +375,27 @@ namespace Klassen
         }
         #endregion
 
-        // TODO diersoort toevoegen (diersoort diersoort)
+        #region Verblijf zoeken
+        public Huisvesting ZoekHuisvesting(int diersoortnummer)
+        {
+            Huisvesting huisvesting = (Huisvesting)db.HuisvestingDiersoort(diersoortnummer);
+            return huisvesting;
+        }
+        #endregion
 
-        // TODO zoek verblijf (int diersoortnummer) : huisvesting
+        #region Diersoort toevoegen
+        public void VoegToeDiersoort(Diersoort diersoort)
+        {
+            db.VoegDiersoortToe(diersoort);
+        }
+        #endregion
+
+        #region Vaccinatiedatum toevoegen
+        public void VoegToeVaccinatiedatum(int dierverzorgernummer, string vaccinatienaam, DateTime datumgevaccineerd, DateTime datumverlopen, string bijwerking)
+        {
+            db.VoegVaccinatiedatumToe(dierverzorgernummer, vaccinatienaam, datumgevaccineerd, datumverlopen, bijwerking);
+        }
+        #endregion
+        
     }
 }

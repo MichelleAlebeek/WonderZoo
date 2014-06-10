@@ -62,12 +62,11 @@ namespace Klassen
             return verblijf;
         }
 
-        // nog geen methode in de database voor
-        //public Huisvesting ZoekVerblijf(int diersoortnummer)
-        //{
-        //    // TODO zoek het verblijf die bij het meegegeven diersoortnummer hoort.
-            
-        //    return null;
-        //}
+        public Huisvesting ZoekVerblijf(int diersoortnummer)
+        {
+            // TODO zoek het verblijf die bij het meegegeven diersoortnummer hoort.
+            Huisvesting huisvesting = (Huisvesting)beheerder.ZoekHuisvesting(diersoortnummer);
+            return huisvesting;
+        }
     }
 }
