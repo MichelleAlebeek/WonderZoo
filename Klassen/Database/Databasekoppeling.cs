@@ -16,7 +16,7 @@ namespace Databasekoppeling
     public class Databasekoppeling
     {
       //  private string connectie;
-        private static OracleConnection connection;
+        private OracleConnection connection;
 
         public Databasekoppeling()
         {
@@ -49,26 +49,41 @@ namespace Databasekoppeling
         #endregion
 
         #region Dier toevoegen
-        public void VoegDierToe(Dier dier)
+        public void VoegDierToe(Dier dier, int huisvestingnummer)
         {
-            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
+            try
             {
-                OracleCommand cmd = new OracleCommand("insert into dier(:diernummer, :diernaam, :leeftijd, :Gewicht, :Lengte, :Geslacht, :Nakomelingen, :DatumAanschaf, :DiersoortNummer, :HuisvestingNummer, :RasNummer, :NaamMoeder, :NaamVader, :NummerMoeder, :NummerVader ", conn);    
+                using (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
+                {
+                    OracleCommand cmd = new OracleCommand("insert into dier values(:diernummer, :diernaam, :leeftijd, :Gewicht, :Lengte, :Geslacht, :Nakomelingen, :DatumAanschaf, :DiersoortNummer, :HuisvestingNummer, :RasNummer, :NaamMoeder, :NaamVader, :NummerMoeder, :NummerVader)", conn);
 
-                cmd.Parameters.Add("diernummer", dier.Diernummer);
-                cmd.Parameters.Add("diernaam", dier.Diernaam);
-				cmd.Parameters.Add("leeftijd", dier.Leeftijd);
-                cmd.Parameters.Add("Gewicht", dier.Gewicht);
-				cmd.Parameters.Add("Lengte", dier.Lengte);
-                cmd.Parameters.Add("Geslacht", dier.Geslacht);
-				cmd.Parameters.Add("Nakomelingen", dier.Nakomeling);
-                cmd.Parameters.Add("DatumAanschaf", dier.DatumAanschaf);
-				cmd.Parameters.Add("DiersoortNummer", dier.Diersoortnummer);
-				cmd.Parameters.Add("RasNummer", dier.Rasnummer);
-                cmd.Parameters.Add("NaamMoeder", dier.NaamMoeder);
-				cmd.Parameters.Add("NaamVader", dier.NaamVader);
+                    cmd.Parameters.Add("diernummer", dier.Diernummer);
+                    cmd.Parameters.Add("diernaam", dier.Diernaam);
+                    cmd.Parameters.Add("leeftijd", dier.Leeftijd);
+                    cmd.Parameters.Add("Gewicht", dier.Gewicht);
+                    cmd.Parameters.Add("Lengte", dier.Lengte);
+                    cmd.Parameters.Add("Geslacht", dier.Geslacht);
+                    cmd.Parameters.Add("Nakomelingen", dier.Nakomeling);
+                    cmd.Parameters.Add("DatumAanschaf", dier.DatumAanschaf);
+                    cmd.Parameters.Add("DiersoortNummer", dier.Diersoortnummer);
+                    cmd.Parameters.Add("HuisvestingNummer, ", huisvestingnummer);
+                    cmd.Parameters.Add("RasNummer", dier.Rasnummer);
+                    cmd.Parameters.Add("NaamMoeder", dier.NaamMoeder);
+                    cmd.Parameters.Add("NaamVader", dier.NaamVader);
+                    cmd.Parameters.Add("NummerMoeder, ", 0);
+                    cmd.Parameters.Add("NummerVader)", 0);
 
-                cmd.ExecuteNonQuery();
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -130,25 +145,38 @@ namespace Databasekoppeling
         #region Dier verwijderen 
         public void VerwijderDier(int diernummer, string diernaam)
         {
-            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
+            try
             {
-                OracleCommand cmd = new OracleCommand("delete from dier_medicijn where diernummer = :diernummer; delete from dier_voeding where diernummer = :diernummer; delete from dier where diernaam = ':diernaam';", conn);
+                using (OracleConnection conn = connection)
+                {
+                    OracleCommand cmd = new OracleCommand("delete from dier_medicijn where diernummer = :diernummer", conn);
+                    OracleCommand comd = new OracleCommand("delete from dier_voeding where diernummer = :diernummer", conn);
+                    OracleCommand comad = new OracleCommand("delete from dier where diernaam = :diernaam", conn);
 
-                cmd.Parameters.Add("diernummer", diernummer);
-                cmd.Parameters.Add("diernaam", diernaam);
+                    cmd.Parameters.Add("diernummer", diernummer);
+                    comd.Parameters.Add("diernummer", diernummer);
+                    comad.Parameters.Add("diernaam", diernaam);
 
-                cmd.ExecuteNonQuery();
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    comd.ExecuteNonQuery();
+                    comad.ExecuteNonQuery();
+                }
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
 
-        #region Totaal aantal dieren
+        #region Totaal aantal dieren //  WERKT !!!!
         public int DierenTotaal()
         {
             using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("select count(*) from dier", conn);
-
+                connection.Open();
                 OracleDataReader rdr = cmd.ExecuteReader();
 
                 if (rdr.Read())
@@ -161,19 +189,19 @@ namespace Databasekoppeling
         }
         #endregion
 
-        #region Verblijf van dier opvragen
+        #region Verblijf van dier opvragen // WERKT !!!!
         public string VerblijfDierOpvragen(int diernummer)
         {
             using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
             {
-                OracleCommand cmd = new OracleCommand("select huisvesting.huisvestingnummer, soorthuisvesting from huisvesting, dier where huisvesting.huisvestingnummer = dier.huisvestingnummer and dier.diernummer = :nummer;", conn);    
-				
+                OracleCommand cmd = new OracleCommand("select huisvesting.huisvestingnummer, soorthuisvesting from huisvesting, dier where huisvesting.huisvestingnummer = dier.huisvestingnummer and dier.diernummer = :nummer", conn);    
 				cmd.Parameters.Add("nummer", diernummer);
+                connection.Open();
                 OracleDataReader rdr = cmd.ExecuteReader();
 				
 				if (rdr.Read())
                 {
-                    string huisvesting = Convert.ToString(rdr["huisvestingnummer"]) + rdr["soorthuisvesting"].ToString();
+                    string huisvesting = Convert.ToString(rdr["huisvestingnummer"]) + " " + rdr["soorthuisvesting"].ToString();
                     return huisvesting;
                 }
                 return null;
@@ -181,7 +209,7 @@ namespace Databasekoppeling
         }
         #endregion
 
-        #region Medicijn van dier opvragen
+        #region Medicijn van dier opvragen // WERKT !!!
         public List<Medicijn> MedicijnDierOpvragen(int diernummer)
         {          
                 try
@@ -222,11 +250,11 @@ namespace Databasekoppeling
         #region Aantal dieren in verblijf
         public int AantalDierenVerblijf(int huisvestingnummer)
         {
-            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)
             {
-                OracleCommand cmd = new OracleCommand("select aantaldieren from huisvesting where huisvestingnummer = :nummer;", conn);
-
+                OracleCommand cmd = new OracleCommand("select aantaldieren from huisvesting where huisvestingnummer = :nummer", conn);
                 cmd.Parameters.Add("nummer", huisvestingnummer);
+                connection.Open();
                 OracleDataReader rdr = cmd.ExecuteReader();
 
                 if (rdr.Read())

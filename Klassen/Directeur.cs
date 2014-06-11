@@ -42,10 +42,10 @@ namespace Klassen
             beheerder.VerwijderDier(diernummer, diernaam);
         }
 
-        public void VoegToe(Dier dier)
+        public void VoegToe(Dier dier, int huisvestingnummer)
         {
             // TODO voeg het dier toe aan de dierentuin
-            beheerder.VoegDierToe(dier);
+            beheerder.VoegDierToe(dier, huisvestingnummer);
         }
 
         public List<Medicijn> ZoekMedicijn(int diernummer)

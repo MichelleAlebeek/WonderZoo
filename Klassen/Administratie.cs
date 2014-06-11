@@ -81,10 +81,10 @@ namespace Klassen
             beheerder.VoegToe(verzorger);
         }
 
-        public void VoegToe(Dier dier)
+        public void VoegToe(Dier dier, int huisvestingnummer)
         {
             // TODO voeg het dier toe aan de applicatie
-            beheerder.VoegDierToe(dier);
+            beheerder.VoegDierToe(dier, huisvestingnummer);
         }
 
         public void VoegToe(Diersoort diersoort)

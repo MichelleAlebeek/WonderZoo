@@ -89,9 +89,9 @@ namespace Klassen
         #endregion
 
         #region Dier toevoegen
-        public void VoegDierToe(Dier dier)
+        public void VoegDierToe(Dier dier, int huisvestingnummer)
         {
-            db.VoegDierToe(dier);
+            db.VoegDierToe(dier, huisvestingnummer);
         }
         #endregion
 
