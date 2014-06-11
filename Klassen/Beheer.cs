@@ -167,6 +167,14 @@ namespace Klassen
         }
         #endregion
 
+        #region Diersoort zoeken en lijst vullen
+        public List<Diersoort> ZoekDiersoortLijst()
+        {
+            List<Diersoort> diersoorten = (List<Diersoort>)db.ZoekDiersoorten();
+            return diersoorten;
+        }
+        #endregion
+
         #region Info specifiek dier opvragen
         public Dier InfoDier(string diernaam)
         {

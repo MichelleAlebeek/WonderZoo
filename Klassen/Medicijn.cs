@@ -45,7 +45,7 @@ namespace Klassen
 
         public override string ToString()
         {
-            return medicijnnaam + hoeveelheid + bijwerking + startdatum;
+            return "Medicijn: " + medicijnnaam + "hoeveelheid: " + hoeveelheid + "bijwerkingen: " + bijwerking + "datum gestart: " + startdatum.Date;
         }
     }
 

@@ -16,6 +16,7 @@
 &nbsp;<asp:TextBox ID="TxtDuurMedicijn" runat="server"></asp:TextBox>
 &nbsp;Diersoortnaam:
     <asp:TextBox ID="TxtDiersoortnaam" runat="server"></asp:TextBox>
+    <asp:Label ID="LblFout" runat="server"></asp:Label>
     <br />
     &nbsp;
     <asp:ListBox ID="ListBox1" runat="server" Height="231px" Width="767px"></asp:ListBox>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 using Oracle.DataAccess.Client;
 using Oracle.DataAccess.Types;
 using Oracle.DataAccess;
@@ -14,18 +15,21 @@ namespace Databasekoppeling
 {
     public class Databasekoppeling
     {
-        private string connectie;
+      //  private string connectie;
+        private static OracleConnection connection;
 
         public Databasekoppeling()
-        {    
-            connectie = Settings.Default.ConnectieString;
-          //  connection = new OracleConnection(connectie);
+        {
+           // connectie = "Data Source=MyOracleDB;User Id=WonderZoo;Password=Databases1991;";
+           // connectie = "User Id=" + "WonderZoo" + " ;Password=" + "Databases1991" + ";Data Source=" + " //localhost:1521/xe" + ";";
+          //  connectie = Settings.Default.ConnectieString;
+           connection = new OracleConnection( "User Id=" + "WonderZoo" + " ;Password=" + "Databases1991" + ";Data Source=" + "//localhost:1521/xe" + ";");
         }
 
         #region Inloggen
         public Persoon Login(string username, string wachtwoord)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("select * from gebruiker where gebruikersnaam=:naam and wachtwoord=:wachtwoord", conn);
                 
@@ -47,7 +51,7 @@ namespace Databasekoppeling
         #region Dier toevoegen
         public void VoegDierToe(Dier dier)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("insert into dier(:diernummer, :diernaam, :leeftijd, :Gewicht, :Lengte, :Geslacht, :Nakomelingen, :DatumAanschaf, :DiersoortNummer, :HuisvestingNummer, :RasNummer, :NaamMoeder, :NaamVader, :NummerMoeder, :NummerVader ", conn);    
 
@@ -72,7 +76,7 @@ namespace Databasekoppeling
         #region Diersoort toevoegen
         public void VoegDiersoortToe(Diersoort diersoort)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("insert into diersoort values(:DiersoortNummer, :Afdeling, :Klasse, :Orde, :Familie, :Geslacht, :DierenartsNummer", conn);
 
@@ -108,7 +112,7 @@ namespace Databasekoppeling
         #region Vaccinatiedatum toevoegen
         public void VoegVaccinatiedatumToe(int dierverzorgernummer, string vaccinatienaam, DateTime datumgevaccineerd, DateTime datumverlopen, string bijwerking)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("INSERT INTO DIERVERZORGER_VACCINATIE VALUES(:DierverzorgerNummer, :VaccinatieNaam, :DatumGevaccineerd, :DatumVerlopen, :Bijwerking)", conn);
 
@@ -126,7 +130,7 @@ namespace Databasekoppeling
         #region Dier verwijderen 
         public void VerwijderDier(int diernummer, string diernaam)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("delete from dier_medicijn where diernummer = :diernummer; delete from dier_voeding where diernummer = :diernummer; delete from dier where diernaam = ':diernaam';", conn);
 
@@ -141,7 +145,7 @@ namespace Databasekoppeling
         #region Totaal aantal dieren
         public int DierenTotaal()
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("select count(*) from dier", conn);
 
@@ -160,7 +164,7 @@ namespace Databasekoppeling
         #region Verblijf van dier opvragen
         public string VerblijfDierOpvragen(int diernummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("select huisvesting.huisvestingnummer, soorthuisvesting from huisvesting, dier where huisvesting.huisvestingnummer = dier.huisvestingnummer and dier.diernummer = :nummer;", conn);    
 				
@@ -179,34 +183,46 @@ namespace Databasekoppeling
 
         #region Medicijn van dier opvragen
         public List<Medicijn> MedicijnDierOpvragen(int diernummer)
-        {
-            using (OracleConnection conn = new OracleConnection(connectie))
-            {
-                OracleCommand cmd = new OracleCommand("select DISTINCT (medicijnnaam) from dier_medicijn where diernummer = :nummer;", conn);
-
-                cmd.Parameters.Add("nummer", diernummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                List<Medicijn> medicijnen = new List<Medicijn>();
-
-                if (rdr.Read())
+        {          
+                try
                 {
-                    Medicijnnaam medicijnnaam = (Medicijnnaam)Enum.Parse(typeof(Medicijnnaam), Convert.ToString(rdr["medicijnnaam"]));
-                    string hoeveelheid = Convert.ToString(rdr["hoeveelheid"]);
-                    string bijwerking = Convert.ToString(rdr["bijwerking"]);
-                    DateTime startdatum = Convert.ToDateTime(rdr["startdatum"]);
-                    medicijnen.Add(new Medicijn(medicijnnaam, hoeveelheid, bijwerking, startdatum));
-                    return medicijnen;
+                    using (OracleConnection conn = connection)
+                    {
+                        OracleCommand cmd = new OracleCommand("select * from dier_medicijn, medicijn where dier_medicijn.medicijnnaam = medicijn.medicijnnaam and diernummer = :nummer", conn);
+                        cmd.Parameters.Add("nummer", diernummer);
+                        connection.Open();
+                        OracleDataReader rdr = cmd.ExecuteReader();
+
+                        List<Medicijn> medicijnen = new List<Medicijn>();
+
+                        if (rdr.Read())
+                        {
+                            Medicijnnaam medicijnnaam = (Medicijnnaam)Enum.Parse(typeof(Medicijnnaam), Convert.ToString(rdr["medicijnnaam"]));
+                            string hoeveelheid = Convert.ToString(rdr["hoeveelheid"]);
+                            string bijwerking = Convert.ToString(rdr["bijwerking"]);
+                            DateTime startdatum = Convert.ToDateTime(rdr["datum"]);
+                            medicijnen.Add(new Medicijn(medicijnnaam, hoeveelheid, bijwerking, startdatum));
+                            return medicijnen;
+                        }
+                        return medicijnen;
+                    }
                 }
-                return null;
-            }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return null;
+                }
+                finally
+                {
+                    connection.Close();
+                }
         }
         #endregion
 
         #region Aantal dieren in verblijf
         public int AantalDierenVerblijf(int huisvestingnummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("select aantaldieren from huisvesting where huisvestingnummer = :nummer;", conn);
 
@@ -226,7 +242,7 @@ namespace Databasekoppeling
         #region Ras dier opvragen
         public string RasDierOpvragen(int diernummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("select DISTINCT(rasnaam) from dier, ras where ras.rasnummer = dier.rasnummer and dier.diernummer = :nummer;", conn);
 
@@ -246,19 +262,27 @@ namespace Databasekoppeling
         #region Veelvoorkomende ziektes diersoort
         public string VeelVoorkomendeZiektes(int diersoortnummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            try
             {
-                OracleCommand cmd = new OracleCommand("select DISTINCT (veelvoorkomendeziekte.ziekte) from veelvoorkomendeziekte, ras_ziekte, dier, diersoort where dier.rasnummer = ras_ziekte.rasnummer and veelvoorkomendeziekte.ziekte = ras_ziekte.ziekte and dier.diersoortnummer = diersoort.diersoortnummer and diersoort.diersoortnummer = :nummer;", conn);
-
-                cmd.Parameters.Add("nummer", diersoortnummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    string ziekte = Convert.ToString(rdr["veelvoorkomendeziekte.ziekte"]);
-                    return ziekte;
+                    OracleCommand cmd = new OracleCommand("select DISTINCT (veelvoorkomendeziekte.ziekte) from veelvoorkomendeziekte, ras_ziekte, dier, diersoort where dier.rasnummer = ras_ziekte.rasnummer and veelvoorkomendeziekte.ziekte = ras_ziekte.ziekte and dier.diersoortnummer = diersoort.diersoortnummer and diersoort.diersoortnummer = :nummer", conn);
+                    cmd.Parameters.Add("nummer", diersoortnummer);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    string ziektes = "";
+
+                    while (rdr.Read())
+                    {
+                        string ziekte = Convert.ToString(rdr["veelvoorkomendeziekte.ziekte"]);
+                        ziektes = ziektes + ziekte;
+                    }
+                    return ziektes;
                 }
-                return null;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -266,7 +290,7 @@ namespace Databasekoppeling
         #region Voeding van diersoort
         public string VoedingDiersoort(int diersoortnummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("select DISTINCT (voeding.naamvoeding) from voeding, dier_voeding, dier, diersoort where voeding.naamvoeding = dier_voeding.naamvoeding and dier_voeding.diernummer = dier.diernummer and dier.diersoortnummer = diersoort.diersoortnummer and dier.diersoortnummer = :nummer;", conn);
 
@@ -286,7 +310,7 @@ namespace Databasekoppeling
         #region Huisvesting naam diersoort
         public string HuisvestingnaamDiersoort(int diersoortnummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("select DISTINCT (huisvesting.soorthuisvesting) from huisvesting, diersoort, dier where huisvesting.huisvestingnummer = dier.huisvestingnummer and dier.diersoortnummer = diersoort.diersoortnummer and dier.diersoortnummer = :nummer;", conn);
 
@@ -306,7 +330,7 @@ namespace Databasekoppeling
         #region Huisvesting diersoort opvragen
         public Huisvesting HuisvestingDiersoort(int diersoortnummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("select * from huisvesting, diersoort, dier where huisvesting.huisvestingnummer = dier.huisvestingnummer and dier.diersoortnummer = diersoort.diersoortnummer and dier.diersoortnummer = :nummer;", conn);
 
@@ -332,7 +356,7 @@ namespace Databasekoppeling
         #region Info diersoort
         public Diersoort ZoekDiersoort(int diersoortnummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select * from diersoort where diersoort.diersoortnummer = :nummer;", conn);
 
@@ -353,10 +377,43 @@ namespace Databasekoppeling
         }
         #endregion
 
+        #region Diersoorten
+        public List<Diersoort> ZoekDiersoorten()
+        {
+            try
+            {
+                using (OracleConnection conn = connection)
+                {
+                    OracleCommand cmd = new OracleCommand("select * from diersoort", conn);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    List<Diersoort> diersoorten = new List<Diersoort>();
+
+                    while (rdr.Read())
+                    {
+                        string afdeling = Convert.ToString(rdr["afdeling"]);
+                        string familie = Convert.ToString(rdr["familie"]);
+                        string diersoortgeslacht = Convert.ToString(rdr["geslacht"]);
+                        string klasse = Convert.ToString(rdr["klasse"]);
+                        string orde = Convert.ToString(rdr["orde"]);
+                        int diersoortnummer = Convert.ToInt32(rdr["diersoortnummer"]);
+                        diersoorten.Add(new Diersoort(diersoortnummer, afdeling, familie, diersoortgeslacht, klasse, orde));                   
+                    }
+                    return diersoorten;
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        #endregion
+
         #region Info specifiek dier // Overerving ?? dan ook ras en diersoort selecteren
         public Dier InfoDier(string diernaam)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select * from dier where dier.diernaam = :naam;", conn);
 
@@ -387,19 +444,26 @@ namespace Databasekoppeling
         #region Begindatum medicijngebruik
         public DateTime BeginMedicijn(string diernaam)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            try
             {
-                OracleCommand cmd = new OracleCommand("select datum from dier_medicijn, dier where dier_medicijn.diernummer = dier.diernummer and dier.diernaam = :naam;", conn);
-
-                cmd.Parameters.Add("naam", diernaam);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    DateTime datum = Convert.ToDateTime(rdr["datum"]);
-                    return datum;
+                    OracleCommand cmd = new OracleCommand("select datum from dier_medicijn, dier where dier_medicijn.diernummer = dier.diernummer and dier.diernaam = :naam", conn);
+                    cmd.Parameters.Add("naam", diernaam);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        DateTime datum = Convert.ToDateTime(rdr["datum"]);
+                        return datum;
+                    }
+                    return Convert.ToDateTime("00-00-0000");
                 }
-                return Convert.ToDateTime("00-00-0000");
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -407,7 +471,7 @@ namespace Databasekoppeling
         #region Naam dierverzorgers opvragen
         public List<String> NaamDierverzorgers()
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select dierverzorgernaam from dierverzorger;", conn);
 
@@ -428,7 +492,7 @@ namespace Databasekoppeling
         #region Naam dierverzorger opvragen met dierverzorgernummer
         public string NaamDierverzorger(int dierverzorgernummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select dierverzorgernaam from dierverzorger where dierverzorger.dierverzorgernummer = :nummer;", conn);
 
@@ -448,7 +512,7 @@ namespace Databasekoppeling
         #region Naam dierenarts opvragen met dierenartsnummer
         public string NaamDierenarts(int dierenartsnummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select dierenartsnaam from dierenarts where dierenarts.dierenartsnummer = :nummer;", conn);
 
@@ -468,7 +532,7 @@ namespace Databasekoppeling
         #region Telefoonnummer dierenarts opvragen met nummer
         public int TelDierenarts(int diernartsnummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select telefoonnummer from dierenarts where dierenarts.dierenartsnummer = :nummer;", conn);
 
@@ -488,7 +552,7 @@ namespace Databasekoppeling
         #region Telefoonnummer dierenarts opvragen met naam
         public int TelefoonDierenarts(string dierenartsnaam)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select telefoonnummer from dierenarts where dierenarts.dierenartsnaam = :naam;", conn);
 
@@ -508,7 +572,7 @@ namespace Databasekoppeling
         #region Telefoonnummer privé dierverzorger opvragen met naam
         public int TelPriveDierverzorger(string dierverzorgernaam)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select telefoonnummerprivé from dierverzorger where dierverzorger.dierverzorgernaam = :naam;", conn);
 
@@ -528,7 +592,7 @@ namespace Databasekoppeling
         #region Telefoonnummer privé dierverzorger opvragen met nummer
         public int TelPriveDierverzorger(int dierverzorgernummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select telefoonnummerprivé from dierverzorger where dierverzorger.dierverzorgernummer = :nummer;", conn);
 
@@ -548,7 +612,7 @@ namespace Databasekoppeling
         #region Telefoonnummer zakelijk dierverzorger opvragen met naam
         public int TelZakelijkDierverzorger(string dierverzorgernaam)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select telefoonnummerzakelijk from dierverzorger where dierverzorger.dierverzorgernaam = :naam;", conn);
 
@@ -568,7 +632,7 @@ namespace Databasekoppeling
         #region Telefoonnummer zakelijk dierverzorger opvragen met nummer
         public int TelZakelijkDierverzorger(int dierverzorgernummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select telefoonnummerzakelijk from dierverzorger where dierverzorger.dierverzorgernummer = :nummer;", conn);
 
@@ -588,7 +652,7 @@ namespace Databasekoppeling
         #region Rekeningnummer dierverzorger met naam
         public int RekNrDierverzorger(string dierverzorgernaam)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select rekeningnummer from dierverzorger where dierverzorger.dierverzorgernaam = :naam;", conn);
 
@@ -608,7 +672,7 @@ namespace Databasekoppeling
         #region Rekeningnummer dierenarts met naam
         public int RekNrDierenarts(string dierenartsnaam)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select rekeningnummer from dierenarts where dierenarts.dierenartsnaam = :naam;", conn);
 
@@ -628,7 +692,7 @@ namespace Databasekoppeling
         #region Rekeningnummer dierverzorger met nummer
         public int RekeningnrDierverzorger(int dierverzorgernummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select rekeningnummer from dierverzorger where dierverzorger.dierverzorgernummer = :nummer;", conn);
 
@@ -648,7 +712,7 @@ namespace Databasekoppeling
         #region Rekeningnummer dierenarts met nummer
         public int RekeningnrDierenarts(int dierenartsnummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select rekeningnummer from dierenarts where dierenarts.dierenartsnummer = :nummer;", conn);
 
@@ -668,7 +732,7 @@ namespace Databasekoppeling
         #region Werkingsduur vaccinatie met vaccinatienaam
         public string WerkingsduurVaccinatie(int vaccinatienaam)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select werkingstijd from vaccinatie where vaccinatie.vaccinatienaam = :naam;", conn);
 
@@ -688,7 +752,7 @@ namespace Databasekoppeling
         #region Werkingsduur vaccinatie met dierverzorgernummer
         public string DuurVaccinatie(int dierverzorgernummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select werkingstijd from vaccinatie, dierverzorger_vaccinatie, dierverzorger where vaccinatie.vaccinatienaam = dierverzorger_vaccinatie.vaccinatienaam and dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernummer = :nummer;", conn);
 
@@ -708,7 +772,7 @@ namespace Databasekoppeling
         #region Werkingsduur vaccinatie met dierverzorgernaam
         public string WerkingsduurVaccinatie(string dierverzorgernaam)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select werkingstijd from vaccinatie, dierverzorger_vaccinatie, dierverzorger where vaccinatie.vaccinatienaam = dierverzorger_vaccinatie.vaccinatienaam and dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernaam = :naam;", conn);
 
@@ -728,7 +792,7 @@ namespace Databasekoppeling
         #region Vaccinatie verlopen op: met dierverzorgernummer
         public DateTime VaccinatieVerlopenOp(int dierverzorgernummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select datumverlopen from  dierverzorger_vaccinatie, dierverzorger where dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernummer = :nummer;", conn);
 
@@ -748,7 +812,7 @@ namespace Databasekoppeling
         #region Vaccinatie verlopen op: met dierverzorgernaam
         public DateTime VaccinatieVerlopen(string dierverzorgernaam)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select datumverlopen from  dierverzorger_vaccinatie, dierverzorger where dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernaam = :naam;", conn);
 
@@ -768,7 +832,7 @@ namespace Databasekoppeling
         #region Vaccinaties dierverzorger
         public List<Vaccinatie> VaccinatiesDierverzorger(int dierverzorgernummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select vaccinatienaam from  dierverzorger_vaccinatie, dierverzorger where dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernummer = :nummer;", conn);
 
@@ -793,7 +857,7 @@ namespace Databasekoppeling
         #region Vaccinaties dierverzorger met naam
         public List<Vaccinatie> VaccinatiesDierverzorger(string dierverzorgernaam)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("select vaccinatienaam from  dierverzorger_vaccinatie, dierverzorger where dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernaam = :naam;", conn);
 
@@ -818,7 +882,7 @@ namespace Databasekoppeling
         #region Dieverzorger toevoegen // nachecken database (wat waar invoeren??)
         public void DierverzorgerToevoegen(Dierverzorger verzorger)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("insert into dierverzorger values(:nummer, ':naam', ':geslacht', leeftijd, null, aamgenomen, 'contract', telprive, telzakelijk, rekeningnummer, hoofddiersoort, hoofddiersoort);", conn);
 
@@ -841,7 +905,7 @@ namespace Databasekoppeling
         #region Dierverzorger verwijderen
         public void VerwijderDierverzorger(int dierverzorgernummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using (OracleConnection conn = connection)
             {
                 OracleCommand cmd = new OracleCommand("delete from dierverzorger where dierverzorger.dierverzorgernummer = :nummer;", conn);
 
@@ -855,7 +919,7 @@ namespace Databasekoppeling
         #region Dierenarts toevoegen
         public void DierenartsToevoegen(Dierenarts arts)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("insert into dierenarts values(:nummer, ':naam', leeftijd, 'specialisatie', telefoonnummer, rekeningnummer, spoednummer);", conn);
 
@@ -875,7 +939,7 @@ namespace Databasekoppeling
         #region Dierenarts verwijderen
         public void VerwijderDierenarts(int dierenartsnummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("delete from dierenarts where dierenarts.dierenartsnummer = :nummer;", conn);
 
@@ -890,7 +954,7 @@ namespace Databasekoppeling
         #region Naam dierverzorger aanpassen
         public void DierverzorgernaamAanpassen(string oudenaam, string nieuwenaam)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("update dierverzorger set dierverzorgernaam = ':nieuwenaam' where dierverzorgernaam = :naam;", conn);
 
@@ -905,7 +969,7 @@ namespace Databasekoppeling
         #region Naam dierverzorger aanpassen
         public void DerverzorgerAanpassenNaam(int dierverzorgernummer, string nieuwenaam)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("update dierverzorger set dierverzorgernaam = ':nieuwenaam' where dierverzorgernummer = :nummer;", conn);
 
@@ -920,7 +984,7 @@ namespace Databasekoppeling
         #region Naam dierenarts aanpassen
         public void DierenartsnaamAanpassen(string oudenaam, string nieuwenaam)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("update dierenarts set dierenartsnaam = ':nieuwenaam' where dierenartsnaam = :naam;", conn);
 
@@ -935,7 +999,7 @@ namespace Databasekoppeling
         #region Naam dierenarts aanpassen
         public void DierenartsnaamAanpassen(int dierenartsnummer, string nieuwenaam)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("update dierenarts set dierenartsnaam = ':nieuwenaam' where dierenartsnummer = :nummer;", conn);
 
@@ -950,7 +1014,7 @@ namespace Databasekoppeling
         #region Telefoonnummer dierenarts aanpassen
         public void VeranderTelArts(int dierenartsnummer, int telefoonnummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("update dierenarts set telefoonnummer = :telnr where dierenartsnummer = :nummer;", conn);
 
@@ -965,7 +1029,7 @@ namespace Databasekoppeling
         #region Telefoonnummer dierenarts aanpassen
         public void VeranderTelDierenarts(int dierenartsnaam, int telefoonnummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("update dierenarts set telefoonnummer = :telnr where dierenartsnaam = :naam;", conn);
 
@@ -979,7 +1043,7 @@ namespace Databasekoppeling
         #region Telefoonnummer privé dierverzorger aanpassen
         public void VeranderTelPrive(int dierverzorgernummer, int telefoonnummerprive)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("update dierverzorger set telefoonnummerprivé = :telnr where dierverzorgernummer = :nummer;", conn);
 
@@ -993,7 +1057,7 @@ namespace Databasekoppeling
         #region Telefoonnummer privé dierverzorger aanpassen
         public void VeranderTelPriveVerzorger(int dierverzorgernaam, int telefoonnummerprive)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("update dierverzorger set telefoonnummerprivé = :telnr where dierverzorgernaam = :naam;", conn);
 
@@ -1007,7 +1071,7 @@ namespace Databasekoppeling
         #region Telefoonnummer zakelijk dierverzorger aanpassen
         public void VeranderTelZakelijk(int dierverzorgernummer, int telefoonnummerprive)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("update dierverzorger set telefoonnummerzakelijk = :telnr where dierverzorgernummer = :nummer;", conn);
 
@@ -1021,7 +1085,7 @@ namespace Databasekoppeling
         #region Telefoonnummer zakelijk dierverzorger aanpassen
         public void VeranderTelZakelijkVerzorger(int dierverzorgernaam, int telefoonnummerprive)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("update dierverzorger set telefoonnummerzakelijk = 123 where dierverzorgernaam = :naam;", conn);
 
@@ -1035,7 +1099,7 @@ namespace Databasekoppeling
         #region Rekeningnummer dierverzorger aanpassen met nummer
         public void VeranderReknrVerzorger(int dierverzorgernummer, int rekeningnummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("update dierverzorger set rekeningnummer = :reknr where dierverzorgernummer = :nummer;", conn);
 
@@ -1049,7 +1113,7 @@ namespace Databasekoppeling
         #region Rekeningnummer dierverzorger aanpassen met naam
         public void VeranderRekeningnrVerzorger(int dierverzorgernaam, int rekeningnummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("update dierverzorger set rekeningnummer = :reknr where dierverzorgernaam = :naam;", conn);
 
@@ -1063,7 +1127,7 @@ namespace Databasekoppeling
         #region Rekeningnummer dierenarts aanpassen met nummer
         public void VeranderReknrDierenarts(int dierenartsnummer, int rekeningnummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("update dierenarts set rekeningnummer = :reknr where dierenartsnummer = :nummer;", conn);
 
@@ -1077,7 +1141,7 @@ namespace Databasekoppeling
         #region Rekeningnummer dierenarts aanpassen met naam
         public void VeranderRekeningnrArts(int dierenartsnaam, int rekeningnummer)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("update dierenarts set rekeningnummer = :reknr where dierenartsnaam = :naam;", conn);
 
@@ -1091,7 +1155,7 @@ namespace Databasekoppeling
         #region Nieuwe vaccinatie opslaan // nachecken met database
         public void NieuweVaccinatie(Vaccinatie vaccinatie, int dierverzorgernummer, int vaccinatienummer, DateTime datum, DateTime einddatum, string bijwerking)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("insert into dierverzorger_vaccinatie VALUES(:nummer, ':vcnummer', 'datum', 'einddatum', ':bijwerking' );", conn);
 
@@ -1109,7 +1173,7 @@ namespace Databasekoppeling
         #region Nieuwe medicijn opslaan // nachecken met database 
         public void NieuweVaccinatie(Medicijn medicijn)
         {
-            using (OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
             {
                 OracleCommand cmd = new OracleCommand("insert into medicijn VALUES(':naam', :hoeveel, ':datum', ':bijwerking' );", conn);
 
