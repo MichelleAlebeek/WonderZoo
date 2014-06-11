@@ -29,21 +29,28 @@ namespace Databasekoppeling
         #region Inloggen
         public Persoon Login(string username, string wachtwoord)
         {
-            using (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
+            try
             {
-                OracleCommand cmd = new OracleCommand("select * from gebruiker where gebruikersnaam=:naam and wachtwoord=:wachtwoord", conn);
-                
-                cmd.Parameters.Add("naam", username);
-                cmd.Parameters.Add("wachtwoord", wachtwoord);
-
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    Persoon g = new Persoon(rdr["naam"].ToString(), Convert.ToInt32(rdr["leeftijd"]), rdr["wachtwoord"].ToString());
-                    return g;
+                    OracleCommand cmd = new OracleCommand("select * from gebruiker where gebruikersnaam=:naam and wachtwoord=:wachtwoord", conn);
+
+                    cmd.Parameters.Add("naam", username);
+                    cmd.Parameters.Add("wachtwoord", wachtwoord);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        Persoon g = new Persoon(rdr["naam"].ToString(), Convert.ToInt32(rdr["leeftijd"]), rdr["wachtwoord"].ToString());
+                        return g;
+                    }
+                    return null;
                 }
-                return null;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -53,7 +60,7 @@ namespace Databasekoppeling
         {
             try
             {
-                using (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
+                using (OracleConnection conn = connection)
                 {
                     OracleCommand cmd = new OracleCommand("insert into dier values(:diernummer, :diernaam, :leeftijd, :Gewicht, :Lengte, :Geslacht, :Nakomelingen, :DatumAanschaf, :DiersoortNummer, :HuisvestingNummer, :RasNummer, :NaamMoeder, :NaamVader, :NummerMoeder, :NummerVader)", conn);
 
@@ -91,35 +98,43 @@ namespace Databasekoppeling
         #region Diersoort toevoegen
         public void VoegDiersoortToe(Diersoort diersoort)
         {
-            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
+            try
             {
-                OracleCommand cmd = new OracleCommand("insert into diersoort values(:DiersoortNummer, :Afdeling, :Klasse, :Orde, :Familie, :Geslacht, :DierenartsNummer", conn);
+                using (OracleConnection conn = connection)
+                {
+                    OracleCommand cmd = new OracleCommand("insert into diersoort values(:DiersoortNummer, :Afdeling, :Klasse, :Orde, :Familie, :Geslacht, :DierenartsNummer", conn);
 
-                cmd.Parameters.Add("DiersoortNummer", diersoort.Diersoortnummer);
-                cmd.Parameters.Add("Afdeling", diersoort.Afdeling);
-                cmd.Parameters.Add("Klasse", diersoort.Klasse);
-                cmd.Parameters.Add("Orde", diersoort.Orde);
-                cmd.Parameters.Add("Familie", diersoort.Familie);
-                cmd.Parameters.Add("Geslacht", diersoort.Diersoortgeslacht);
+                    cmd.Parameters.Add("DiersoortNummer", diersoort.Diersoortnummer);
+                    cmd.Parameters.Add("Afdeling", diersoort.Afdeling);
+                    cmd.Parameters.Add("Klasse", diersoort.Klasse);
+                    cmd.Parameters.Add("Orde", diersoort.Orde);
+                    cmd.Parameters.Add("Familie", diersoort.Familie);
+                    cmd.Parameters.Add("Geslacht", diersoort.Diersoortgeslacht);
 
-                if(diersoort.Orde == "Zoogdieren")
-                {
-                    cmd.Parameters.Add("DierenartsNummer", 111);
-                }
-                else if(diersoort.Orde =="Vogels")
-                {
-                    cmd.Parameters.Add("DierenartsNummer", 113);
-                }
-                else if(diersoort.Orde == "Reptielen")
-                {
-                    cmd.Parameters.Add("DierenartsNummer", 112);
-                }
-                else
-                {
-                    cmd.Parameters.Add("DierenartsNummer", null);
-                }
+                    if (diersoort.Orde == "Zoogdieren")
+                    {
+                        cmd.Parameters.Add("DierenartsNummer", 111);
+                    }
+                    else if (diersoort.Orde == "Vogels")
+                    {
+                        cmd.Parameters.Add("DierenartsNummer", 113);
+                    }
+                    else if (diersoort.Orde == "Reptielen")
+                    {
+                        cmd.Parameters.Add("DierenartsNummer", 112);
+                    }
+                    else
+                    {
+                        cmd.Parameters.Add("DierenartsNummer", null);
+                    }
 
-                cmd.ExecuteNonQuery();
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -127,22 +142,29 @@ namespace Databasekoppeling
         #region Vaccinatiedatum toevoegen
         public void VoegVaccinatiedatumToe(int dierverzorgernummer, string vaccinatienaam, DateTime datumgevaccineerd, DateTime datumverlopen, string bijwerking)
         {
-            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
+            try
             {
-                OracleCommand cmd = new OracleCommand("INSERT INTO DIERVERZORGER_VACCINATIE VALUES(:DierverzorgerNummer, :VaccinatieNaam, :DatumGevaccineerd, :DatumVerlopen, :Bijwerking)", conn);
+                using (OracleConnection conn = connection)
+                {
+                    OracleCommand cmd = new OracleCommand("INSERT INTO DIERVERZORGER_VACCINATIE VALUES(:DierverzorgerNummer, :VaccinatieNaam, :DatumGevaccineerd, :DatumVerlopen, :Bijwerking)", conn);
 
-                cmd.Parameters.Add("DierverzorgerNummer", dierverzorgernummer);
-                cmd.Parameters.Add("VaccinatieNaam", vaccinatienaam);
-                cmd.Parameters.Add("DatumGevaccineerd", datumgevaccineerd);
-                cmd.Parameters.Add("DatumVerlopen", datumverlopen);
-                cmd.Parameters.Add("Bijwerking", bijwerking);
-
-                cmd.ExecuteNonQuery();
+                    cmd.Parameters.Add("DierverzorgerNummer", dierverzorgernummer);
+                    cmd.Parameters.Add("VaccinatieNaam", vaccinatienaam);
+                    cmd.Parameters.Add("DatumGevaccineerd", datumgevaccineerd);
+                    cmd.Parameters.Add("DatumVerlopen", datumverlopen);
+                    cmd.Parameters.Add("Bijwerking", bijwerking);
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
 
-        #region Dier verwijderen 
+        #region Dier verwijderen // WERKT !!
         public void VerwijderDier(int diernummer, string diernaam)
         {
             try
@@ -173,18 +195,25 @@ namespace Databasekoppeling
         #region Totaal aantal dieren //  WERKT !!!!
         public int DierenTotaal()
         {
-            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
+            try
             {
-                OracleCommand cmd = new OracleCommand("select count(*) from dier", conn);
-                connection.Open();
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    int aantal = Convert.ToInt32(rdr["count(*)"]);
-                    return aantal;
+                    OracleCommand cmd = new OracleCommand("select count(*) from dier", conn);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        int aantal = Convert.ToInt32(rdr["count(*)"]);
+                        return aantal;
+                    }
+                    return 0;
                 }
-                return 0;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -247,22 +276,29 @@ namespace Databasekoppeling
         }
         #endregion
 
-        #region Aantal dieren in verblijf
+        #region Aantal dieren in verblijf // WERKT !!!
         public int AantalDierenVerblijf(int huisvestingnummer)
         {
-            using  (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select aantaldieren from huisvesting where huisvestingnummer = :nummer", conn);
-                cmd.Parameters.Add("nummer", huisvestingnummer);
-                connection.Open();
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    int aantal = Convert.ToInt32(rdr["aantaldieren"]);
-                    return aantal;
+                    OracleCommand cmd = new OracleCommand("select aantaldieren from huisvesting where huisvestingnummer = :nummer", conn);
+                    cmd.Parameters.Add("nummer", huisvestingnummer);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        int aantal = Convert.ToInt32(rdr["aantaldieren"]);
+                        return aantal;
+                    }
+                    return 0;
                 }
-                return 0;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -270,19 +306,26 @@ namespace Databasekoppeling
         #region Ras dier opvragen
         public string RasDierOpvragen(int diernummer)
         {
-            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
+            try
             {
-                OracleCommand cmd = new OracleCommand("select DISTINCT(rasnaam) from dier, ras where ras.rasnummer = dier.rasnummer and dier.diernummer = :nummer;", conn);
-
-                cmd.Parameters.Add("nummer", diernummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    string ras = Convert.ToString(rdr["rasnaam"]);
-                    return ras;
+                    OracleCommand cmd = new OracleCommand("select DISTINCT(rasnaam) from dier, ras where ras.rasnummer = dier.rasnummer and dier.diernummer = :nummer", conn);
+                    cmd.Parameters.Add("nummer", diernummer);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        string ras = Convert.ToString(rdr["rasnaam"]);
+                        return ras;
+                    }
+                    return null;
                 }
-                return null;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -318,19 +361,27 @@ namespace Databasekoppeling
         #region Voeding van diersoort
         public string VoedingDiersoort(int diersoortnummer)
         {
-            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
+            try
             {
-                OracleCommand cmd = new OracleCommand("select DISTINCT (voeding.naamvoeding) from voeding, dier_voeding, dier, diersoort where voeding.naamvoeding = dier_voeding.naamvoeding and dier_voeding.diernummer = dier.diernummer and dier.diersoortnummer = diersoort.diersoortnummer and dier.diersoortnummer = :nummer;", conn);
-
-                cmd.Parameters.Add("nummer", diersoortnummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    string voeding = Convert.ToString(rdr["voeding.naamvoeding"]);
-                    return voeding;
+                    OracleCommand cmd = new OracleCommand("select DISTINCT (voeding.naamvoeding) from voeding, dier_voeding, dier, diersoort where voeding.naamvoeding = dier_voeding.naamvoeding and dier_voeding.diernummer = dier.diernummer and dier.diersoortnummer = diersoort.diersoortnummer and dier.diersoortnummer = :nummer", conn);
+
+                    cmd.Parameters.Add("nummer", diersoortnummer);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        string voeding = Convert.ToString(rdr["voeding.naamvoeding"]);
+                        return voeding;
+                    }
+                    return null;
                 }
-                return null;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -338,19 +389,27 @@ namespace Databasekoppeling
         #region Huisvesting naam diersoort
         public string HuisvestingnaamDiersoort(int diersoortnummer)
         {
-            using  (OracleConnection conn = connection)// (OracleConnection conn = new OracleConnection(connectie))
+            try
             {
-                OracleCommand cmd = new OracleCommand("select DISTINCT (huisvesting.soorthuisvesting) from huisvesting, diersoort, dier where huisvesting.huisvestingnummer = dier.huisvestingnummer and dier.diersoortnummer = diersoort.diersoortnummer and dier.diersoortnummer = :nummer;", conn);
-
-                cmd.Parameters.Add("nummer", diersoortnummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    string huisvesting = Convert.ToString(rdr["huisvesting.soorthuisvesting"]);
-                    return huisvesting;
+                    OracleCommand cmd = new OracleCommand("select DISTINCT (huisvesting.soorthuisvesting) from huisvesting, diersoort, dier where huisvesting.huisvestingnummer = dier.huisvestingnummer and dier.diersoortnummer = diersoort.diersoortnummer and dier.diersoortnummer = :nummer", conn);
+
+                    cmd.Parameters.Add("nummer", diersoortnummer);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        string huisvesting = Convert.ToString(rdr["huisvesting.soorthuisvesting"]);
+                        return huisvesting;
+                    }
+                    return null;
                 }
-                return null;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -358,25 +417,33 @@ namespace Databasekoppeling
         #region Huisvesting diersoort opvragen
         public Huisvesting HuisvestingDiersoort(int diersoortnummer)
         {
-            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
+            try
             {
-                OracleCommand cmd = new OracleCommand("select * from huisvesting, diersoort, dier where huisvesting.huisvestingnummer = dier.huisvestingnummer and dier.diersoortnummer = diersoort.diersoortnummer and dier.diersoortnummer = :nummer;", conn);
-
-                cmd.Parameters.Add("nummer", diersoortnummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
-                Huisvesting huisvesting;
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    int huisvestingnummer = Convert.ToInt32(rdr["huisvesting.nummer"]);
-                    HuisvestingSoort soorthuisvesting = (HuisvestingSoort)Enum.Parse(typeof(HuisvestingSoort), Convert.ToString(rdr["soorthuisvesting"]));
-                    HuisvestingMateriaal materiaal = (HuisvestingMateriaal)Enum.Parse(typeof(HuisvestingMateriaal), Convert.ToString(rdr["materiaal"]));
-                    Gedragsverrijking gedragsverrijking = (Gedragsverrijking)Enum.Parse(typeof(Gedragsverrijking), Convert.ToString(rdr["materiaal"]));
-                    int aantaldieren = Convert.ToInt32(rdr["aantal"]);
-                    huisvesting = new Huisvesting(huisvestingnummer, soorthuisvesting, materiaal, gedragsverrijking, aantaldieren);
-                    return huisvesting;
+                    OracleCommand cmd = new OracleCommand("select * from huisvesting, diersoort, dier where huisvesting.huisvestingnummer = dier.huisvestingnummer and dier.diersoortnummer = diersoort.diersoortnummer and dier.diersoortnummer = :nummer", conn);
+
+                    cmd.Parameters.Add("nummer", diersoortnummer);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    Huisvesting huisvesting;
+
+                    if (rdr.Read())
+                    {
+                        int huisvestingnummer = Convert.ToInt32(rdr["huisvesting.nummer"]);
+                        HuisvestingSoort soorthuisvesting = (HuisvestingSoort)Enum.Parse(typeof(HuisvestingSoort), Convert.ToString(rdr["soorthuisvesting"]));
+                        HuisvestingMateriaal materiaal = (HuisvestingMateriaal)Enum.Parse(typeof(HuisvestingMateriaal), Convert.ToString(rdr["materiaal"]));
+                        Gedragsverrijking gedragsverrijking = (Gedragsverrijking)Enum.Parse(typeof(Gedragsverrijking), Convert.ToString(rdr["materiaal"]));
+                        int aantaldieren = Convert.ToInt32(rdr["aantal"]);
+                        huisvesting = new Huisvesting(huisvestingnummer, soorthuisvesting, materiaal, gedragsverrijking, aantaldieren);
+                        return huisvesting;
+                    }
+                    return null;
                 }
-                return null;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -384,23 +451,31 @@ namespace Databasekoppeling
         #region Info diersoort
         public Diersoort ZoekDiersoort(int diersoortnummer)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select * from diersoort where diersoort.diersoortnummer = :nummer;", conn);
-
-                cmd.Parameters.Add("nummer", diersoortnummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    string afdeling = Convert.ToString(rdr["afdeling"]);
-                    string familie = Convert.ToString(rdr["familie"]);
-                    string diersoortgeslacht = Convert.ToString(rdr["geslacht"]);
-                    string klasse = Convert.ToString(rdr["klasse"]);
-                    string orde = Convert.ToString(rdr["orde"]);
-                    return new Diersoort(diersoortnummer, afdeling, familie, diersoortgeslacht, klasse, orde);
+                    OracleCommand cmd = new OracleCommand("select * from diersoort where diersoort.diersoortnummer = :nummer", conn);
+
+                    cmd.Parameters.Add("nummer", diersoortnummer);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        string afdeling = Convert.ToString(rdr["afdeling"]);
+                        string familie = Convert.ToString(rdr["familie"]);
+                        string diersoortgeslacht = Convert.ToString(rdr["geslacht"]);
+                        string klasse = Convert.ToString(rdr["klasse"]);
+                        string orde = Convert.ToString(rdr["orde"]);
+                        return new Diersoort(diersoortnummer, afdeling, familie, diersoortgeslacht, klasse, orde);
+                    }
+                    return null;
                 }
-                return null;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -441,31 +516,37 @@ namespace Databasekoppeling
         #region Info specifiek dier // Overerving ?? dan ook ras en diersoort selecteren
         public Dier InfoDier(string diernaam)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select * from dier where dier.diernaam = :naam;", conn);
-
-                cmd.Parameters.Add("naam", diernaam);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    int diernummer = Convert.ToInt32(rdr["diernummer"]);
-                    int leeftijd = Convert.ToInt32(rdr["leeftijd"]);
-                    string geslacht = Convert.ToString(rdr["geslacht"]);
-                    int gewicht = Convert.ToInt32(rdr["gewicht"]);
-                    int lengte = Convert.ToInt32(rdr["lengte"]);
-                    string naamMoeder = Convert.ToString(rdr["naamMoeder"]);
-                    string naamVader = Convert.ToString(rdr["naamVader"]);
-                    bool nakomeling = Convert.ToBoolean(rdr["nakomeling"]);
-                    DateTime datumaanschaf = Convert.ToDateTime(rdr["datumaanschaf"]);
+                    OracleCommand cmd = new OracleCommand("select * from dier where dier.diernaam = :naam", conn);
+                    cmd.Parameters.Add("naam", diernaam);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
 
-                    return new Dier(diernummer, diernaam, leeftijd, geslacht, gewicht, lengte, naamMoeder, naamVader, nakomeling, datumaanschaf, 0, null, null, null, 0, 0, 0, 0, 0, null, null, 0, null, null, null, null, null);
-                    
+                    if (rdr.Read())
+                    {
+                        int diernummer = Convert.ToInt32(rdr["diernummer"]);
+                        int leeftijd = Convert.ToInt32(rdr["leeftijd"]);
+                        string geslacht = Convert.ToString(rdr["geslacht"]);
+                        int gewicht = Convert.ToInt32(rdr["gewicht"]);
+                        int lengte = Convert.ToInt32(rdr["lengte"]);
+                        string naamMoeder = Convert.ToString(rdr["naamMoeder"]);
+                        string naamVader = Convert.ToString(rdr["naamVader"]);
+                        bool nakomeling = Convert.ToBoolean(rdr["nakomeling"]);
+                        DateTime datumaanschaf = Convert.ToDateTime(rdr["datumaanschaf"]);
+
+                        return new Dier(diernummer, diernaam, leeftijd, geslacht, gewicht, lengte, naamMoeder, naamVader, nakomeling, datumaanschaf, 0, null, null, null, 0, 0, 0, 0, 0, null, null, 0, null, null, null, null, null);
+
+                    }
+                    return null;
                 }
-                return null;
             }
-
+            finally
+            {
+                connection.Close();
+            }
         }
         #endregion
 
@@ -499,20 +580,27 @@ namespace Databasekoppeling
         #region Naam dierverzorgers opvragen
         public List<String> NaamDierverzorgers()
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select dierverzorgernaam from dierverzorger;", conn);
-
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    string naam = Convert.ToString(rdr["dierverzorgernaam"]);
+                    OracleCommand cmd = new OracleCommand("select dierverzorgernaam from dierverzorger", conn);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
                     List<String> dierverzorgernaam = new List<string>();
-                    dierverzorgernaam.Add(naam);
+
+                    if (rdr.Read())
+                    {
+                        string naam = Convert.ToString(rdr["dierverzorgernaam"]);                        
+                        dierverzorgernaam.Add(naam);                
+                    }
                     return dierverzorgernaam;
                 }
-                return null;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -520,19 +608,26 @@ namespace Databasekoppeling
         #region Naam dierverzorger opvragen met dierverzorgernummer
         public string NaamDierverzorger(int dierverzorgernummer)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select dierverzorgernaam from dierverzorger where dierverzorger.dierverzorgernummer = :nummer;", conn);
-
-                cmd.Parameters.Add("nummer", dierverzorgernummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    string dierverzorgernaam = Convert.ToString(rdr["dierverzorgernaam"]);
-                    return dierverzorgernaam;
+                    OracleCommand cmd = new OracleCommand("select dierverzorgernaam from dierverzorger where dierverzorger.dierverzorgernummer = :nummer", conn);
+                    cmd.Parameters.Add("nummer", dierverzorgernummer);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        string dierverzorgernaam = Convert.ToString(rdr["dierverzorgernaam"]);
+                        return dierverzorgernaam;
+                    }
+                    return null;
                 }
-                return null;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -540,19 +635,27 @@ namespace Databasekoppeling
         #region Naam dierenarts opvragen met dierenartsnummer
         public string NaamDierenarts(int dierenartsnummer)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select dierenartsnaam from dierenarts where dierenarts.dierenartsnummer = :nummer;", conn);
-
-                cmd.Parameters.Add("nummer", dierenartsnummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    string dierenartsnaam = Convert.ToString(rdr["dierenartsnaam"]);
-                    return dierenartsnaam;
+                    OracleCommand cmd = new OracleCommand("select dierenartsnaam from dierenarts where dierenarts.dierenartsnummer = :nummer", conn);
+
+                    cmd.Parameters.Add("nummer", dierenartsnummer);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        string dierenartsnaam = Convert.ToString(rdr["dierenartsnaam"]);
+                        return dierenartsnaam;
+                    }
+                    return null;
                 }
-                return null;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -560,19 +663,27 @@ namespace Databasekoppeling
         #region Telefoonnummer dierenarts opvragen met nummer
         public int TelDierenarts(int diernartsnummer)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select telefoonnummer from dierenarts where dierenarts.dierenartsnummer = :nummer;", conn);
-
-                cmd.Parameters.Add("nummer", diernartsnummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    int telefoonnummer = Convert.ToInt32(rdr["telefoonnummerprivé"]);
-                    return telefoonnummer;
+                    OracleCommand cmd = new OracleCommand("select telefoonnummer from dierenarts where dierenarts.dierenartsnummer = :nummer", conn);
+
+                    cmd.Parameters.Add("nummer", diernartsnummer);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        int telefoonnummer = Convert.ToInt32(rdr["telefoonnummerprivé"]);
+                        return telefoonnummer;
+                    }
+                    return 0;
                 }
-                return 0;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -580,19 +691,27 @@ namespace Databasekoppeling
         #region Telefoonnummer dierenarts opvragen met naam
         public int TelefoonDierenarts(string dierenartsnaam)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select telefoonnummer from dierenarts where dierenarts.dierenartsnaam = :naam;", conn);
-
-                cmd.Parameters.Add("naam", dierenartsnaam);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    int telefoonnummer = Convert.ToInt32(rdr["telefoonnummerprivé"]);
-                    return telefoonnummer;
+                    OracleCommand cmd = new OracleCommand("select telefoonnummer from dierenarts where dierenarts.dierenartsnaam = :naam", conn);
+
+                    cmd.Parameters.Add("naam", dierenartsnaam);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        int telefoonnummer = Convert.ToInt32(rdr["telefoonnummerprivé"]);
+                        return telefoonnummer;
+                    }
+                    return 0;
                 }
-                return 0;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -600,19 +719,27 @@ namespace Databasekoppeling
         #region Telefoonnummer privé dierverzorger opvragen met naam
         public int TelPriveDierverzorger(string dierverzorgernaam)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select telefoonnummerprivé from dierverzorger where dierverzorger.dierverzorgernaam = :naam;", conn);
-
-                cmd.Parameters.Add("naam", dierverzorgernaam);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    int telefoonnummer = Convert.ToInt32(rdr["telefoonnummerprivé"]);
-                    return telefoonnummer;
+                    OracleCommand cmd = new OracleCommand("select telefoonnummerprivé from dierverzorger where dierverzorger.dierverzorgernaam = :naam", conn);
+
+                    cmd.Parameters.Add("naam", dierverzorgernaam);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        int telefoonnummer = Convert.ToInt32(rdr["telefoonnummerprivé"]);
+                        return telefoonnummer;
+                    }
+                    return 0;
                 }
-                return 0;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -620,19 +747,27 @@ namespace Databasekoppeling
         #region Telefoonnummer privé dierverzorger opvragen met nummer
         public int TelPriveDierverzorger(int dierverzorgernummer)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select telefoonnummerprivé from dierverzorger where dierverzorger.dierverzorgernummer = :nummer;", conn);
-
-                cmd.Parameters.Add("nummer", dierverzorgernummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    int telefoonnummer = Convert.ToInt32(rdr["telefoonnummerprivé"]);
-                    return telefoonnummer;
+                    OracleCommand cmd = new OracleCommand("select telefoonnummerprivé from dierverzorger where dierverzorger.dierverzorgernummer = :nummer", conn);
+
+                    cmd.Parameters.Add("nummer", dierverzorgernummer);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        int telefoonnummer = Convert.ToInt32(rdr["telefoonnummerprivé"]);
+                        return telefoonnummer;
+                    }
+                    return 0;
                 }
-                return 0;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -640,19 +775,27 @@ namespace Databasekoppeling
         #region Telefoonnummer zakelijk dierverzorger opvragen met naam
         public int TelZakelijkDierverzorger(string dierverzorgernaam)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select telefoonnummerzakelijk from dierverzorger where dierverzorger.dierverzorgernaam = :naam;", conn);
-
-                cmd.Parameters.Add("naam", dierverzorgernaam);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    int telefoonnummer = Convert.ToInt32(rdr["telefoonnummerzakelijk"]);
-                    return telefoonnummer;
+                    OracleCommand cmd = new OracleCommand("select telefoonnummerzakelijk from dierverzorger where dierverzorger.dierverzorgernaam = :naam", conn);
+
+                    cmd.Parameters.Add("naam", dierverzorgernaam);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        int telefoonnummer = Convert.ToInt32(rdr["telefoonnummerzakelijk"]);
+                        return telefoonnummer;
+                    }
+                    return 0;
                 }
-                return 0;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -660,19 +803,27 @@ namespace Databasekoppeling
         #region Telefoonnummer zakelijk dierverzorger opvragen met nummer
         public int TelZakelijkDierverzorger(int dierverzorgernummer)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select telefoonnummerzakelijk from dierverzorger where dierverzorger.dierverzorgernummer = :nummer;", conn);
-
-                cmd.Parameters.Add("nummer", dierverzorgernummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    int telefoonnummer = Convert.ToInt32(rdr["telefoonnummerzakelijk"]);
-                    return telefoonnummer;
+                    OracleCommand cmd = new OracleCommand("select telefoonnummerzakelijk from dierverzorger where dierverzorger.dierverzorgernummer = :nummer", conn);
+
+                    cmd.Parameters.Add("nummer", dierverzorgernummer);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        int telefoonnummer = Convert.ToInt32(rdr["telefoonnummerzakelijk"]);
+                        return telefoonnummer;
+                    }
+                    return 0;
                 }
-                return 0;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -680,19 +831,27 @@ namespace Databasekoppeling
         #region Rekeningnummer dierverzorger met naam
         public int RekNrDierverzorger(string dierverzorgernaam)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select rekeningnummer from dierverzorger where dierverzorger.dierverzorgernaam = :naam;", conn);
-
-                cmd.Parameters.Add("naam", dierverzorgernaam);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    int rekeningnummer = Convert.ToInt32(rdr["rekeningnummer"]);
-                    return rekeningnummer;
+                    OracleCommand cmd = new OracleCommand("select rekeningnummer from dierverzorger where dierverzorger.dierverzorgernaam = :naam", conn);
+
+                    cmd.Parameters.Add("naam", dierverzorgernaam);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        int rekeningnummer = Convert.ToInt32(rdr["rekeningnummer"]);
+                        return rekeningnummer;
+                    }
+                    return 0;
                 }
-                return 0;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -700,19 +859,27 @@ namespace Databasekoppeling
         #region Rekeningnummer dierenarts met naam
         public int RekNrDierenarts(string dierenartsnaam)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select rekeningnummer from dierenarts where dierenarts.dierenartsnaam = :naam;", conn);
-
-                cmd.Parameters.Add("naam", dierenartsnaam);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    int rekeningnummer = Convert.ToInt32(rdr["rekeningnummer"]);
-                    return rekeningnummer;
+                    OracleCommand cmd = new OracleCommand("select rekeningnummer from dierenarts where dierenarts.dierenartsnaam = :naam", conn);
+
+                    cmd.Parameters.Add("naam", dierenartsnaam);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        int rekeningnummer = Convert.ToInt32(rdr["rekeningnummer"]);
+                        return rekeningnummer;
+                    }
+                    return 0;
                 }
-                return 0;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -720,19 +887,27 @@ namespace Databasekoppeling
         #region Rekeningnummer dierverzorger met nummer
         public int RekeningnrDierverzorger(int dierverzorgernummer)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select rekeningnummer from dierverzorger where dierverzorger.dierverzorgernummer = :nummer;", conn);
-
-                cmd.Parameters.Add("nummer", dierverzorgernummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    int rekeningnummer = Convert.ToInt32(rdr["rekeningnummer"]);
-                    return rekeningnummer;
+                    OracleCommand cmd = new OracleCommand("select rekeningnummer from dierverzorger where dierverzorger.dierverzorgernummer = :nummer", conn);
+
+                    cmd.Parameters.Add("nummer", dierverzorgernummer);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        int rekeningnummer = Convert.ToInt32(rdr["rekeningnummer"]);
+                        return rekeningnummer;
+                    }
+                    return 0;
                 }
-                return 0;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -740,19 +915,27 @@ namespace Databasekoppeling
         #region Rekeningnummer dierenarts met nummer
         public int RekeningnrDierenarts(int dierenartsnummer)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select rekeningnummer from dierenarts where dierenarts.dierenartsnummer = :nummer;", conn);
-
-                cmd.Parameters.Add("nummer", dierenartsnummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    int rekeningnummer = Convert.ToInt32(rdr["rekeningnummer"]);
-                    return rekeningnummer;
+                    OracleCommand cmd = new OracleCommand("select rekeningnummer from dierenarts where dierenarts.dierenartsnummer = :nummer", conn);
+
+                    cmd.Parameters.Add("nummer", dierenartsnummer);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        int rekeningnummer = Convert.ToInt32(rdr["rekeningnummer"]);
+                        return rekeningnummer;
+                    }
+                    return 0;
                 }
-                return 0;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -760,19 +943,27 @@ namespace Databasekoppeling
         #region Werkingsduur vaccinatie met vaccinatienaam
         public string WerkingsduurVaccinatie(int vaccinatienaam)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select werkingstijd from vaccinatie where vaccinatie.vaccinatienaam = :naam;", conn);
-
-                cmd.Parameters.Add("naam", vaccinatienaam);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    string werkingstijd = Convert.ToString(rdr["werkingstijd"]);
-                    return werkingstijd;
+                    OracleCommand cmd = new OracleCommand("select werkingstijd from vaccinatie where vaccinatie.vaccinatienaam = :naam", conn);
+
+                    cmd.Parameters.Add("naam", vaccinatienaam);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        string werkingstijd = Convert.ToString(rdr["werkingstijd"]);
+                        return werkingstijd;
+                    }
+                    return null;
                 }
-                return null;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -780,19 +971,27 @@ namespace Databasekoppeling
         #region Werkingsduur vaccinatie met dierverzorgernummer
         public string DuurVaccinatie(int dierverzorgernummer)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select werkingstijd from vaccinatie, dierverzorger_vaccinatie, dierverzorger where vaccinatie.vaccinatienaam = dierverzorger_vaccinatie.vaccinatienaam and dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernummer = :nummer;", conn);
-
-                cmd.Parameters.Add("nummer", dierverzorgernummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    string werkingstijd = Convert.ToString(rdr["werkingstijd"]);
-                    return werkingstijd;
+                    OracleCommand cmd = new OracleCommand("select werkingstijd from vaccinatie, dierverzorger_vaccinatie, dierverzorger where vaccinatie.vaccinatienaam = dierverzorger_vaccinatie.vaccinatienaam and dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernummer = :nummer", conn);
+
+                    cmd.Parameters.Add("nummer", dierverzorgernummer);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        string werkingstijd = Convert.ToString(rdr["werkingstijd"]);
+                        return werkingstijd;
+                    }
+                    return null;
                 }
-                return null;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -800,19 +999,27 @@ namespace Databasekoppeling
         #region Werkingsduur vaccinatie met dierverzorgernaam
         public string WerkingsduurVaccinatie(string dierverzorgernaam)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select werkingstijd from vaccinatie, dierverzorger_vaccinatie, dierverzorger where vaccinatie.vaccinatienaam = dierverzorger_vaccinatie.vaccinatienaam and dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernaam = :naam;", conn);
-
-                cmd.Parameters.Add("naam", dierverzorgernaam);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    string werkingstijd = Convert.ToString(rdr["werkingstijd"]);
-                    return werkingstijd;
+                    OracleCommand cmd = new OracleCommand("select werkingstijd from vaccinatie, dierverzorger_vaccinatie, dierverzorger where vaccinatie.vaccinatienaam = dierverzorger_vaccinatie.vaccinatienaam and dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernaam = :naam", conn);
+
+                    cmd.Parameters.Add("naam", dierverzorgernaam);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        string werkingstijd = Convert.ToString(rdr["werkingstijd"]);
+                        return werkingstijd;
+                    }
+                    return null;
                 }
-                return null;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -820,19 +1027,27 @@ namespace Databasekoppeling
         #region Vaccinatie verlopen op: met dierverzorgernummer
         public DateTime VaccinatieVerlopenOp(int dierverzorgernummer)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select datumverlopen from  dierverzorger_vaccinatie, dierverzorger where dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernummer = :nummer;", conn);
-
-                cmd.Parameters.Add("nummer", dierverzorgernummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    DateTime datumverlopen = Convert.ToDateTime(rdr["datumverlopen"]);
-                    return datumverlopen;
+                    OracleCommand cmd = new OracleCommand("select datumverlopen from  dierverzorger_vaccinatie, dierverzorger where dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernummer = :nummer", conn);
+
+                    cmd.Parameters.Add("nummer", dierverzorgernummer);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        DateTime datumverlopen = Convert.ToDateTime(rdr["datumverlopen"]);
+                        return datumverlopen;
+                    }
+                    return Convert.ToDateTime(00 - 00 - 0000);
                 }
-                return Convert.ToDateTime(00-00-0000);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -840,19 +1055,27 @@ namespace Databasekoppeling
         #region Vaccinatie verlopen op: met dierverzorgernaam
         public DateTime VaccinatieVerlopen(string dierverzorgernaam)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select datumverlopen from  dierverzorger_vaccinatie, dierverzorger where dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernaam = :naam;", conn);
-
-                cmd.Parameters.Add("naam", dierverzorgernaam);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    DateTime datumverlopen = Convert.ToDateTime(rdr["datumverlopen"]);
-                    return datumverlopen;
+                    OracleCommand cmd = new OracleCommand("select datumverlopen from  dierverzorger_vaccinatie, dierverzorger where dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernaam = :naam", conn);
+
+                    cmd.Parameters.Add("naam", dierverzorgernaam);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        DateTime datumverlopen = Convert.ToDateTime(rdr["datumverlopen"]);
+                        return datumverlopen;
+                    }
+                    return Convert.ToDateTime(00 - 00 - 0000);
                 }
-                return Convert.ToDateTime(00 - 00 - 0000);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -860,24 +1083,32 @@ namespace Databasekoppeling
         #region Vaccinaties dierverzorger
         public List<Vaccinatie> VaccinatiesDierverzorger(int dierverzorgernummer)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select vaccinatienaam from  dierverzorger_vaccinatie, dierverzorger where dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernummer = :nummer;", conn);
-
-                cmd.Parameters.Add("nummer", dierverzorgernummer);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                List<Vaccinatie> vaccinaties = new List<Vaccinatie>();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    string vaccinatienaam = Convert.ToString(rdr["vaccinatienaam"]);
-                    string werkingstijd = Convert.ToString(rdr["werkingstijd"]);
-                    string uitPreventieVoor = Convert.ToString(rdr["uitPreventieVoor"]);
-                    double Prijs = Convert.ToDouble(rdr["Prijs"]);
-                    vaccinaties.Add(new Vaccinatie(vaccinatienaam, werkingstijd, uitPreventieVoor, Prijs));
+                    OracleCommand cmd = new OracleCommand("select vaccinatienaam from  dierverzorger_vaccinatie, dierverzorger where dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernummer = :nummer", conn);
+
+                    cmd.Parameters.Add("nummer", dierverzorgernummer);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    List<Vaccinatie> vaccinaties = new List<Vaccinatie>();
+
+                    if (rdr.Read())
+                    {
+                        string vaccinatienaam = Convert.ToString(rdr["vaccinatienaam"]);
+                        string werkingstijd = Convert.ToString(rdr["werkingstijd"]);
+                        string uitPreventieVoor = Convert.ToString(rdr["uitPreventieVoor"]);
+                        double Prijs = Convert.ToDouble(rdr["Prijs"]);
+                        vaccinaties.Add(new Vaccinatie(vaccinatienaam, werkingstijd, uitPreventieVoor, Prijs));
+                    }
+                    return vaccinaties;
                 }
-                return vaccinaties;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -885,24 +1116,32 @@ namespace Databasekoppeling
         #region Vaccinaties dierverzorger met naam
         public List<Vaccinatie> VaccinatiesDierverzorger(string dierverzorgernaam)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("select vaccinatienaam from  dierverzorger_vaccinatie, dierverzorger where dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernaam = :naam;", conn);
-
-                cmd.Parameters.Add("naam", dierverzorgernaam);
-                OracleDataReader rdr = cmd.ExecuteReader();
-
-                List<Vaccinatie> vaccinaties = new List<Vaccinatie>();
-
-                if (rdr.Read())
+                using (OracleConnection conn = connection)
                 {
-                    string vaccinatienaam = Convert.ToString(rdr["vaccinatienaam"]);
-                    string werkingstijd = Convert.ToString(rdr["werkingstijd"]);
-                    string uitPreventieVoor = Convert.ToString(rdr["uitPreventieVoor"]);
-                    double Prijs = Convert.ToDouble(rdr["Prijs"]);
-                    vaccinaties.Add(new Vaccinatie(vaccinatienaam, werkingstijd, uitPreventieVoor, Prijs));
+                    OracleCommand cmd = new OracleCommand("select vaccinatienaam from  dierverzorger_vaccinatie, dierverzorger where dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernaam = :naam", conn);
+
+                    cmd.Parameters.Add("naam", dierverzorgernaam);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    List<Vaccinatie> vaccinaties = new List<Vaccinatie>();
+
+                    if (rdr.Read())
+                    {
+                        string vaccinatienaam = Convert.ToString(rdr["vaccinatienaam"]);
+                        string werkingstijd = Convert.ToString(rdr["werkingstijd"]);
+                        string uitPreventieVoor = Convert.ToString(rdr["uitPreventieVoor"]);
+                        double Prijs = Convert.ToDouble(rdr["Prijs"]);
+                        vaccinaties.Add(new Vaccinatie(vaccinatienaam, werkingstijd, uitPreventieVoor, Prijs));
+                    }
+                    return vaccinaties;
                 }
-                return vaccinaties;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -910,22 +1149,29 @@ namespace Databasekoppeling
         #region Dieverzorger toevoegen // nachecken database (wat waar invoeren??)
         public void DierverzorgerToevoegen(Dierverzorger verzorger)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("insert into dierverzorger values(:nummer, ':naam', ':geslacht', leeftijd, null, aamgenomen, 'contract', telprive, telzakelijk, rekeningnummer, hoofddiersoort, hoofddiersoort);", conn);
+                using (OracleConnection conn = connection)
+                {
+                    OracleCommand cmd = new OracleCommand("insert into dierverzorger values(:nummer, ':naam', ':geslacht', leeftijd, null, aamgenomen, 'contract', telprive, telzakelijk, rekeningnummer, hoofddiersoort, hoofddiersoort)", conn);
 
-                cmd.Parameters.Add("nummer", verzorger.DierverzorgerNummer);
-                cmd.Parameters.Add("naam", verzorger.Naam);
-                cmd.Parameters.Add("geslacht", verzorger.Geslacht);
-                cmd.Parameters.Add("leeftijd", verzorger.Leeftijd);
-                cmd.Parameters.Add("aamgenomen", verzorger.DatumAangenomen);
-                cmd.Parameters.Add("contract", verzorger.TypeContract);
-                cmd.Parameters.Add("telprive", verzorger.TelefoonnummerPrivé);
-                cmd.Parameters.Add("telzakelijk", verzorger.TelefoonnummerZakelijk);
-                cmd.Parameters.Add("rekeningnummer", verzorger.Rekeningnummer);
-                cmd.Parameters.Add("hoofddiersoort", verzorger.Hoofddiersoot);
-
-                cmd.ExecuteNonQuery();           
+                    cmd.Parameters.Add("nummer", verzorger.DierverzorgerNummer);
+                    cmd.Parameters.Add("naam", verzorger.Naam);
+                    cmd.Parameters.Add("geslacht", verzorger.Geslacht);
+                    cmd.Parameters.Add("leeftijd", verzorger.Leeftijd);
+                    cmd.Parameters.Add("aamgenomen", verzorger.DatumAangenomen);
+                    cmd.Parameters.Add("contract", verzorger.TypeContract);
+                    cmd.Parameters.Add("telprive", verzorger.TelefoonnummerPrivé);
+                    cmd.Parameters.Add("telzakelijk", verzorger.TelefoonnummerZakelijk);
+                    cmd.Parameters.Add("rekeningnummer", verzorger.Rekeningnummer);
+                    cmd.Parameters.Add("hoofddiersoort", verzorger.Hoofddiersoot);
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -933,13 +1179,20 @@ namespace Databasekoppeling
         #region Dierverzorger verwijderen
         public void VerwijderDierverzorger(int dierverzorgernummer)
         {
-            using (OracleConnection conn = connection)
+            try
             {
-                OracleCommand cmd = new OracleCommand("delete from dierverzorger where dierverzorger.dierverzorgernummer = :nummer;", conn);
+                using (OracleConnection conn = connection)
+                {
+                    OracleCommand cmd = new OracleCommand("delete from dierverzorger where dierverzorger.dierverzorgernummer = :nummer", conn);
 
-                cmd.Parameters.Add("nummer", dierverzorgernummer);
-                
-                cmd.ExecuteNonQuery();
+                    cmd.Parameters.Add("nummer", dierverzorgernummer);
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -947,19 +1200,26 @@ namespace Databasekoppeling
         #region Dierenarts toevoegen
         public void DierenartsToevoegen(Dierenarts arts)
         {
-            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
+            try
             {
-                OracleCommand cmd = new OracleCommand("insert into dierenarts values(:nummer, ':naam', leeftijd, 'specialisatie', telefoonnummer, rekeningnummer, spoednummer);", conn);
+                using (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
+                {
+                    OracleCommand cmd = new OracleCommand("insert into dierenarts values(:nummer, ':naam', leeftijd, 'specialisatie', telefoonnummer, rekeningnummer, spoednummer)", conn);
 
-                cmd.Parameters.Add("nummer", arts.Dierenartsnummer);
-                cmd.Parameters.Add("naam", arts.Dierenartsnummer);
-                cmd.Parameters.Add("leeftijd", arts.Dierenartsnummer);
-                cmd.Parameters.Add("specialisatie", arts.Dierenartsnummer);
-                cmd.Parameters.Add("telefoonnummer", arts.Dierenartsnummer);
-                cmd.Parameters.Add("rekeningnummer", arts.Dierenartsnummer);
-                cmd.Parameters.Add("spoednummer", arts.Dierenartsnummer);
-
-                cmd.ExecuteNonQuery();
+                    cmd.Parameters.Add("nummer", arts.Dierenartsnummer);
+                    cmd.Parameters.Add("naam", arts.Dierenartsnummer);
+                    cmd.Parameters.Add("leeftijd", arts.Dierenartsnummer);
+                    cmd.Parameters.Add("specialisatie", arts.Dierenartsnummer);
+                    cmd.Parameters.Add("telefoonnummer", arts.Dierenartsnummer);
+                    cmd.Parameters.Add("rekeningnummer", arts.Dierenartsnummer);
+                    cmd.Parameters.Add("spoednummer", arts.Dierenartsnummer);
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
@@ -967,13 +1227,20 @@ namespace Databasekoppeling
         #region Dierenarts verwijderen
         public void VerwijderDierenarts(int dierenartsnummer)
         {
-            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
+            try
             {
-                OracleCommand cmd = new OracleCommand("delete from dierenarts where dierenarts.dierenartsnummer = :nummer;", conn);
+                using (OracleConnection conn = connection)
+                {
+                    OracleCommand cmd = new OracleCommand("delete from dierenarts where dierenarts.dierenartsnummer = :nummer", conn);
 
-                cmd.Parameters.Add("nummer", dierenartsnummer);
-
-                cmd.ExecuteNonQuery();
+                    cmd.Parameters.Add("nummer", dierenartsnummer);
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            finally
+            {
+                connection.Close();
             }
         }
         #endregion
