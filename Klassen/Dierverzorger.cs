@@ -60,7 +60,7 @@ namespace Klassen
             get { return geslacht; }
             set { geslacht = value; }
         }
-        public string Hoofddiersoot
+        public string Hoofddiersoort
         {
             get { return hoofddiersoort; }
             set { hoofddiersoort = value; }

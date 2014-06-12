@@ -324,7 +324,7 @@ namespace Klassen
         #region Werkingsduur vaccinatie opvragen met dierverzorgernaam
         public string WerkingsduurVaccinatieVerzorger(string dierverzorgernaam)
         {
-            string werkingsduur = db.WerkingsduurVaccinatie(dierverzorgernaam);
+            string werkingsduur = db.WerkingsduurVaccinatieVerzorger(dierverzorgernaam);
             return werkingsduur;
         }
         #endregion

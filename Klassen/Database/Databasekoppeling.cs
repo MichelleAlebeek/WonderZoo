@@ -77,8 +77,8 @@ namespace Databasekoppeling
                     cmd.Parameters.Add("RasNummer", dier.Rasnummer);
                     cmd.Parameters.Add("NaamMoeder", dier.NaamMoeder);
                     cmd.Parameters.Add("NaamVader", dier.NaamVader);
-                    cmd.Parameters.Add("NummerMoeder", "");
-                    cmd.Parameters.Add("NummerVader", "");
+                    cmd.Parameters.Add("NummerMoeder", null);
+                    cmd.Parameters.Add("NummerVader", null);
 
                     connection.Open();
                     cmd.ExecuteNonQuery();
@@ -337,7 +337,7 @@ namespace Databasekoppeling
             {
                 using (OracleConnection conn = connection)
                 {
-                    OracleCommand cmd = new OracleCommand("select * from veelvoorkomendeziekte, ras_ziekte, dier, diersoort where dier.rasnummer = ras_ziekte.rasnummer and veelvoorkomendeziekte.ziekte = ras_ziekte.ziekte and dier.diersoortnummer = diersoort.diersoortnummer and diersoort.diersoortnummer = :nummer", conn);
+                    OracleCommand cmd = new OracleCommand("select DISTINCT(veelvoorkomendeziekte.ziekte) from veelvoorkomendeziekte, ras_ziekte, dier, diersoort where dier.rasnummer = ras_ziekte.rasnummer and veelvoorkomendeziekte.ziekte = ras_ziekte.ziekte and dier.diersoortnummer = diersoort.diersoortnummer and diersoort.diersoortnummer = :nummer", conn);
                     cmd.Parameters.Add("nummer", diersoortnummer);
                     connection.Open();
                     OracleDataReader rdr = cmd.ExecuteReader();
@@ -1126,7 +1126,7 @@ namespace Databasekoppeling
 
                     List<Vaccinatie> vaccinaties = new List<Vaccinatie>();
 
-                    if (rdr.Read())
+                    while (rdr.Read())
                     {
                         string vaccinatienaam = Convert.ToString(rdr["vaccinatienaam"]);
                         string werkingstijd = Convert.ToString(rdr["werkingstijd"]);
@@ -1151,7 +1151,7 @@ namespace Databasekoppeling
             {
                 using (OracleConnection conn = connection)
                 {
-                    OracleCommand cmd = new OracleCommand("select vaccinatienaam from  dierverzorger_vaccinatie, dierverzorger where dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernaam = :naam", conn);
+                    OracleCommand cmd = new OracleCommand("select * from  vaccinatie, dierverzorger_vaccinatie, dierverzorger where vaccinatie.vaccinatienaam = dierverzorger_vaccinatie.vaccinatienaam and dierverzorger_vaccinatie.dierverzorgernummer = dierverzorger.dierverzorgernummer and dierverzorger.dierverzorgernaam = :naam", conn);
 
                     cmd.Parameters.Add("naam", dierverzorgernaam);
                     connection.Open();
@@ -1162,7 +1162,7 @@ namespace Databasekoppeling
                     if (rdr.Read())
                     {
                         string vaccinatienaam = Convert.ToString(rdr["vaccinatienaam"]);
-                        string werkingstijd = Convert.ToString(rdr["werkingstijd"]);
+                        string werkingstijd = Convert.ToString(rdr["WERKINGSTIJD"]);
                         string uitPreventieVoor = Convert.ToString(rdr["uitPreventieVoor"]);
                         double Prijs = Convert.ToDouble(rdr["Prijs"]);
                         vaccinaties.Add(new Vaccinatie(vaccinatienaam, werkingstijd, uitPreventieVoor, Prijs));
@@ -1184,18 +1184,18 @@ namespace Databasekoppeling
             {
                 using (OracleConnection conn = connection)
                 {
-                    OracleCommand cmd = new OracleCommand("insert into dierverzorger values(:nummer, ':naam', ':geslacht', leeftijd, null, aamgenomen, 'contract', telprive, telzakelijk, rekeningnummer, hoofddiersoort, hoofddiersoort)", conn);
+                    OracleCommand cmd = new OracleCommand("insert into dierverzorger values(:nummer, :naam, :geslacht, :leeftijd, :hoofddiersoort, to_date(:aangenomen), :contract, :telzakelijk, :telprive, :rekeningnummer, 0, 0)", conn);
 
                     cmd.Parameters.Add("nummer", verzorger.DierverzorgerNummer);
                     cmd.Parameters.Add("naam", verzorger.Naam);
                     cmd.Parameters.Add("geslacht", verzorger.Geslacht);
                     cmd.Parameters.Add("leeftijd", verzorger.Leeftijd);
-                    cmd.Parameters.Add("aamgenomen", verzorger.DatumAangenomen);
+                    cmd.Parameters.Add("aangenomen", verzorger.DatumAangenomen);
                     cmd.Parameters.Add("contract", verzorger.TypeContract);
                     cmd.Parameters.Add("telprive", verzorger.TelefoonnummerPrivé);
                     cmd.Parameters.Add("telzakelijk", verzorger.TelefoonnummerZakelijk);
                     cmd.Parameters.Add("rekeningnummer", verzorger.Rekeningnummer);
-                    cmd.Parameters.Add("hoofddiersoort", verzorger.Hoofddiersoot);
+                    cmd.Parameters.Add("hoofddiersoort", verzorger.Hoofddiersoort);
                     connection.Open();
                     cmd.ExecuteNonQuery();
                 }
@@ -1233,20 +1233,24 @@ namespace Databasekoppeling
         {
             try
             {
-                using (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
+                using (OracleConnection conn = connection)
                 {
-                    OracleCommand cmd = new OracleCommand("insert into dierenarts values(:nummer, ':naam', leeftijd, 'specialisatie', telefoonnummer, rekeningnummer, spoednummer)", conn);
+                    OracleCommand cmd = new OracleCommand("insert into dierenarts values(:nummer, :naam, :leeftijd, :specialisatie, :telefoonnummer, :rekeningnummer, :spoednummer)", conn);
 
                     cmd.Parameters.Add("nummer", arts.Dierenartsnummer);
-                    cmd.Parameters.Add("naam", arts.Dierenartsnummer);
-                    cmd.Parameters.Add("leeftijd", arts.Dierenartsnummer);
-                    cmd.Parameters.Add("specialisatie", arts.Dierenartsnummer);
-                    cmd.Parameters.Add("telefoonnummer", arts.Dierenartsnummer);
-                    cmd.Parameters.Add("rekeningnummer", arts.Dierenartsnummer);
-                    cmd.Parameters.Add("spoednummer", arts.Dierenartsnummer);
+                    cmd.Parameters.Add("naam", arts.Naam);
+                    cmd.Parameters.Add("leeftijd", arts.Leeftijd);
+                    cmd.Parameters.Add("specialisatie", arts.Specialisatie);
+                    cmd.Parameters.Add("telefoonnummer", arts.Telefoonnummer);
+                    cmd.Parameters.Add("rekeningnummer", arts.Rekeningnummer);
+                    cmd.Parameters.Add("spoednummer", arts.Spoednummer);
                     connection.Open();
                     cmd.ExecuteNonQuery();
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
             finally
             {

@@ -11,6 +11,7 @@ namespace WonderZooWeb
     public partial class Dierenarts : System.Web.UI.Page
     {
         Beheer beheerder;
+        private List<Diersoort> diersoorten;
         protected void Page_Load(object sender, EventArgs e)
         {
             beheerder = new Beheer();
@@ -38,25 +39,26 @@ namespace WonderZooWeb
         {
             string diernaam = TxtDiernaam.Text;
             
-            DateTime startdatum = beheerder.MedicijnStartdatum(diernaam);
-            int duurmedicijn = Convert.ToInt32((startdatum - DateTime.Today));
-            TxtDuurMedicijn.Text = Convert.ToString(duurmedicijn);
+            DateTime startdatum = beheerder.MedicijnStartdatum(diernaam);       
+            int duurmedicijn = (DateTime.Today - startdatum).Days;
+            TxtDuurMedicijn.Text = Convert.ToString(duurmedicijn + " dag(en)");
         }
 
         protected void BtnZiektes_Click(object sender, EventArgs e)
         {
-            List<Diersoort> diersoorten = new List<Diersoort>(beheerder.ZoekDiersoortLijst());
-            string diersoortnaam = TxtDiersoortnaam.Text;
-            int diersoortnummer;
-            foreach (Diersoort diersoort in diersoorten)
-            {
-                if (diersoort.Familie == diersoortnaam)
-                {
-                    diersoortnummer = diersoort.Diersoortnummer;
-                    string ziektes = beheerder.VeelVoorkomendeZiektesDiersoort(diersoortnummer);
-                    ListBox1.Items.Add(ziektes);
-                }
-            }          
+            //List<Diersoort> diersoorten = (List<Diersoort>)beheerder.ZoekDiersoortLijst();
+            //string diersoortnaam = TxtDiersoortnaam.Text;
+            //int diersoortnummer = 0;
+            //foreach (Diersoort diersoort in diersoorten)
+            //{
+            //    if (diersoort.Familie == diersoortnaam)
+            //    {
+            //        diersoortnummer = diersoort.Diersoortnummer;
+            //    }
+            //}
+            int diersoortnummer = Convert.ToInt32(TxtDiersoortnaam.Text);
+            string ziektes = beheerder.VeelVoorkomendeZiektesDiersoort(diersoortnummer);
+            ListBox1.Items.Add(ziektes);
         }
     }
 }
