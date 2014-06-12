@@ -1,4 +1,5 @@
 ﻿using Klassen;
+using Klassen.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,11 @@ namespace WonderZooWeb
     public partial class Directeur : System.Web.UI.Page
     {
         Beheer beheerder;
+        Klassen.Directeur directeur;
         protected void Page_Load(object sender, EventArgs e)
         {
             beheerder = new Beheer();
+            directeur = new Klassen.Directeur("Jan", 45, "GeheimDirecteur");
         }
 
         protected void BtnTotaalDieren_Click(object sender, EventArgs e)
@@ -67,7 +70,8 @@ namespace WonderZooWeb
             try
             {
                 Dier dier = new Dier(diernummer, diernaam, leeftijd, geslacht, gewicht, lengte, naammoeder, naamvader, nakomeling, aanschaf, 0, null, null, null, 0, 0, 0, 0, 0, null, null, 0, null, null, null, null, null);
-                beheerder.VoegDierToe(dier, Convert.ToInt32(TxtHuisNrDier.Text));
+                directeur.VoegToe(dier, Convert.ToInt32(TxtHuisNrDier.Text));
+                
             }
             catch (Exception ex)
             {

@@ -19,6 +19,7 @@ namespace Klassen
         private List<Dierenarts> dierenartsen;
         private List<Diersoort> diersoorten;
         private List<Dierverzorger> dierverzorgers;
+        private List<Vaccinatie> vaccinaties;
         public Beheer()
         {
             db = new Databasekoppeling.Databasekoppeling();
@@ -30,11 +31,16 @@ namespace Klassen
             dierenartsen = new List<Dierenarts>();
             diersoorten = new List<Diersoort>();
             dierverzorgers = new List<Dierverzorger>();
+            vaccinaties = new List<Vaccinatie>();
         }
 
         public List<Dier> Dieren
         {
             get { return new List<Dier>(dieren); }
+        }
+        public List<Vaccinatie> Vaccinaties
+        {
+            get { return new List<Vaccinatie>(vaccinaties); }
         }
         public List<Huisvesting> Huisvestings
         {
@@ -404,6 +410,22 @@ namespace Klassen
             db.VoegVaccinatiedatumToe(dierverzorgernummer, vaccinatienaam, datumgevaccineerd, datumverlopen, bijwerking);
         }
         #endregion
-        
+
+        #region Vaccinaties opvragen 
+        public List<Vaccinatie> AlleVaccinaties()
+        {
+            List<Vaccinatie> vaccinaties = (List<Vaccinatie>)db.AlleVaccinaties();
+            return vaccinaties;
+        }
+        #endregion
+
+        #region Medicijnen opvragen
+        public List<Medicijn> AlleMedicijnen()
+        {
+            List<Medicijn> medicijnen = (List<Medicijn>)db.AlleMedicijnen();
+            return medicijnen;
+        }
+        #endregion
+
     }
 }

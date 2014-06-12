@@ -55,8 +55,8 @@ namespace Klassen
         public int BerekenDuurMedicijn(DateTime vandaag, DateTime begindatum)
         {
             // TODO bereken hoelang het medicijn al gebruikt wordt.
-            DateTime duur = Convert.ToDateTime(begindatum - vandaag);
-            return 0;
+            int duur = Convert.ToInt32(begindatum - vandaag);
+            return duur;
         }
 
         public List<Medicijn> ZoekMedicijn(int diernummer)

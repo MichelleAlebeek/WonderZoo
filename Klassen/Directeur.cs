@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Klassen
 {
-    class Directeur : Persoon
+    public class Directeur : Persoon
     {
         private Beheer beheerder;
         public Directeur(string naam, int leeftijd, string wachtwoord)

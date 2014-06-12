@@ -37,6 +37,7 @@ namespace WonderZooWeb
         protected void BtnDuurMedicijn_Click(object sender, EventArgs e)
         {
             string diernaam = TxtDiernaam.Text;
+            
             DateTime startdatum = beheerder.MedicijnStartdatum(diernaam);
             int duurmedicijn = Convert.ToInt32((startdatum - DateTime.Today));
             TxtDuurMedicijn.Text = Convert.ToString(duurmedicijn);

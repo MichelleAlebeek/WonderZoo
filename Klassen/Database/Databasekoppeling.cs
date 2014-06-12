@@ -77,8 +77,8 @@ namespace Databasekoppeling
                     cmd.Parameters.Add("RasNummer", dier.Rasnummer);
                     cmd.Parameters.Add("NaamMoeder", dier.NaamMoeder);
                     cmd.Parameters.Add("NaamVader", dier.NaamVader);
-                    cmd.Parameters.Add("NummerMoeder, ", 0);
-                    cmd.Parameters.Add("NummerVader)", 0);
+                    cmd.Parameters.Add("NummerMoeder", "");
+                    cmd.Parameters.Add("NummerVader", "");
 
                     connection.Open();
                     cmd.ExecuteNonQuery();
@@ -330,14 +330,14 @@ namespace Databasekoppeling
         }
         #endregion
 
-        #region Veelvoorkomende ziektes diersoort
+        #region Veelvoorkomende ziektes diersoort // GEEFT DISPOSED ERROR
         public string VeelVoorkomendeZiektes(int diersoortnummer)
         {
             try
             {
                 using (OracleConnection conn = connection)
                 {
-                    OracleCommand cmd = new OracleCommand("select DISTINCT (veelvoorkomendeziekte.ziekte) from veelvoorkomendeziekte, ras_ziekte, dier, diersoort where dier.rasnummer = ras_ziekte.rasnummer and veelvoorkomendeziekte.ziekte = ras_ziekte.ziekte and dier.diersoortnummer = diersoort.diersoortnummer and diersoort.diersoortnummer = :nummer", conn);
+                    OracleCommand cmd = new OracleCommand("select * from veelvoorkomendeziekte, ras_ziekte, dier, diersoort where dier.rasnummer = ras_ziekte.rasnummer and veelvoorkomendeziekte.ziekte = ras_ziekte.ziekte and dier.diersoortnummer = diersoort.diersoortnummer and diersoort.diersoortnummer = :nummer", conn);
                     cmd.Parameters.Add("nummer", diersoortnummer);
                     connection.Open();
                     OracleDataReader rdr = cmd.ExecuteReader();
@@ -345,7 +345,7 @@ namespace Databasekoppeling
 
                     while (rdr.Read())
                     {
-                        string ziekte = Convert.ToString(rdr["veelvoorkomendeziekte.ziekte"]);
+                        string ziekte = Convert.ToString(rdr["ziekte"]);
                         ziektes = ziektes + ziekte;
                     }
                     return ziektes;
@@ -370,13 +370,14 @@ namespace Databasekoppeling
                     cmd.Parameters.Add("nummer", diersoortnummer);
                     connection.Open();
                     OracleDataReader rdr = cmd.ExecuteReader();
+                    string voedings = " ";
 
-                    if (rdr.Read())
+                    while (rdr.Read())
                     {
-                        string voeding = Convert.ToString(rdr["voeding.naamvoeding"]);
-                        return voeding;
+                        string voeding = Convert.ToString(rdr["naamvoeding"]);
+                        voedings = voedings + " " + voeding;
                     }
-                    return null;
+                    return voedings;
                 }
             }
             finally
@@ -401,7 +402,7 @@ namespace Databasekoppeling
 
                     if (rdr.Read())
                     {
-                        string huisvesting = Convert.ToString(rdr["huisvesting.soorthuisvesting"]);
+                        string huisvesting = Convert.ToString(rdr["soorthuisvesting"]);
                         return huisvesting;
                     }
                     return null;
@@ -534,7 +535,7 @@ namespace Databasekoppeling
                         int lengte = Convert.ToInt32(rdr["lengte"]);
                         string naamMoeder = Convert.ToString(rdr["naamMoeder"]);
                         string naamVader = Convert.ToString(rdr["naamVader"]);
-                        bool nakomeling = Convert.ToBoolean(rdr["nakomeling"]);
+                        bool nakomeling = Convert.ToBoolean(rdr["NAKOMELINGEN"]);
                         DateTime datumaanschaf = Convert.ToDateTime(rdr["datumaanschaf"]);
 
                         return new Dier(diernummer, diernaam, leeftijd, geslacht, gewicht, lengte, naamMoeder, naamVader, nakomeling, datumaanschaf, 0, null, null, null, 0, 0, 0, 0, 0, null, null, 0, null, null, null, null, null);
@@ -675,7 +676,7 @@ namespace Databasekoppeling
 
                     if (rdr.Read())
                     {
-                        int telefoonnummer = Convert.ToInt32(rdr["telefoonnummerprivé"]);
+                        int telefoonnummer = Convert.ToInt32(rdr["TELEFOONNUMMER"]);
                         return telefoonnummer;
                     }
                     return 0;
@@ -941,14 +942,13 @@ namespace Databasekoppeling
         #endregion
 
         #region Werkingsduur vaccinatie met vaccinatienaam
-        public string WerkingsduurVaccinatie(int vaccinatienaam)
+        public string WerkingsduurVaccinatie(string vaccinatienaam)
         {
             try
             {
                 using (OracleConnection conn = connection)
                 {
                     OracleCommand cmd = new OracleCommand("select werkingstijd from vaccinatie where vaccinatie.vaccinatienaam = :naam", conn);
-
                     cmd.Parameters.Add("naam", vaccinatienaam);
                     connection.Open();
                     OracleDataReader rdr = cmd.ExecuteReader();
@@ -997,7 +997,7 @@ namespace Databasekoppeling
         #endregion
 
         #region Werkingsduur vaccinatie met dierverzorgernaam
-        public string WerkingsduurVaccinatie(string dierverzorgernaam)
+        public string WerkingsduurVaccinatieVerzorger(string dierverzorgernaam)
         {
             try
             {
@@ -1113,6 +1113,37 @@ namespace Databasekoppeling
         }
         #endregion
 
+        #region Alle vaccinaties
+        public List<Vaccinatie> AlleVaccinaties()
+        {
+            try
+            {
+                using (OracleConnection conn = connection)
+                {
+                    OracleCommand cmd = new OracleCommand("select * from  vaccinatie", conn);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    List<Vaccinatie> vaccinaties = new List<Vaccinatie>();
+
+                    if (rdr.Read())
+                    {
+                        string vaccinatienaam = Convert.ToString(rdr["vaccinatienaam"]);
+                        string werkingstijd = Convert.ToString(rdr["werkingstijd"]);
+                        string uitPreventieVoor = Convert.ToString(rdr["uitPreventieVoor"]);
+                        double Prijs = Convert.ToDouble(rdr["Prijs"]);
+                        vaccinaties.Add(new Vaccinatie(vaccinatienaam, werkingstijd, uitPreventieVoor, Prijs));
+                    }
+                    return vaccinaties;
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        #endregion
+
         #region Vaccinaties dierverzorger met naam
         public List<Vaccinatie> VaccinatiesDierverzorger(string dierverzorgernaam)
         {
@@ -1146,7 +1177,7 @@ namespace Databasekoppeling
         }
         #endregion
 
-        #region Dieverzorger toevoegen // nachecken database (wat waar invoeren??)
+        #region Dieverzorger toevoegen 
         public void DierverzorgerToevoegen(Dierverzorger verzorger)
         {
             try
@@ -1236,6 +1267,37 @@ namespace Databasekoppeling
                     cmd.Parameters.Add("nummer", dierenartsnummer);
                     connection.Open();
                     cmd.ExecuteNonQuery();
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        #endregion
+
+        #region Alle medicijnen
+        public List<Medicijn> AlleMedicijnen()
+        {
+            try
+            {
+                using (OracleConnection conn = connection)
+                {
+                    OracleCommand cmd = new OracleCommand("select * from  medicijn", conn);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    List<Medicijn> medicijnen = new List<Medicijn>();
+
+                    if (rdr.Read())
+                    {
+                        Medicijnnaam medicijnnaam = (Medicijnnaam)Enum.Parse(typeof(Medicijnnaam), Convert.ToString(rdr["MEDICIJNNAAM"]));
+                        string hoeveelheid = Convert.ToString(rdr["HOEVEELHEID"]);
+                        string bijwerking = Convert.ToString(rdr["BIJWERKING"]);
+                        DateTime startdatum = DateTime.Today;
+                        medicijnen.Add(new Medicijn(medicijnnaam, hoeveelheid, bijwerking, startdatum));
+                    }
+                    return medicijnen;
                 }
             }
             finally
