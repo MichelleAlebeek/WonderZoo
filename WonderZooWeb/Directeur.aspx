@@ -16,7 +16,9 @@
     <br />
     Diernummer:
     <asp:TextBox ID="TxtDierNr" runat="server"></asp:TextBox>
-&nbsp;<asp:ListBox ID="LbMedicijn" runat="server"></asp:ListBox>
+&nbsp;<br />
+    <asp:GridView ID="GVMedicijnen" runat="server">
+    </asp:GridView>
     <br />
     <asp:Button ID="BtnAantalVerblijf" runat="server" Text="Aantal dieren verblijf" OnClick="BtnAantalVerblijf_Click" />
     <br />
@@ -45,5 +47,8 @@
     <br />
     <br />
     <asp:Label ID="LblFout" runat="server"></asp:Label>
+    <br />
+    <br />
+    <br />
     <br />
 </asp:Content>

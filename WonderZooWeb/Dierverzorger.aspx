@@ -7,7 +7,9 @@
     Diernummer:
     <asp:TextBox ID="TxtDierNr" runat="server"></asp:TextBox>
     <br />
-    <asp:ListBox ID="LBMedicijnen" runat="server" Height="53px" Width="215px"></asp:ListBox>
+    <br />
+    <asp:GridView ID="GVMedicijnen" runat="server">
+    </asp:GridView>
     <br />
     <br />
     <asp:Button ID="BtnDiersoortInfo" runat="server" OnClick="BtnDiersoortInfo_Click" Text="Info diersoort" />
@@ -35,7 +37,9 @@
     <br />
     Diersoortnummer:
     <asp:TextBox ID="TxtDiersoortNummer" runat="server"></asp:TextBox>
-    <asp:TextBox ID="TxtZiektes" runat="server"></asp:TextBox>
+    <br />
+    <asp:GridView ID="GVZiektes" runat="server">
+    </asp:GridView>
     <br />
     <br />
     <asp:Button ID="BtnVerblijfDier" runat="server" OnClick="BtnVerblijfDier_Click" Text="Verblijf" />

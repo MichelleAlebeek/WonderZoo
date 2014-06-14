@@ -66,7 +66,7 @@ namespace Klassen
             return medicijn;
         }
 
-        public string ZoekVeelvoorkomendeZiektes(string rasnaam)
+        public List<String> ZoekVeelvoorkomendeZiektes(string rasnaam)
         {
             // TODO zoek de veelvoorkomende ziektes op die bij het ras horen met het meegegeven rasnaam
             int diersoortnummer;
@@ -75,7 +75,7 @@ namespace Klassen
                 if (ras.Familie == rasnaam)
                 {
                     diersoortnummer = ras.Diersoortnummer;
-                    string ziektes = beheerder.VeelVoorkomendeZiektesDiersoort(diersoortnummer);
+                    List<String> ziektes = (List<String>)beheerder.VeelVoorkomendeZiektesDiersoort(diersoortnummer);
                     return ziektes;
                 }
             }          

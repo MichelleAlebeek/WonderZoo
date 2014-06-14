@@ -31,13 +31,13 @@ namespace WonderZooWeb {
         protected global::System.Web.UI.WebControls.TextBox TxtDierNr;
         
         /// <summary>
-        /// LBMedicijnen control.
+        /// GVMedicijnen control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox LBMedicijnen;
+        protected global::System.Web.UI.WebControls.GridView GVMedicijnen;
         
         /// <summary>
         /// BtnDiersoortInfo control.
@@ -139,13 +139,13 @@ namespace WonderZooWeb {
         protected global::System.Web.UI.WebControls.TextBox TxtDiersoortNummer;
         
         /// <summary>
-        /// TxtZiektes control.
+        /// GVZiektes control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtZiektes;
+        protected global::System.Web.UI.WebControls.GridView GVZiektes;
         
         /// <summary>
         /// BtnVerblijfDier control.

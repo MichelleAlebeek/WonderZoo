@@ -164,7 +164,7 @@ namespace Databasekoppeling
         }
         #endregion
 
-        #region Dier verwijderen // WERKT !!
+        #region Dier verwijderen 
         public void VerwijderDier(int diernummer, string diernaam)
         {
             try
@@ -192,7 +192,7 @@ namespace Databasekoppeling
         }
         #endregion
 
-        #region Totaal aantal dieren //  WERKT !!!!
+        #region Totaal aantal dieren
         public int DierenTotaal()
         {
             try
@@ -218,7 +218,7 @@ namespace Databasekoppeling
         }
         #endregion
 
-        #region Verblijf van dier opvragen // WERKT !!!!
+        #region Verblijf van dier opvragen 
         public string VerblijfDierOpvragen(int diernummer)
         {
             using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
@@ -238,7 +238,7 @@ namespace Databasekoppeling
         }
         #endregion
 
-        #region Medicijn van dier opvragen // WERKT !!!
+        #region Medicijn van dier opvragen 
         public List<Medicijn> MedicijnDierOpvragen(int diernummer)
         {          
                 try
@@ -257,8 +257,7 @@ namespace Databasekoppeling
                             Medicijnnaam medicijnnaam = (Medicijnnaam)Enum.Parse(typeof(Medicijnnaam), Convert.ToString(rdr["medicijnnaam"]));
                             string hoeveelheid = Convert.ToString(rdr["hoeveelheid"]);
                             string bijwerking = Convert.ToString(rdr["bijwerking"]);
-                            DateTime startdatum = Convert.ToDateTime(rdr["datum"]);
-                            medicijnen.Add(new Medicijn(medicijnnaam, hoeveelheid, bijwerking, startdatum));
+                            medicijnen.Add(new Medicijn(medicijnnaam, hoeveelheid, bijwerking));
                             return medicijnen;
                         }
                         return medicijnen;
@@ -276,7 +275,7 @@ namespace Databasekoppeling
         }
         #endregion
 
-        #region Aantal dieren in verblijf // WERKT !!!
+        #region Aantal dieren in verblijf 
         public int AantalDierenVerblijf(int huisvestingnummer)
         {
             try
@@ -330,8 +329,8 @@ namespace Databasekoppeling
         }
         #endregion
 
-        #region Veelvoorkomende ziektes diersoort // GEEFT DISPOSED ERROR
-        public string VeelVoorkomendeZiektes(int diersoortnummer)
+        #region Veelvoorkomende ziektes diersoort
+        public List<String> VeelVoorkomendeZiektes(int diersoortnummer)
         {
             try
             {
@@ -341,12 +340,12 @@ namespace Databasekoppeling
                     cmd.Parameters.Add("nummer", diersoortnummer);
                     connection.Open();
                     OracleDataReader rdr = cmd.ExecuteReader();
-                    string ziektes = "";
+                    List<String> ziektes = new List<String>();
 
                     while (rdr.Read())
                     {
                         string ziekte = Convert.ToString(rdr["ziekte"]);
-                        ziektes = ziektes + ziekte;
+                        ziektes.Add(ziekte);
                     }
                     return ziektes;
                 }
@@ -514,7 +513,7 @@ namespace Databasekoppeling
         }
         #endregion
 
-        #region Info specifiek dier // Overerving ?? dan ook ras en diersoort selecteren
+        #region Info specifiek dier
         public Dier InfoDier(string diernaam)
         {
             try
@@ -1293,13 +1292,12 @@ namespace Databasekoppeling
 
                     List<Medicijn> medicijnen = new List<Medicijn>();
 
-                    if (rdr.Read())
+                    while (rdr.Read())
                     {
                         Medicijnnaam medicijnnaam = (Medicijnnaam)Enum.Parse(typeof(Medicijnnaam), Convert.ToString(rdr["MEDICIJNNAAM"]));
                         string hoeveelheid = Convert.ToString(rdr["HOEVEELHEID"]);
                         string bijwerking = Convert.ToString(rdr["BIJWERKING"]);
-                        DateTime startdatum = DateTime.Today;
-                        medicijnen.Add(new Medicijn(medicijnnaam, hoeveelheid, bijwerking, startdatum));
+                        medicijnen.Add(new Medicijn(medicijnnaam, hoeveelheid, bijwerking));
                     }
                     return medicijnen;
                 }
@@ -1310,6 +1308,81 @@ namespace Databasekoppeling
             }
         }
         #endregion
+
+        #region Alle Dieren
+        public List<Dier> AlleDieren()
+        {
+            try
+            {
+                using (OracleConnection conn = connection)
+                {
+                    OracleCommand cmd = new OracleCommand("select * from  dier", conn);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    List<Dier> dieren = new List<Dier>();
+
+                    while (rdr.Read())
+                    {
+                        int diernummer = Convert.ToInt32(rdr["diernummer"]);
+                        int leeftijd = Convert.ToInt32(rdr["leeftijd"]);
+                        string diernaam = Convert.ToString(rdr["diernaam"]);
+                        string geslacht = Convert.ToString(rdr["geslacht"]);
+                        int gewicht = Convert.ToInt32(rdr["gewicht"]);
+                        int lengte = Convert.ToInt32(rdr["lengte"]);
+                        string naamMoeder = Convert.ToString(rdr["naamMoeder"]);
+                        string naamVader = Convert.ToString(rdr["naamVader"]); 
+                        bool nakomeling = Convert.ToBoolean(rdr["nakomelingen"]);
+                        DateTime datumAanschaf = DateTime.Today;
+                        dieren.Add(new Dier(diernummer, diernaam, leeftijd, geslacht, gewicht, lengte, naamMoeder, naamVader, nakomeling, datumAanschaf, 0, null, null, null, 0, 0, 0, 0, 0, null, null, 0, null, null, null, null, null));
+                    }
+                    return dieren;
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        #endregion
+
+        #region Alle dierverzorgers
+        public List<Dierverzorger> AlleVerzorgers()
+        {
+            try
+            {
+                using (OracleConnection conn = connection)
+                {
+                    OracleCommand cmd = new OracleCommand("select * from  dierverzorger", conn);
+                    connection.Open();
+                    OracleDataReader rdr = cmd.ExecuteReader();
+
+                    List<Dierverzorger> verzorgers = new List<Dierverzorger>();
+
+                    while (rdr.Read())
+                    {
+                        int dierverzorgerNummer = Convert.ToInt32(rdr["DIERVERZORGERNUMMER"]);
+                        int leeftijd = Convert.ToInt32(rdr["leeftijd"]);
+                        string hoofddiersoort = Convert.ToString(rdr["hoofddiersoort"]);
+                        string geslacht = Convert.ToString(rdr["geslacht"]);
+                        int rekeningnummer = Convert.ToInt32(rdr["rekeningnummer"]);
+                        int telefoonnummerPrivé = Convert.ToInt32(rdr["telefoonnummerPrivé"]);
+                        //int telefoonnummerZakelijk = Convert.ToInt32(rdr["TELEFOONNUMMERZAKELIJK"]);
+                        string naam = Convert.ToString(rdr["DIERVERZORGERNAAM"]);
+                        string typeContract = Convert.ToString(rdr["TYPECONTRACT"]);
+                        DateTime datumAangenomen = DateTime.Today;
+                        verzorgers.Add(new Dierverzorger(datumAangenomen, dierverzorgerNummer, geslacht, hoofddiersoort, rekeningnummer, telefoonnummerPrivé, 0, typeContract, naam, leeftijd, null));   
+                    }
+                     return verzorgers;
+                }             
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        #endregion
+
 
         //GEEN MUSTHAVES:
         #region Naam dierverzorger aanpassen
@@ -1531,16 +1604,15 @@ namespace Databasekoppeling
         }
         #endregion
 
-        #region Nieuwe medicijn opslaan // nachecken met database 
-        public void NieuweVaccinatie(Medicijn medicijn)
+        #region Nieuwe medicijn opslaan 
+        public void NieuwMedicijn(Medicijn medicijn)
         {
-            using  (OracleConnection conn = connection)//(OracleConnection conn = new OracleConnection(connectie))
+            using  (OracleConnection conn = connection)
             {
-                OracleCommand cmd = new OracleCommand("insert into medicijn VALUES(':naam', :hoeveel, ':datum', ':bijwerking' );", conn);
+                OracleCommand cmd = new OracleCommand("insert into medicijn VALUES(:MEDICIJNNAAM, :HOEVEELHEID, :BIJWERKING );", conn);
 
                 cmd.Parameters.Add("naam", medicijn.Medicijnnaam);
                 cmd.Parameters.Add("hoeveel", medicijn.Hoeveelheid);
-                cmd.Parameters.Add("datum", medicijn.Startdatum);
                 cmd.Parameters.Add("bijwerking", medicijn.Bijwerking);
 
                 cmd.ExecuteNonQuery();

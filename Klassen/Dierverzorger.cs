@@ -98,10 +98,10 @@ namespace Klassen
         //    // TODO: download de plattegrond
         //}
 
-        public string ZoekVeelvoorkomendeZiektes(int diersoortnummer)
+        public List<String> ZoekVeelvoorkomendeZiektes(int diersoortnummer)
         {
             // TODO zoek de veelvoorkomende ziektes op die bij het diersoort horen met het meegegeven rasnaam
-            string veelvoorkomendeziektes = beheerder.VeelVoorkomendeZiektesDiersoort(diersoortnummer);
+            List<String> veelvoorkomendeziektes = beheerder.VeelVoorkomendeZiektesDiersoort(diersoortnummer);
             return veelvoorkomendeziektes;
         }
 

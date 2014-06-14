@@ -11,30 +11,12 @@ namespace Klassen
         private string bijwerking;
         private string hoeveelheid;
         private Medicijnnaam medicijnnaam;
-        private DateTime startdatum;
 
-        public Medicijn (Medicijnnaam medicijnnaam, string hoeveelheid, string bijwerking, DateTime startdatum)
+        public Medicijn (Medicijnnaam medicijnnaam, string hoeveelheid, string bijwerking)
         {
             this.medicijnnaam = medicijnnaam;
             this.hoeveelheid = hoeveelheid;
             this.bijwerking = bijwerking;
-            this.startdatum = startdatum;
-        }
-
-        public string Bijwerking
-        {
-            get { return bijwerking; }
-            set { bijwerking = value; }
-        }
-        public DateTime Startdatum
-        {
-            get { return startdatum; }
-            set { startdatum = value; }
-        }
-        public string Hoeveelheid
-        {
-            get { return hoeveelheid; }
-            set { hoeveelheid = value; }
         }
 
         public Medicijnnaam Medicijnnaam
@@ -43,9 +25,21 @@ namespace Klassen
             set { medicijnnaam = value; }
         }
 
+        public string Bijwerking
+        {
+            get { return bijwerking; }
+            set { bijwerking = value; }
+        }
+        public string Hoeveelheid
+        {
+            get { return hoeveelheid; }
+            set { hoeveelheid = value; }
+        }
+
+
         public override string ToString()
         {
-            return "Medicijn: " + medicijnnaam + "hoeveelheid: " + hoeveelheid + "bijwerkingen: " + bijwerking + "datum gestart: " + startdatum.Date;
+            return "Medicijn: " + medicijnnaam + "hoeveelheid: " + hoeveelheid + "bijwerkingen: " + bijwerking;
         }
     }
 
@@ -54,6 +48,7 @@ namespace Klassen
         Antibiotica,
         Roosvicé,
         Suiker,
-        Zoutoplossing
+        Zoutoplossing,
+        Suikeroplossing
     }
 }

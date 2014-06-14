@@ -112,13 +112,13 @@ namespace WonderZooWeb {
         protected global::System.Web.UI.WebControls.Button BtnVaccinaties;
         
         /// <summary>
-        /// LbVaccinaties control.
+        /// GVVaccinaties control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox LbVaccinaties;
+        protected global::System.Web.UI.WebControls.GridView GVVaccinaties;
         
         /// <summary>
         /// BtnVoegVerzorgerToe control.
@@ -445,12 +445,12 @@ namespace WonderZooWeb {
         protected global::System.Web.UI.WebControls.Button BtnMedicijnen;
         
         /// <summary>
-        /// LbMedicijnen control.
+        /// GVMedicijnen control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox LbMedicijnen;
+        protected global::System.Web.UI.WebControls.GridView GVMedicijnen;
     }
 }

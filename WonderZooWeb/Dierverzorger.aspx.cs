@@ -20,10 +20,8 @@ namespace WonderZooWeb
         {
             List<Medicijn> medicijnen = new List<Medicijn>(beheerder.MedicijnVanDier(Convert.ToInt32(TxtDierNr.Text)));
 
-            foreach (Medicijn medicijn in medicijnen)
-            {
-                LBMedicijnen.Items.Add(medicijn.ToString());
-            }
+            GVMedicijnen.DataSource = medicijnen;
+            GVMedicijnen.DataBind();
         }
 
         protected void BtnDiersoortInfo_Click(object sender, EventArgs e)
@@ -46,8 +44,9 @@ namespace WonderZooWeb
 
         protected void BtnZiektes_Click(object sender, EventArgs e)
         {
-            string ziektes = beheerder.VeelVoorkomendeZiektesDiersoort(Convert.ToInt32(TxtDiersoortNummer.Text));
-            TxtZiektes.Text = ziektes;
+            List<String> ziektes = beheerder.VeelVoorkomendeZiektesDiersoort(Convert.ToInt32(TxtDiersoortNummer.Text));
+            GVZiektes.DataSource = ziektes;
+            GVZiektes.DataBind();
         }
 
         protected void BtnVerblijfDier_Click(object sender, EventArgs e)

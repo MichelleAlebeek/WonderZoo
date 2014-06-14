@@ -141,9 +141,9 @@ namespace Klassen
         #endregion
 
         #region Veelvoorkomende ziektes van diersoort
-        public string VeelVoorkomendeZiektesDiersoort(int diersoortnummer)
+        public List<String> VeelVoorkomendeZiektesDiersoort(int diersoortnummer)
         {
-            string ziektes = db.VeelVoorkomendeZiektes(diersoortnummer);
+            List<String> ziektes = db.VeelVoorkomendeZiektes(diersoortnummer);
             return ziektes;
         }
 
@@ -424,6 +424,22 @@ namespace Klassen
         {
             List<Medicijn> medicijnen = (List<Medicijn>)db.AlleMedicijnen();
             return medicijnen;
+        }
+        #endregion
+
+        #region Dieren opvragen
+        public List<Dier> AlleDieren()
+        {
+            dieren = (List<Dier>)db.AlleDieren();
+            return dieren;
+        }
+        #endregion
+
+        #region Dierverzorgers opvragen
+        public List<Dierverzorger> AlleVerzorgers()
+        {
+            dierverzorgers = (List<Dierverzorger>)db.AlleVerzorgers();
+            return dierverzorgers;
         }
         #endregion
 

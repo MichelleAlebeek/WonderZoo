@@ -21,25 +21,27 @@ namespace Klassen
             this.werkingstijd = werkingstijd;
         }
 
-        public double Prijs
-        {
-            get { return prijs; }
-            set { prijs = value; }
-        }
-        public string UitPreventieVoor
-        {
-            get { return uitPreventieVoor; }
-            set { uitPreventieVoor = value; }
-        }
         public string Vaccinatienaam
         {
             get { return vaccinatienaam; }
             set { vaccinatienaam = value; }
         }
+       
+        public string UitPreventieVoor
+        {
+            get { return uitPreventieVoor; }
+            set { uitPreventieVoor = value; }
+        }
+    
         public string Werkingstijd
         {
             get { return werkingstijd; }
             set { werkingstijd = value; }
+        }
+        public double Prijs
+        {
+            get { return prijs; }
+            set { prijs = value; }
         }
 
         public override string ToString()

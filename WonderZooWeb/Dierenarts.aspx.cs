@@ -11,7 +11,6 @@ namespace WonderZooWeb
     public partial class Dierenarts : System.Web.UI.Page
     {
         Beheer beheerder;
-        private List<Diersoort> diersoorten;
         protected void Page_Load(object sender, EventArgs e)
         {
             beheerder = new Beheer();
@@ -20,14 +19,12 @@ namespace WonderZooWeb
         protected void BtnMedicijnen_Click(object sender, EventArgs e)
         {
             int diernummer = Convert.ToInt32(TxtDierNr.Text);
-            List<Medicijn> medicijnen = new List<Medicijn>(beheerder.MedicijnVanDier(diernummer));
-
+            
             try
             {
-                foreach (Medicijn med in medicijnen)
-                {
-                    ListBox1.Items.Add(med.ToString());
-                }
+                List<Medicijn> medicijnen = new List<Medicijn>(beheerder.MedicijnVanDier(diernummer));
+                GVArts.DataSource = medicijnen;
+                GVArts.DataBind();
             }
             catch (Exception ex)
             {
@@ -46,19 +43,10 @@ namespace WonderZooWeb
 
         protected void BtnZiektes_Click(object sender, EventArgs e)
         {
-            //List<Diersoort> diersoorten = (List<Diersoort>)beheerder.ZoekDiersoortLijst();
-            //string diersoortnaam = TxtDiersoortnaam.Text;
-            //int diersoortnummer = 0;
-            //foreach (Diersoort diersoort in diersoorten)
-            //{
-            //    if (diersoort.Familie == diersoortnaam)
-            //    {
-            //        diersoortnummer = diersoort.Diersoortnummer;
-            //    }
-            //}
             int diersoortnummer = Convert.ToInt32(TxtDiersoortnaam.Text);
-            string ziektes = beheerder.VeelVoorkomendeZiektesDiersoort(diersoortnummer);
-            ListBox1.Items.Add(ziektes);
+            List<String> ziektes = beheerder.VeelVoorkomendeZiektesDiersoort(diersoortnummer);
+            GVArts.DataSource = ziektes;
+            GVArts.DataBind();
         }
     }
 }

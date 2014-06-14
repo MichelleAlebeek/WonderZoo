@@ -34,10 +34,8 @@ namespace WonderZooWeb
         {
             int diernummer = Convert.ToInt32(TxtDierNr.Text);
             List<Medicijn> medicijnen = new List<Medicijn>(beheerder.MedicijnVanDier(diernummer));
-            foreach (Medicijn medicijn in medicijnen)
-            {
-                LbMedicijn.Items.Add(medicijn.ToString());
-            }
+            GVMedicijnen.DataSource = medicijnen;
+            GVMedicijnen.DataBind();
         }
 
         protected void BtnAantalVerblijf_Click(object sender, EventArgs e)
