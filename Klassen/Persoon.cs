@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//Klassen persoon. Deze wordt gebruikt voor het inloggen en dit is de basisklasse (overerving) van alle personen.
 
 namespace Klassen
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
     public class Persoon
     {
         private string naam;
@@ -21,23 +23,23 @@ namespace Klassen
 
         public string Naam
         {
-            get { return naam; }
-            set { naam = value; }
+            get { return this.naam; }
+            set { this.naam = value; }
         }
         public string Beroep
         {
-            get { return beroep; }
-            set { beroep = value; }
+            get { return this.beroep; }
+            set { this.beroep = value; }
         }
         public string Wachtwoord
         {
-            get { return wachtwoord; }
-            set { wachtwoord = value; }
+            get { return this.wachtwoord; }
+            set { this.wachtwoord = value; }
         }
 
         public override string ToString()
         {
-            return naam + wachtwoord;
+            return this.naam + this.wachtwoord;
         }
     }
 }

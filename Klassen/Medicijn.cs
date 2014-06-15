@@ -1,11 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Klassen medicijn
 
 namespace Klassen
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    public enum Medicijnnaam
+    {
+        Antibiotica,
+        Roosvicé,
+        Suiker,
+        Zoutoplossing,
+        Suikeroplossing
+    }
     public class Medicijn
     {
         private string bijwerking;
@@ -21,34 +31,24 @@ namespace Klassen
 
         public Medicijnnaam Medicijnnaam
         {
-            get { return medicijnnaam; }
-            set { medicijnnaam = value; }
+            get { return this.medicijnnaam; }
+            set { this.medicijnnaam = value; }
         }
 
         public string Bijwerking
         {
-            get { return bijwerking; }
-            set { bijwerking = value; }
+            get { return this.bijwerking; }
+            set { this.bijwerking = value; }
         }
         public string Hoeveelheid
         {
-            get { return hoeveelheid; }
-            set { hoeveelheid = value; }
+            get { return this.hoeveelheid; }
+            set { this.hoeveelheid = value; }
         }
-
 
         public override string ToString()
         {
-            return "Medicijn: " + medicijnnaam + "hoeveelheid: " + hoeveelheid + "bijwerkingen: " + bijwerking;
+            return "Medicijn: " + this.medicijnnaam + "hoeveelheid: " + this.hoeveelheid + "bijwerkingen: " + this.bijwerking;
         }
-    }
-
-    public enum Medicijnnaam
-    {
-        Antibiotica,
-        Roosvicé,
-        Suiker,
-        Zoutoplossing,
-        Suikeroplossing
     }
 }

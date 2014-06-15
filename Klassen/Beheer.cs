@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Klassen.Properties;
-using Databasekoppeling;
+﻿//Klassen beheer (dit is een facade klassen)
+using Databasekoppeling; //als ik deze in de namespace plaats dan kent het programma de database koppeling niet meer. Vandaar warning SA1200 bij StyleCop.
 
 namespace Klassen
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Klassen.Properties;
+ 
     public class Beheer
     {
         private Databasekoppeling.Databasekoppeling db;
@@ -22,66 +24,66 @@ namespace Klassen
         private List<Vaccinatie> vaccinaties;
         public Beheer()
         {
-            db = new Databasekoppeling.Databasekoppeling();
-            dieren = new List<Dier>();
-            huisvestings = new List<Huisvesting>();
-            rassen = new List<Ras>();
-            medicijnen = new List<Medicijn>();
-            personen = new List<Persoon>();
-            dierenartsen = new List<Dierenarts>();
-            diersoorten = new List<Diersoort>();
-            dierverzorgers = new List<Dierverzorger>();
-            vaccinaties = new List<Vaccinatie>();
+            this.db = new Databasekoppeling.Databasekoppeling();
+            this.dieren = new List<Dier>();
+            this.huisvestings = new List<Huisvesting>();
+            this.rassen = new List<Ras>();
+            this.medicijnen = new List<Medicijn>();
+            this.personen = new List<Persoon>();
+            this.dierenartsen = new List<Dierenarts>();
+            this.diersoorten = new List<Diersoort>();
+            this.dierverzorgers = new List<Dierverzorger>();
+            this.vaccinaties = new List<Vaccinatie>();
         }
 
         public List<Dier> Dieren
         {
-            get { return new List<Dier>(dieren); }
+            get { return new List<Dier>(this.dieren); }
         }
         public List<Vaccinatie> Vaccinaties
         {
-            get { return new List<Vaccinatie>(vaccinaties); }
+            get { return new List<Vaccinatie>(this.vaccinaties); }
         }
         public List<Huisvesting> Huisvestings
         {
-            get { return new List<Huisvesting>(huisvestings); }
+            get { return new List<Huisvesting>(this.huisvestings); }
         }
 
         public List<Ras> Rassen
         {
-            get { return new List<Ras>(rassen); }
+            get { return new List<Ras>(this.rassen); }
         }
 
         public List<Medicijn> Medicijnen
         {
-            get { return new List<Medicijn>(medicijnen); }
+            get { return new List<Medicijn>(this.medicijnen); }
         }
 
         public List<Persoon> Personen
         {
-            get { return new List<Persoon>(personen); }
+            get { return new List<Persoon>(this.personen); }
         }
 
         public List<Dierenarts> Dierenartsen
         {
-            get { return new List<Dierenarts>(dierenartsen); }
+            get { return new List<Dierenarts>(this.dierenartsen); }
         }
 
         public List<Diersoort> Diersoorten
         {
-            get { return new List<Diersoort>(diersoorten); }
+            get { return new List<Diersoort>(this.diersoorten); }
         }
 
         public List<Dierverzorger> Dierverzorgers
         {
-            get { return new List<Dierverzorger>(dierverzorgers); }
+            get { return new List<Dierverzorger>(this.dierverzorgers); }
         }
 
         #region Totaal aantal dieren op het park
         public int TotaalAantalDieren()
         {
             int dieren;
-            dieren = db.DierenTotaal();
+            dieren = this.db.DierenTotaal();
             return dieren;
         }
         #endregion
@@ -89,7 +91,7 @@ namespace Klassen
         #region Inloggen
         public Persoon Inloggen(string username, string wachtwoord)
         {
-            Persoon p = (Persoon)db.Login(username, wachtwoord);
+            Persoon p = (Persoon)this.db.Login(username, wachtwoord);
             return p;
         }
         #endregion
@@ -97,21 +99,21 @@ namespace Klassen
         #region Dier toevoegen
         public void VoegDierToe(Dier dier, int huisvestingnummer)
         {
-            db.VoegDierToe(dier, huisvestingnummer);
+            this.db.VoegDierToe(dier, huisvestingnummer);
         }
         #endregion
 
         #region Dier verwijderen
         public void VerwijderDier(int diernummer, string diernaam)
         {
-            db.VerwijderDier(diernummer, diernaam);
+            this.db.VerwijderDier(diernummer, diernaam);
         }
         #endregion
 
         #region Verblijf van dier opvragen
         public string VerblijfVanDier(int diernummer)
         {
-            string verblijf = db.VerblijfDierOpvragen(diernummer);
+            string verblijf = this.db.VerblijfDierOpvragen(diernummer);
             return verblijf;
         }
         #endregion
@@ -119,7 +121,7 @@ namespace Klassen
         #region Medicijn van dier opvragen
         public List<Medicijn> MedicijnVanDier(int diernummer)
         {
-           List<Medicijn> medicijn = (List<Medicijn>)db.MedicijnDierOpvragen(diernummer);
+            List<Medicijn> medicijn = (List<Medicijn>)this.db.MedicijnDierOpvragen(diernummer);
            return medicijn;
         }
         #endregion
@@ -127,7 +129,7 @@ namespace Klassen
         #region Aantal dieren van het verblijf
         public int AantalDierenVeblijf(int huisvestingnummer)
         {
-            int aantal = db.AantalDierenVerblijf(huisvestingnummer);
+            int aantal = this.db.AantalDierenVerblijf(huisvestingnummer);
             return aantal;
         }
         #endregion
@@ -135,15 +137,15 @@ namespace Klassen
         #region Ras van dier opvragen
         public string RasVanDier(int diernummer)
         {
-            string ras = db.RasDierOpvragen(diernummer);
+            string ras = this.db.RasDierOpvragen(diernummer);
             return ras;
         }
         #endregion
 
         #region Veelvoorkomende ziektes van diersoort
-        public List<String> VeelVoorkomendeZiektesDiersoort(int diersoortnummer)
+        public List<string> VeelVoorkomendeZiektesDiersoort(int diersoortnummer)
         {
-            List<String> ziektes = db.VeelVoorkomendeZiektes(diersoortnummer);
+            List<string> ziektes = this.db.VeelVoorkomendeZiektes(diersoortnummer);
             return ziektes;
         }
 
@@ -152,7 +154,7 @@ namespace Klassen
         #region Voeding van diersoort 
         public string VoedingDiersoort(int diersoortnummer)
         {
-            string voeding = db.VoedingDiersoort(diersoortnummer);
+            string voeding = this.db.VoedingDiersoort(diersoortnummer);
             return voeding;
         }
         #endregion
@@ -160,7 +162,7 @@ namespace Klassen
         #region Huisvesting van diersoort opvragen
         public string HuisvestingDiersoort(int diersoortnummer)
         {
-            string huisvesting = db.HuisvestingnaamDiersoort(diersoortnummer);
+            string huisvesting = this.db.HuisvestingnaamDiersoort(diersoortnummer);
             return huisvesting;
         }
         #endregion
@@ -168,7 +170,7 @@ namespace Klassen
         #region Diersoort zoeken
         public Diersoort ZoekDiersoort(int diersoortnummer)
         {
-            Diersoort diersoort = (Diersoort)db.ZoekDiersoort(diersoortnummer);
+            Diersoort diersoort = (Diersoort)this.db.ZoekDiersoort(diersoortnummer);
             return diersoort;
         }
         #endregion
@@ -176,7 +178,7 @@ namespace Klassen
         #region Diersoort zoeken en lijst vullen
         public List<Diersoort> ZoekDiersoortLijst()
         {
-            List<Diersoort> diersoorten = (List<Diersoort>)db.ZoekDiersoorten();
+            List<Diersoort> diersoorten = (List<Diersoort>)this.db.ZoekDiersoorten();
             return diersoorten;
         }
         #endregion
@@ -184,7 +186,7 @@ namespace Klassen
         #region Info specifiek dier opvragen
         public Dier InfoDier(string diernaam)
         {
-            Dier dier = (Dier)db.InfoDier(diernaam);
+            Dier dier = (Dier)this.db.InfoDier(diernaam);
             return dier;
         }
 
@@ -193,15 +195,15 @@ namespace Klassen
         #region Begindatum van medicijn opvragen
         public DateTime MedicijnStartdatum(string diernaam)
         {
-            DateTime startdatum = (DateTime)db.BeginMedicijn(diernaam);
+            DateTime startdatum = (DateTime)this.db.BeginMedicijn(diernaam);
             return startdatum;
         }
         #endregion
 
         #region Naam dierverzorgers opvragen
-        public List<String> NaamDierverzorgers()
+        public List<string> NaamDierverzorgers()
         {
-            List<String> namen = db.NaamDierverzorgers();
+            List<string> namen = this.db.NaamDierverzorgers();
             return namen;
         }
 
@@ -210,7 +212,7 @@ namespace Klassen
         #region Naam dierverzorger opvragen
         public string NaamDierverzorger(int dierverzorgernummer)
         {
-            string naam = db.NaamDierverzorger(dierverzorgernummer);
+            string naam = this.db.NaamDierverzorger(dierverzorgernummer);
             return naam;
         }
 
@@ -219,7 +221,7 @@ namespace Klassen
         #region Naam dierenarts opvragen
         public string NaamDierenarts(int dierenartsnummer)
         {
-            string naam = db.NaamDierenarts(dierenartsnummer);
+            string naam = this.db.NaamDierenarts(dierenartsnummer);
             return naam;
         }
         #endregion
@@ -227,7 +229,7 @@ namespace Klassen
         #region Telefoonnummer dierenarts opvragen
         public int TelefoonNrDierenarts(int dierenartsnummer)
         {
-            int telefoonnummer = db.TelDierenarts(dierenartsnummer);
+            int telefoonnummer = this.db.TelDierenarts(dierenartsnummer);
             return telefoonnummer;
         }
 
@@ -236,7 +238,7 @@ namespace Klassen
         #region Telefoonnummer dierenarts opvragen met naam
         public int TelefoonNrDierenarts(string dierenartsnaam)
         {
-            int telefoon = db.TelefoonDierenarts(dierenartsnaam);
+            int telefoon = this.db.TelefoonDierenarts(dierenartsnaam);
             return telefoon;
         }
         #endregion
@@ -244,7 +246,7 @@ namespace Klassen
         #region Telefoonnummer dierverzorger opvragen
         public int TelefoonNrDierverzorger(int dierverzorgernummer)
         {
-            int telefoon = db.TelPriveDierverzorger(dierverzorgernummer);
+            int telefoon = this.db.TelPriveDierverzorger(dierverzorgernummer);
             return telefoon;
         }
         #endregion
@@ -252,7 +254,7 @@ namespace Klassen
         #region Telefoonnummer dierverzoger opvragen met naam
         public int TelefoonNrDierverzorger(string dierverzorgernaam)
         {
-            int telefoon = db.TelPriveDierverzorger(dierverzorgernaam);
+            int telefoon = this.db.TelPriveDierverzorger(dierverzorgernaam);
             return telefoon;
         }
         #endregion
@@ -260,7 +262,7 @@ namespace Klassen
         #region Telefoonnummer zakelijk dierverzorger opvragen met naam
         public int TelefoonNrZakelijkDierverzorger(string dierverzorgernaam)
         {
-            int telefoon = db.TelZakelijkDierverzorger(dierverzorgernaam);
+            int telefoon = this.db.TelZakelijkDierverzorger(dierverzorgernaam);
             return telefoon;
         }
         #endregion
@@ -268,7 +270,7 @@ namespace Klassen
         #region Telefoonnummer zakelijk dierverzorger opvragen
         public int TelefoonNrZakelijkDierverzorger(int dierverzorgernummer)
         {
-            int telefoon = db.TelZakelijkDierverzorger(dierverzorgernummer);
+            int telefoon = this.db.TelZakelijkDierverzorger(dierverzorgernummer);
             return telefoon;
         }
         #endregion
@@ -276,7 +278,7 @@ namespace Klassen
         #region Rekeningnummer dierverzorger opvragen met naam
         public int RekeningNrDierverzorger(string dierverzorgernaam)
         {
-            int rekeningnummer = db.RekNrDierverzorger(dierverzorgernaam);
+            int rekeningnummer = this.db.RekNrDierverzorger(dierverzorgernaam);
             return rekeningnummer;
         }
         #endregion
@@ -284,7 +286,7 @@ namespace Klassen
         #region Rekeningnummer dierenarts opvragen met naam
         public int RekeningNrDierenarts(string dierenartsnaam)
         {
-            int rekeningnummer = db.RekNrDierenarts(dierenartsnaam);
+            int rekeningnummer = this.db.RekNrDierenarts(dierenartsnaam);
             return rekeningnummer;
         }
         #endregion
@@ -292,7 +294,7 @@ namespace Klassen
         #region Rekeningnummer dierverzorger opvragen met nummer
         public int RekeningNrDierverzorger(int dierverzorgernummer)
         {
-            int rekeningnummer = db.RekeningnrDierverzorger(dierverzorgernummer);
+            int rekeningnummer = this.db.RekeningnrDierverzorger(dierverzorgernummer);
             return rekeningnummer;
         }
         #endregion
@@ -300,7 +302,7 @@ namespace Klassen
         #region Rekeningnummer dierenarts opvragen met nummer
         public int RekeningNrDierenarts(int dierenartsnummer)
         {
-            int rekeningnummer = db.RekeningnrDierenarts(dierenartsnummer);
+            int rekeningnummer = this.db.RekeningnrDierenarts(dierenartsnummer);
             return rekeningnummer;
         }
         #endregion
@@ -308,7 +310,7 @@ namespace Klassen
         #region Werkingsduur vaccinatie opvragen met naam
         public string WerkingsduurVaccinatie(string vaccinatienaam)
         {
-            string werkingsduur = db.WerkingsduurVaccinatie(vaccinatienaam);
+            string werkingsduur = this.db.WerkingsduurVaccinatie(vaccinatienaam);
             return werkingsduur;
         }
         #endregion
@@ -316,7 +318,7 @@ namespace Klassen
         #region Werkingsduur vaccinatie opvragen met dierverzorgernummer
         public string WerkingsduurVaccinatie(int dierverzorgernummer)
         {
-            string werkingsduur = db.DuurVaccinatie(dierverzorgernummer);
+            string werkingsduur = this.db.DuurVaccinatie(dierverzorgernummer);
             return werkingsduur;
         }
         #endregion
@@ -324,7 +326,7 @@ namespace Klassen
         #region Werkingsduur vaccinatie opvragen met dierverzorgernaam
         public string WerkingsduurVaccinatieVerzorger(string dierverzorgernaam)
         {
-            string werkingsduur = db.WerkingsduurVaccinatieVerzorger(dierverzorgernaam);
+            string werkingsduur = this.db.WerkingsduurVaccinatieVerzorger(dierverzorgernaam);
             return werkingsduur;
         }
         #endregion
@@ -332,7 +334,7 @@ namespace Klassen
         #region Vaccinatie verlopen op met dierverzorgernummer
         public DateTime VaccinatieVerlopenOp(int dierverzorgernummer)
         {
-            DateTime verlopen = (DateTime)db.VaccinatieVerlopenOp(dierverzorgernummer);
+            DateTime verlopen = (DateTime)this.db.VaccinatieVerlopenOp(dierverzorgernummer);
             return verlopen;
         }
         #endregion
@@ -340,7 +342,7 @@ namespace Klassen
         #region Vaccinatie verlopen op met dierverzorgernaam
         public DateTime VaccinatieVerlopenOp(string dierverzorgernaam)
         {
-            DateTime datum = (DateTime)db.VaccinatieVerlopen(dierverzorgernaam);
+            DateTime datum = (DateTime)this.db.VaccinatieVerlopen(dierverzorgernaam);
             return datum;
         }
         #endregion
@@ -348,7 +350,7 @@ namespace Klassen
         #region Vaccinaties van dierverzoger opvragen
         public List<Vaccinatie> VaccinatieDierverzorger(int dierverzorgernummer)
         {
-            List<Vaccinatie> vaccinaties = (List<Vaccinatie>)db.VaccinatiesDierverzorger(dierverzorgernummer);
+            List<Vaccinatie> vaccinaties = (List<Vaccinatie>)this.db.VaccinatiesDierverzorger(dierverzorgernummer);
             return vaccinaties;
         }
         #endregion
@@ -356,7 +358,7 @@ namespace Klassen
         #region Vaccinaties van dierverzorger opvragen met naam
         public List<Vaccinatie> VaccinatiesDierverzorger(string dierverzorgernaam)
         {
-            List<Vaccinatie> vaccinaties = (List<Vaccinatie>)db.VaccinatiesDierverzorger(dierverzorgernaam);
+            List<Vaccinatie> vaccinaties = (List<Vaccinatie>)this.db.VaccinatiesDierverzorger(dierverzorgernaam);
             return vaccinaties;
         }
         #endregion
@@ -364,35 +366,35 @@ namespace Klassen
         #region Dierverzorger toevoegen
         public void VoegToe(Dierverzorger dierverzorger)
         {
-            db.DierverzorgerToevoegen(dierverzorger);
+            this.db.DierverzorgerToevoegen(dierverzorger);
         }
         #endregion
 
         #region Dierverzorger verwijderen
         public void Verwijder(int dierverzorgernummer)
         {
-            db.VerwijderDierverzorger(dierverzorgernummer);
+            this.db.VerwijderDierverzorger(dierverzorgernummer);
         }
         #endregion
 
         #region Dierenarts toevoegen
         public void VoegToe(Dierenarts dierenarts)
         {
-            db.DierenartsToevoegen(dierenarts);
+            this.db.DierenartsToevoegen(dierenarts);
         }
         #endregion
 
         #region Dierenarts verwijderen
         public void VerwijderArts(int dierenartsnummer)
         {
-            db.VerwijderDierenarts(dierenartsnummer);
+            this.db.VerwijderDierenarts(dierenartsnummer);
         }
         #endregion
 
         #region Verblijf zoeken
         public Huisvesting ZoekHuisvesting(int diersoortnummer)
         {
-            Huisvesting huisvesting = (Huisvesting)db.HuisvestingDiersoort(diersoortnummer);
+            Huisvesting huisvesting = (Huisvesting)this.db.HuisvestingDiersoort(diersoortnummer);
             return huisvesting;
         }
         #endregion
@@ -400,21 +402,21 @@ namespace Klassen
         #region Diersoort toevoegen
         public void VoegToeDiersoort(Diersoort diersoort)
         {
-            db.VoegDiersoortToe(diersoort);
+            this.db.VoegDiersoortToe(diersoort);
         }
         #endregion
 
         #region Vaccinatiedatum toevoegen
         public void VoegToeVaccinatiedatum(int dierverzorgernummer, string vaccinatienaam, DateTime datumgevaccineerd, DateTime datumverlopen, string bijwerking)
         {
-            db.VoegVaccinatiedatumToe(dierverzorgernummer, vaccinatienaam, datumgevaccineerd, datumverlopen, bijwerking);
+            this.db.VoegVaccinatiedatumToe(dierverzorgernummer, vaccinatienaam, datumgevaccineerd, datumverlopen, bijwerking);
         }
         #endregion
 
         #region Vaccinaties opvragen 
         public List<Vaccinatie> AlleVaccinaties()
         {
-            List<Vaccinatie> vaccinaties = (List<Vaccinatie>)db.AlleVaccinaties();
+            List<Vaccinatie> vaccinaties = (List<Vaccinatie>)this.db.AlleVaccinaties();
             return vaccinaties;
         }
         #endregion
@@ -422,24 +424,24 @@ namespace Klassen
         #region Medicijnen opvragen
         public List<Medicijn> AlleMedicijnen()
         {
-            List<Medicijn> medicijnen = (List<Medicijn>)db.AlleMedicijnen();
-            return medicijnen;
+            List<Medicijn> medicijnen = (List<Medicijn>)this.db.AlleMedicijnen();
+            return this.medicijnen;
         }
         #endregion
 
         #region Dieren opvragen
         public List<Dier> AlleDieren()
         {
-            dieren = (List<Dier>)db.AlleDieren();
-            return dieren;
+            this.dieren = (List<Dier>)this.db.AlleDieren();
+            return this.dieren;
         }
         #endregion
 
         #region Dierverzorgers opvragen
         public List<Dierverzorger> AlleVerzorgers()
         {
-            dierverzorgers = (List<Dierverzorger>)db.AlleVerzorgers();
-            return dierverzorgers;
+            this.dierverzorgers = (List<Dierverzorger>)this.db.AlleVerzorgers();
+            return this.dierverzorgers;
         }
         #endregion
 

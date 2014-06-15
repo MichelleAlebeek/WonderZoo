@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//Klasse diersoort.
 
 namespace Klassen
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
     public class Diersoort
     {
         private string afdeling;
@@ -27,38 +28,38 @@ namespace Klassen
 
         public string Afdeling
         {
-            get { return afdeling; }
-            set { afdeling = value; }
+            get { return this.afdeling; }
+            set { this.afdeling = value; }
         }
         public int Diersoortnummer
         {
-            get { return diersoortnummer; }
-            set { diersoortnummer = value; }
+            get { return this.diersoortnummer; }
+            set { this.diersoortnummer = value; }
         }
         public string Familie
         {
-            get { return familie; }
-            set { familie = value; }
+            get { return this.familie; }
+            set { this.familie = value; }
         }
         public string Diersoortgeslacht
         {
-            get { return diersoortgeslacht; }
-            set { diersoortgeslacht = value; }
+            get { return this.diersoortgeslacht; }
+            set { this.diersoortgeslacht = value; }
         }
         public string Klasse
         {
-            get { return klasse; }
-            set { klasse = value; }
+            get { return this.klasse; }
+            set { this.klasse = value; }
         }
         public string Orde
         {
-            get { return orde; }
-            set { orde = value; }
+            get { return this.orde; }
+            set { this.orde = value; }
         }
 
         public override string ToString()
         {
-            return diersoortnummer + afdeling + klasse + orde + familie + diersoortgeslacht;
+            return this.diersoortnummer + this.afdeling + this.klasse + this.orde + this.familie + this.diersoortgeslacht;
         }
     }
 }

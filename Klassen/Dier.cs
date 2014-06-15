@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//Klassen dier. 
 
 namespace Klassen
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
     public class Dier : Ras
     {
         private DateTime datumAanschaf;
@@ -34,72 +35,72 @@ namespace Klassen
             this.naamVader = naamVader;
             this.nakomeling = nakomeling;
             this.datumAanschaf = datumAanschaf;
-            medicijnen = new List<Medicijn>();
-            voeding = new List<Voeding>();
+            this.medicijnen = new List<Medicijn>();
+            this.voeding = new List<Voeding>();
         }
 
         public List<Medicijn>Medicijnen
         {
-            get { return new List<Medicijn>(medicijnen); }
+            get { return new List<Medicijn>(this.medicijnen); }
         }
         public List<Voeding> Voeding
         {
-            get { return new List<Voeding>(voeding); }
+            get { return new List<Voeding>(this.voeding); }
         }
         public DateTime DatumAanschaf
         {
-            get { return datumAanschaf; }
-            set { datumAanschaf = value; }
+            get { return this.datumAanschaf; }
+            set { this.datumAanschaf = value; }
         }
         public string Diernaam
         {
-            get { return diernaam; }
-            set { diernaam = value; }
+            get { return this.diernaam; }
+            set { this.diernaam = value; }
         }
         public int Diernummer
         {
-            get { return diernummer; }
-            set { diernummer = value; }
+            get { return this.diernummer; }
+            set { this.diernummer = value; }
         }
         public string Geslacht
         {
-            get { return geslacht; }
-            set { geslacht = value; }
+            get { return this.geslacht; }
+            set { this.geslacht = value; }
         }
         public double Gewicht
         {
-            get { return gewicht; }
-            set { gewicht = value; }
+            get { return this.gewicht; }
+            set { this.gewicht = value; }
         }
         public int Leeftijd
         {
-            get { return leeftijd; }
-            set { leeftijd = value; }
+            get { return this.leeftijd; }
+            set { this.leeftijd = value; }
         }
         public int Lengte
         {
-            get { return lengte; }
-            set { lengte = value; }
+            get { return this.lengte; }
+            set { this.lengte = value; }
         }
         public string NaamMoeder
         {
-            get { return naamMoeder; }
-            set { naamMoeder = value; }
+            get { return this.naamMoeder; }
+            set { this.naamMoeder = value; }
         }
         public string NaamVader
         {
-            get { return naamVader; }
-            set { naamVader = value; }
+            get { return this.naamVader; }
+            set { this.naamVader = value; }
         }
         public bool Nakomeling
         {
-            get { return nakomeling; }
-            set { nakomeling = value; }
+            get { return this.nakomeling; }
+            set { this.nakomeling = value; }
         }
 
         public override string ToString()
         {
-            return diernummer + diernaam + geslacht + gewicht + "leeftijd: " + leeftijd + "Lengte: " + lengte + datumAanschaf + naamMoeder + naamVader + nakomeling;
+            return this.diernummer + this.diernaam + this.geslacht + this.gewicht + "leeftijd: " + this.leeftijd + "Lengte: " + this.lengte + this.datumAanschaf + this.naamMoeder + this.naamVader + this.nakomeling;
         }
 
     }

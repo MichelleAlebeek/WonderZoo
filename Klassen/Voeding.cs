@@ -1,11 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//Klasse voeding.
 
 namespace Klassen
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    public enum Soortvoeding
+    {
+        Eieren,
+        Fruit,
+        Groente,
+        Hondenbrok,
+        Kattenbrok,
+        Krachtvoer,
+        Levendvoer,
+        PandaCake,
+        Rauwvlees,
+        Ruwvoer,
+        Schapenbrok
+    }
     public class Voeding
     {
         private string hoeveelheidVoeding;
@@ -23,47 +38,31 @@ namespace Klassen
 
         public Soortvoeding SoortVoeding
         {
-            get { return soortVoeding; }
-            set { soortVoeding = value; }
+            get { return this.soortVoeding; }
+            set { this.soortVoeding = value; }
         }
-
 
         public string HoeveelheidVoeding
         {
-            get { return hoeveelheidVoeding; }
-            set { hoeveelheidVoeding = value; }
+            get { return this.hoeveelheidVoeding; }
+            set { this.hoeveelheidVoeding = value; }
         }
 
         public DateTime HoudbaarTot
         {
-            get { return houdbaarTot; }
-            set { houdbaarTot = value; }
+            get { return this.houdbaarTot; }
+            set { this.houdbaarTot = value; }
         }
 
         public string NaamVoeding
         {
-            get { return naamVoeding; }
-            set { naamVoeding = value; }
+            get { return this.naamVoeding; }
+            set { this.naamVoeding = value; }
         }
 
         public override string ToString()
         {
-            return soortVoeding + naamVoeding + hoeveelheidVoeding + houdbaarTot;
+            return this.soortVoeding + this.naamVoeding + this.hoeveelheidVoeding + this.houdbaarTot;
         }
-    }
-
-    public enum Soortvoeding
-    {
-        Eieren,
-        Fruit,
-        Groente,
-        Hondenbrok,
-        Kattenbrok,
-        Krachtvoer,
-        Levendvoer,
-        PandaCake,
-        Rauwvlees,
-        Ruwvoer,
-        Schapenbrok
-    }
+    } 
 }

@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//Klassen dierenarts.
 
 namespace Klassen
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
     public class Dierenarts : Persoon
     {
         private int dierenartsnummer;
@@ -25,38 +26,38 @@ namespace Klassen
             this.spoednummer = spoednummer;
             this.telefoonnummer = telefoonnummer;
             this.leeftijd = leeftijd;
-            beheerder = new Beheer();
+            this.beheerder = new Beheer();
         }
 
         public int Dierenartsnummer
         {
-            get { return dierenartsnummer; }
-            set { dierenartsnummer = value; }
+            get { return this.dierenartsnummer; }
+            set { this.dierenartsnummer = value; }
         }
         public int Rekeningnummer
         {
-            get { return rekeningnummer; }
-            set { rekeningnummer = value; }
+            get { return this.rekeningnummer; }
+            set { this.rekeningnummer = value; }
         }
         public int Leeftijd
         {
-            get { return leeftijd; }
-            set { leeftijd = value; }
+            get { return this.leeftijd; }
+            set { this.leeftijd = value; }
         }
         public string Specialisatie
         {
-            get { return specialisatie; }
-            set { specialisatie = value; }
+            get { return this.specialisatie; }
+            set { this.specialisatie = value; }
         }
         public int Spoednummer
         {
-            get { return spoednummer; }
-            set { spoednummer = value; }
+            get { return this.spoednummer; }
+            set { this.spoednummer = value; }
         }
         public int Telefoonnummer
         {
-            get { return telefoonnummer; }
-            set { telefoonnummer = value; }
+            get { return this.telefoonnummer; }
+            set { this.telefoonnummer = value; }
         }
 
         public int BerekenDuurMedicijn(DateTime vandaag, DateTime begindatum)
@@ -69,20 +70,20 @@ namespace Klassen
         public List<Medicijn> ZoekMedicijn(int diernummer)
         {
             // TODO zoek bij het meegegeven diernummer het medicijn op die dit dier gebruikt.
-            List<Medicijn> medicijn = beheerder.MedicijnVanDier(diernummer);
+            List<Medicijn> medicijn = this.beheerder.MedicijnVanDier(diernummer);
             return medicijn;
         }
 
-        public List<String> ZoekVeelvoorkomendeZiektes(string rasnaam)
+        public List<string> ZoekVeelvoorkomendeZiektes(string rasnaam)
         {
             // TODO zoek de veelvoorkomende ziektes op die bij het ras horen met het meegegeven rasnaam
             int diersoortnummer;
-            foreach (Ras ras in beheerder.Rassen)
+            foreach (Ras ras in this.beheerder.Rassen)
             {
                 if (ras.Familie == rasnaam)
                 {
                     diersoortnummer = ras.Diersoortnummer;
-                    List<String> ziektes = (List<String>)beheerder.VeelVoorkomendeZiektesDiersoort(diersoortnummer);
+                    List<string> ziektes = (List<string>)this.beheerder.VeelVoorkomendeZiektesDiersoort(diersoortnummer);
                     return ziektes;
                 }
             }          
@@ -91,7 +92,7 @@ namespace Klassen
 
         public override string ToString()
         {
-            return dierenartsnummer + rekeningnummer + specialisatie + spoednummer + telefoonnummer;
+            return this.dierenartsnummer + this.rekeningnummer + this.specialisatie + this.spoednummer + this.telefoonnummer;
         }
     }
 }

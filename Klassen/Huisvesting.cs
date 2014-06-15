@@ -1,80 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//Klassen huisvesting
 
 namespace Klassen
 {
-    public class Huisvesting
-    {
-        private int aantalDieren;
-        private Gedragsverrijking gedragsverrijking;
-        private int huisvestingnummer;
-        private HuisvestingMateriaal materiaal;
-        private HuisvestingSoort soorthuisvesting;
-        private List<Dier> dieren;
-        private Beheer beheerder;
-
-        public Huisvesting(int huisvestingnummer, HuisvestingSoort soorthuisvesting, HuisvestingMateriaal materiaal, Gedragsverrijking gedragsverrijking, int aantalDieren)
-        {
-            this.huisvestingnummer = huisvestingnummer;
-            this.soorthuisvesting = soorthuisvesting;
-            this.materiaal = materiaal;
-            this.gedragsverrijking = gedragsverrijking;
-            this.aantalDieren = aantalDieren;
-            dieren = new List<Dier>();
-            beheerder = new Beheer();
-        }
-
-        public List<Dier> Dieren
-        {
-            get { return new List<Dier>(dieren);}
-        }
-
-        public int AantalDieren
-        {
-            get { return aantalDieren; }
-            set { aantalDieren = value; }
-        }
-
-        public Gedragsverrijking Gedragsverrijking
-        {
-            get { return gedragsverrijking; }
-            set { gedragsverrijking = value; }
-        }
-
-        public int Huisvestingnummer
-        {
-            get { return huisvestingnummer; }
-            set { huisvestingnummer = value; }
-        }
-
-        public HuisvestingMateriaal Materiaal
-        {
-            get { return materiaal; }
-            set { materiaal = value; }
-        }
-
-        public HuisvestingSoort SoortHuisvesting
-        {
-            get { return soorthuisvesting; }
-            set { soorthuisvesting = value; }
-        }
-
-        public int BerekenAantalDieren(int huisvestingnummer)
-        {
-            // TODO: 
-            // Bereken het aantal dieren in het verblijf met het huisvestingnummer dat wordt meegegeven
-            int aantal = beheerder.AantalDierenVeblijf(huisvestingnummer);
-            return aantal;
-        }
-
-        public override string ToString()
-        {
-            return huisvestingnummer + soorthuisvesting + "Materiaal: " + materiaal + gedragsverrijking + aantalDieren + dieren;
-        }
-    }
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
     public enum HuisvestingSoort
     {
@@ -122,4 +54,73 @@ namespace Klassen
         Water,
         WilgenTakken
     }
+    public class Huisvesting
+    {
+        private int aantalDieren;
+        private Gedragsverrijking gedragsverrijking;
+        private int huisvestingnummer;
+        private HuisvestingMateriaal materiaal;
+        private HuisvestingSoort soorthuisvesting;
+        private List<Dier> dieren;
+        private Beheer beheerder;
+
+        public Huisvesting(int huisvestingnummer, HuisvestingSoort soorthuisvesting, HuisvestingMateriaal materiaal, Gedragsverrijking gedragsverrijking, int aantalDieren)
+        {
+            this.huisvestingnummer = huisvestingnummer;
+            this.soorthuisvesting = soorthuisvesting;
+            this.materiaal = materiaal;
+            this.gedragsverrijking = gedragsverrijking;
+            this.aantalDieren = aantalDieren;
+            this.dieren = new List<Dier>();
+            this.beheerder = new Beheer();
+        }
+
+        public List<Dier> Dieren
+        {
+            get { return new List<Dier>(this.dieren); }
+        }
+
+        public int AantalDieren
+        {
+            get { return this.aantalDieren; }
+            set { this.aantalDieren = value; }
+        }
+
+        public Gedragsverrijking Gedragsverrijking
+        {
+            get { return this.gedragsverrijking; }
+            set { this.gedragsverrijking = value; }
+        }
+
+        public int Huisvestingnummer
+        {
+            get { return this.huisvestingnummer; }
+            set { this.huisvestingnummer = value; }
+        }
+
+        public HuisvestingMateriaal Materiaal
+        {
+            get { return this.materiaal; }
+            set { this.materiaal = value; }
+        }
+
+        public HuisvestingSoort SoortHuisvesting
+        {
+            get { return this.soorthuisvesting; }
+            set { this.soorthuisvesting = value; }
+        }
+
+        public int BerekenAantalDieren(int huisvestingnummer)
+        {
+            // TODO: 
+            // Bereken het aantal dieren in het verblijf met het huisvestingnummer dat wordt meegegeven
+            int aantal = this.beheerder.AantalDierenVeblijf(huisvestingnummer);
+            return aantal;
+        }
+
+        public override string ToString()
+        {
+            return this.huisvestingnummer + this.soorthuisvesting + "Materiaal: " + this.materiaal + this.gedragsverrijking + this.aantalDieren + this.dieren;
+        }
+    }   
 }

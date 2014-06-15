@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//Klasse dierverzorger.
 
 namespace Klassen
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
     public class Dierverzorger : Persoon
     {
         private DateTime datumAangenomen;
@@ -33,70 +34,70 @@ namespace Klassen
             this.telefoonnummerZakelijk = telefoonnummerZakelijk;
             this.typeContract = typeContract;
             this.leeftijd = leeftijd;
-            vaccinaties = new List<Vaccinatie>();
-            diersoorten = new List<Diersoort>();
-            beheerder = new Beheer();
+            this.vaccinaties = new List<Vaccinatie>();
+            this.diersoorten = new List<Diersoort>();
+            this.beheerder = new Beheer();
         }
  
         public List<Vaccinatie> Vacinaties
         {
-            get { return new List<Vaccinatie>(vaccinaties); }
+            get { return new List<Vaccinatie>(this.vaccinaties); }
         }
         public List<Diersoort> Diersoorten
         {
-            get { return new List<Diersoort>(diersoorten); }
+            get { return new List<Diersoort>(this.diersoorten); }
         }
 
         public DateTime DatumAangenomen
         {
-            get { return datumAangenomen;}
-            set { datumAangenomen = value; }
+            get { return this.datumAangenomen; }
+            set { this.datumAangenomen = value; }
         }
         public int DierverzorgerNummer
         {
-            get { return dierverzorgerNummer; }
-            set { dierverzorgerNummer = value; }
+            get { return this.dierverzorgerNummer; }
+            set { this.dierverzorgerNummer = value; }
         }
         public string Geslacht
         {
-            get { return geslacht; }
-            set { geslacht = value; }
+            get { return this.geslacht; }
+            set { this.geslacht = value; }
         }
         public string Hoofddiersoort
         {
-            get { return hoofddiersoort; }
-            set { hoofddiersoort = value; }
+            get { return this.hoofddiersoort; }
+            set { this.hoofddiersoort = value; }
         }
         public int Rekeningnummer
         {
-            get { return rekeningnummer; }
-            set { rekeningnummer = value; }
+            get { return this.rekeningnummer; }
+            set { this.rekeningnummer = value; }
         }
         public int TelefoonnummerPrivé
         {
-            get { return telefoonnummerPrivé; }
-            set { telefoonnummerPrivé = value; }
+            get { return this.telefoonnummerPrivé; }
+            set { this.telefoonnummerPrivé = value; }
         }
         public int Leeftijd
         {
-            get { return leeftijd; }
-            set { leeftijd = value; }
+            get { return this.leeftijd; }
+            set { this.leeftijd = value; }
         }
         public int TelefoonnummerZakelijk
         {
-            get { return telefoonnummerZakelijk; }
-            set { telefoonnummerZakelijk = value; }
+            get { return this.telefoonnummerZakelijk; }
+            set { this.telefoonnummerZakelijk = value; }
         }
         public string TypeContract
         {
-            get { return typeContract; }
-            set { typeContract = value; }
+            get { return this.typeContract; }
+            set { this.typeContract = value; }
         }
 
         public int AantalDieren()
         {
             // Todo het aantal dieren opvragen
-            int dieren = beheerder.TotaalAantalDieren();
+            int dieren = this.beheerder.TotaalAantalDieren();
             return dieren;
         }
 
@@ -105,10 +106,10 @@ namespace Klassen
         //    // TODO: download de plattegrond
         //}
 
-        public List<String> ZoekVeelvoorkomendeZiektes(int diersoortnummer)
+        public List<string> ZoekVeelvoorkomendeZiektes(int diersoortnummer)
         {
             // TODO zoek de veelvoorkomende ziektes op die bij het diersoort horen met het meegegeven rasnaam
-            List<String> veelvoorkomendeziektes = beheerder.VeelVoorkomendeZiektesDiersoort(diersoortnummer);
+            List<string> veelvoorkomendeziektes = this.beheerder.VeelVoorkomendeZiektesDiersoort(diersoortnummer);
             return veelvoorkomendeziektes;
         }
 
@@ -121,7 +122,7 @@ namespace Klassen
         public Diersoort ZoekDiersoort(string diersoortnaam)
         {
             // TODO zoek het dier in de lijst met diersoorten waarvan de naam overeenkomt met de naam die je meegeeft
-            foreach (Diersoort diersoort in diersoorten)
+            foreach (Diersoort diersoort in this.diersoorten)
             {
                 if (diersoort.Familie == diersoortnaam)
                 {
@@ -134,21 +135,21 @@ namespace Klassen
         public Diersoort ZoekInfoDiersoort(int diersoortnummer)
         {
             // TODO zoek alle info over het diersoort waarvan de naam overeenkomt met de naam die je meegeeft
-            Diersoort diersoort = (Diersoort)beheerder.ZoekDiersoort(diersoortnummer);
+            Diersoort diersoort = (Diersoort)this.beheerder.ZoekDiersoort(diersoortnummer);
             return diersoort;
         }
 
         public Dier ZoekInfoDier(string naamdier)
         { // TODO zoek alle info over het dier waarvan de naam overeenkomt met de naam die je meegeeft
-            Dier dier = (Dier)beheerder.InfoDier(naamdier);
+            Dier dier = (Dier)this.beheerder.InfoDier(naamdier);
             return dier;
         }
 
         public Ras ZoekRas(int diernummer)
         {
             // TODO zoek het ras op dat bij het dier hoort waarvan de naam overeenkomt met de naam die je meegeeft
-            string rasnaam = beheerder.RasVanDier(diernummer);
-            foreach (Ras ras in beheerder.Rassen)
+            string rasnaam = this.beheerder.RasVanDier(diernummer);
+            foreach (Ras ras in this.beheerder.Rassen)
             {
                 if (ras.Rasnaam == rasnaam)
                 {
@@ -163,12 +164,12 @@ namespace Klassen
             // TODO zoek het voeding op dat bij het dier hoort waarvan de naam overeenkomt met de naam die je meegeeft
             int diersoortnummer;
 
-            foreach (Dier dier in beheerder.Dieren)
+            foreach (Dier dier in this.beheerder.Dieren)
             {
                 if (dier.Diernaam == naamdier)
                 {
                     diersoortnummer = dier.Diersoortnummer;
-                    string voeding = beheerder.VoedingDiersoort(diersoortnummer);
+                    string voeding = this.beheerder.VoedingDiersoort(diersoortnummer);
                     return voeding;
                 }              
             }         
@@ -177,7 +178,7 @@ namespace Klassen
 
         public override string ToString()
         {
-            return datumAangenomen + " " + dierverzorgerNummer + " " + geslacht + " " + hoofddiersoort + " " + rekeningnummer  + " " + telefoonnummerPrivé + " " + telefoonnummerZakelijk + " " + typeContract;
+            return this.datumAangenomen + " " + this.dierverzorgerNummer + " " + this.geslacht + " " + this.hoofddiersoort + " " + this.rekeningnummer + " " + this.telefoonnummerPrivé + " " + this.telefoonnummerZakelijk + " " + this.typeContract;
         }
     }
 }

@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//Klasse vaccinatie.
 
 namespace Klassen
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
     public class Vaccinatie
     {
         private double prijs;
@@ -23,30 +24,30 @@ namespace Klassen
 
         public string Vaccinatienaam
         {
-            get { return vaccinatienaam; }
-            set { vaccinatienaam = value; }
+            get { return this.vaccinatienaam; }
+            set { this.vaccinatienaam = value; }
         }
        
         public string UitPreventieVoor
         {
-            get { return uitPreventieVoor; }
-            set { uitPreventieVoor = value; }
+            get { return this.uitPreventieVoor; }
+            set { this.uitPreventieVoor = value; }
         }
     
         public string Werkingstijd
         {
-            get { return werkingstijd; }
-            set { werkingstijd = value; }
+            get { return this.werkingstijd; }
+            set { this.werkingstijd = value; }
         }
         public double Prijs
         {
-            get { return prijs; }
-            set { prijs = value; }
+            get { return this.prijs; }
+            set { this.prijs = value; }
         }
 
         public override string ToString()
         {
-            return vaccinatienaam + uitPreventieVoor + werkingstijd + prijs;
+            return this.vaccinatienaam + this.uitPreventieVoor + this.werkingstijd + this.prijs;
         }
     }
 }

@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//Klasse ras. Dit is de basisklasse van Dier en deze overerft de klasse diersoort.
 
 namespace Klassen
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
     public class Ras : Diersoort
     {
         private int draagtijd;
@@ -36,63 +37,63 @@ namespace Klassen
         }
         public string VeelvoorkomendeZiektes
         {
-            get { return veelvoorkomendeZiektes; }
-            set { veelvoorkomendeZiektes = value; }
+            get { return this.veelvoorkomendeZiektes; }
+            set { this.veelvoorkomendeZiektes = value; }
         }
         public int Draagtijd
         {
-            get { return draagtijd; }
-            set { draagtijd = value; }
+            get { return this.draagtijd; }
+            set { this.draagtijd = value; }
         }
         public int Rasgewicht
         {
-            get { return rasgewicht; }
-            set { rasgewicht = value; }
+            get { return this.rasgewicht; }
+            set { this.rasgewicht = value; }
         }
         public int LeeftijdGevangenschap
         {
-            get { return leeftijdGevangenschap; }
-            set { leeftijdGevangenschap = value; }
+            get { return this.leeftijdGevangenschap; }
+            set { this.leeftijdGevangenschap = value; }
         }
         public int Raslengte
         {
-            get { return raslengte; }
-            set { raslengte = value; }
+            get { return this.raslengte; }
+            set { this.raslengte = value; }
         }
         public string OorspronkelijkeLeefomgeving
         {
-            get { return oorspronkelijkeLeefomgeving; }
-            set { oorspronkelijkeLeefomgeving = value; }
+            get { return this.oorspronkelijkeLeefomgeving; }
+            set { this.oorspronkelijkeLeefomgeving = value; }
         }
         public int Rasleeftijd
         {
-            get { return rasleeftijd; }
-            set { rasleeftijd = value; }
+            get { return this.rasleeftijd; }
+            set { this.rasleeftijd = value; }
         }
         public string Rasnaam
         {
-            get { return rasnaam ; }
-            set { rasnaam = value; }
+            get { return this.rasnaam; }
+            set { this.rasnaam = value; }
         }
         public int Rasnummer
         {
-            get { return rasnummer; }
-            set { rasnummer = value; }
+            get { return this.rasnummer; }
+            set { this.rasnummer = value; }
         }
         public string Status
         {
-            get { return status; }
-            set { status = value; }
+            get { return this.status; }
+            set { this.status = value; }
         }
         public string WetenschappelijkeNaam
         {
-            get { return wetenschappelijkeNaam; }
-            set { wetenschappelijkeNaam = value; }
+            get { return this.wetenschappelijkeNaam; }
+            set { this.wetenschappelijkeNaam = value; }
         }
 
         public override string ToString()
         {
-            return draagtijd + " " + rasgewicht + " " + leeftijdGevangenschap + " " + raslengte + " " + oorspronkelijkeLeefomgeving + " " + rasleeftijd + " " + rasnaam + " " + rasnummer + " " + status + " " + wetenschappelijkeNaam + " " + veelvoorkomendeZiektes;
+            return this.draagtijd + " " + this.rasgewicht + " " + this.leeftijdGevangenschap + " " + this.raslengte + " " + this.oorspronkelijkeLeefomgeving + " " + this.rasleeftijd + " " + this.rasnaam + " " + this.rasnummer + " " + this.status + " " + this.wetenschappelijkeNaam + " " + this.veelvoorkomendeZiektes;
         }
     }
 }
