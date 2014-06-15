@@ -14,15 +14,17 @@ namespace Klassen
         private int spoednummer;
         private int telefoonnummer;
         private Beheer beheerder;
+        private int leeftijd;
 
-        public Dierenarts(int dierenartsnummer, int rekeningnummer, string specialisatie, int spoednummer, int telefoonnummer, string naam, int leeftijd, string wachtwoord)
-            : base(naam, leeftijd, wachtwoord)
+        public Dierenarts(int dierenartsnummer, int rekeningnummer, string specialisatie, int spoednummer, int telefoonnummer, string naam, int leeftijd, string wachtwoord, string beroep)
+            : base(naam, wachtwoord, beroep)
         {
             this.dierenartsnummer = dierenartsnummer;
             this.rekeningnummer = rekeningnummer;
             this.specialisatie = specialisatie;
             this.spoednummer = spoednummer;
             this.telefoonnummer = telefoonnummer;
+            this.leeftijd = leeftijd;
             beheerder = new Beheer();
         }
 
@@ -35,6 +37,11 @@ namespace Klassen
         {
             get { return rekeningnummer; }
             set { rekeningnummer = value; }
+        }
+        public int Leeftijd
+        {
+            get { return leeftijd; }
+            set { leeftijd = value; }
         }
         public string Specialisatie
         {

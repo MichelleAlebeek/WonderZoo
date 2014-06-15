@@ -13,13 +13,22 @@ namespace WonderZooWeb {
     public partial class Inloggen {
         
         /// <summary>
-        /// DDGebruikers control.
+        /// LblFout control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DDGebruikers;
+        protected global::System.Web.UI.WebControls.Label LblFout;
+        
+        /// <summary>
+        /// TxtGebruikersnaam control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxtGebruikersnaam;
         
         /// <summary>
         /// TxtWachtwoord control.

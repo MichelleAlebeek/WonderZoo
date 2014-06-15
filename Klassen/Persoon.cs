@@ -8,26 +8,26 @@ namespace Klassen
 {
     public class Persoon
     {
-        private int leeftijd;
         private string naam;
         private string wachtwoord;
+        private string beroep;
 
-        public Persoon(string naam, int leeftijd, string wachtwoord)
+        public Persoon(string naam, string wachtwoord, string beroep)
         {
             this.naam = naam;
-            this.leeftijd = leeftijd;
             this.wachtwoord = wachtwoord;
+            this.beroep = beroep;
         }
 
-        public int Leeftijd
-        {
-            get { return leeftijd; }
-            set { leeftijd = value; }
-        }
         public string Naam
         {
             get { return naam; }
             set { naam = value; }
+        }
+        public string Beroep
+        {
+            get { return beroep; }
+            set { beroep = value; }
         }
         public string Wachtwoord
         {
@@ -37,7 +37,7 @@ namespace Klassen
 
         public override string ToString()
         {
-            return naam + leeftijd + wachtwoord;
+            return naam + wachtwoord;
         }
     }
 }

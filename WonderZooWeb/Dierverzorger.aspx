@@ -75,4 +75,6 @@
     <asp:TextBox ID="TxtTotaalDieren" runat="server"></asp:TextBox>
     <br />
     <br />
+    <asp:Button ID="BtnUitloggen" runat="server" OnClick="BtnUitloggen_Click" Text="Uitloggen" />
+    <br />
 </asp:Content>

@@ -11,11 +11,13 @@ namespace Klassen
         private int telefoonnummer;
         private List<Diersoort> diersoorten;
         private Beheer beheerder;
+        private int leeftijd;
 
-        public Administratie(int telefoonnummer, string naam, int leeftijd, string wachtwoord)
-            : base(naam, leeftijd, wachtwoord)
+        public Administratie(int telefoonnummer, string naam, int leeftijd, string wachtwoord, string beroep)
+            : base(naam, wachtwoord, beroep)
         {
             this.telefoonnummer = telefoonnummer;
+            this.leeftijd = leeftijd;
             diersoorten = new List<Diersoort>();
             beheerder = new Beheer();
         }
@@ -29,6 +31,11 @@ namespace Klassen
         {
             get { return telefoonnummer; }
             set { telefoonnummer = value; }
+        }
+        public int Leeftijd
+        {
+            get { return leeftijd; }
+            set { leeftijd = value; }
         }
 
         public int AantalDieren()
@@ -185,7 +192,7 @@ namespace Klassen
 
         public override string ToString()
         {
-            return Naam + Leeftijd + Wachtwoord + telefoonnummer;
+            return Naam + Wachtwoord + telefoonnummer;
         }
     }
 }

@@ -49,6 +49,7 @@
     <asp:Label ID="LblFout" runat="server"></asp:Label>
     <br />
     <br />
+    <asp:Button ID="BtnUitloggen" runat="server" OnClick="BtnUitloggen_Click" Text="Uitloggen" />
     <br />
     <br />
 </asp:Content>

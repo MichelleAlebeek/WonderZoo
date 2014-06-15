@@ -78,5 +78,10 @@ namespace WonderZooWeb
             int aantal = beheerder.TotaalAantalDieren();
             TxtTotaalDieren.Text = aantal.ToString();
         }
+
+        protected void BtnUitloggen_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Home.aspx");
+        }
     }
 }

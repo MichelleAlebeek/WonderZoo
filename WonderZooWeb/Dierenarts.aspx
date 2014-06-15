@@ -21,6 +21,8 @@
     &nbsp;
     <asp:GridView ID="GVArts" runat="server">
     </asp:GridView>
+    <br />
+    <asp:Button ID="BtnUitloggen" runat="server" OnClick="BtnUitloggen_Click" Text="Uitloggen" />
 </asp:Content>
 <asp:Content ID="Content3" runat="server" contentplaceholderid="MainImage">
                  <asp:Image ID="ImageDierenarts" runat="server" Height="97px" ImageAlign="Right" Width="385px" style="margin-left: 2px" ImageUrl="~/Images/reuzenmiereneterkop.jpg" />                           

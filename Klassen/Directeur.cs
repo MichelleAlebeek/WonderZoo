@@ -9,12 +9,19 @@ namespace Klassen
     public class Directeur : Persoon
     {
         private Beheer beheerder;
-        public Directeur(string naam, int leeftijd, string wachtwoord)
-            : base (naam, leeftijd, wachtwoord)
+        private int leeftijd;
+        public Directeur(string naam, int leeftijd, string wachtwoord, string beroep)
+            : base (naam, wachtwoord, beroep)
         {
+            this.leeftijd = leeftijd;
             beheerder = new Beheer();
         }
 
+        public int Leeftijd
+        {
+            get { return leeftijd; }
+            set { leeftijd = value; }
+        }
         public int AantalDieren()
         {
             // Todo het aantal dieren opvragen

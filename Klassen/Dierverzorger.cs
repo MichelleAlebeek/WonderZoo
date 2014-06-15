@@ -19,9 +19,10 @@ namespace Klassen
         private List<Vaccinatie> vaccinaties;
         private List<Diersoort> diersoorten;
         private Beheer beheerder;
+        private int leeftijd;
 
-        public Dierverzorger( DateTime datumAangenomen, int dierverzorgerNummer, string geslacht, string hoofddiersoort, int rekeningnummer, int telefoonnummerPrivé, int telefoonnummerZakelijk, string typeContract, string naam, int leeftijd, string wachtwoord)
-            : base (naam, leeftijd, wachtwoord)
+        public Dierverzorger( DateTime datumAangenomen, int dierverzorgerNummer, string geslacht, string hoofddiersoort, int rekeningnummer, int telefoonnummerPrivé, int telefoonnummerZakelijk, string typeContract, string naam, int leeftijd, string wachtwoord, string beroep)
+            : base (naam, wachtwoord, beroep)
         {
             this.datumAangenomen = datumAangenomen;
             this.dierverzorgerNummer = dierverzorgerNummer;
@@ -31,6 +32,7 @@ namespace Klassen
             this.telefoonnummerPrivé = telefoonnummerPrivé;
             this.telefoonnummerZakelijk = telefoonnummerZakelijk;
             this.typeContract = typeContract;
+            this.leeftijd = leeftijd;
             vaccinaties = new List<Vaccinatie>();
             diersoorten = new List<Diersoort>();
             beheerder = new Beheer();
@@ -74,6 +76,11 @@ namespace Klassen
         {
             get { return telefoonnummerPrivé; }
             set { telefoonnummerPrivé = value; }
+        }
+        public int Leeftijd
+        {
+            get { return leeftijd; }
+            set { leeftijd = value; }
         }
         public int TelefoonnummerZakelijk
         {

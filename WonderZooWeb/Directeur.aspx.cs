@@ -16,7 +16,7 @@ namespace WonderZooWeb
         protected void Page_Load(object sender, EventArgs e)
         {
             beheerder = new Beheer();
-            directeur = new Klassen.Directeur("Jan", 45, "GeheimDirecteur");
+            directeur = new Klassen.Directeur("Jan", 45, "GeheimDirecteur", "Directeur");
         }
 
         protected void BtnTotaalDieren_Click(object sender, EventArgs e)
@@ -82,6 +82,11 @@ namespace WonderZooWeb
             string diernaam = TxtNaam.Text;
             int diernummer = Convert.ToInt32(TxtNr.Text);
             beheerder.VerwijderDier(diernummer, diernaam);
+        }
+
+        protected void BtnUitloggen_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Home.aspx");
         }
     }
 }

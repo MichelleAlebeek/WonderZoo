@@ -48,5 +48,10 @@ namespace WonderZooWeb
             GVArts.DataSource = ziektes;
             GVArts.DataBind();
         }
+
+        protected void BtnUitloggen_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Home.aspx");
+        }
     }
 }
