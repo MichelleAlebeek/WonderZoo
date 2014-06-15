@@ -1,39 +1,40 @@
-﻿using Klassen;
-using Klassen.Properties;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+﻿//Directeur web form. Hier kan alleen de directeur op terrecht komen en komen ook alleen de dingen op te staan die een directeur mag.
 
 namespace WonderZooWeb
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using System.Web.UI;
+    using System.Web.UI.WebControls;
+    using Klassen;
+    using Klassen.Properties;
     public partial class Directeur : System.Web.UI.Page
     {
-        Beheer beheerder;
-        Klassen.Directeur directeur;
+        private Beheer beheerder;
+        private Klassen.Directeur directeur;
         protected void Page_Load(object sender, EventArgs e)
         {
-            beheerder = new Beheer();
-            directeur = new Klassen.Directeur("Jan", 45, "GeheimDirecteur", "Directeur");
+            this.beheerder = new Beheer();
+            this.directeur = new Klassen.Directeur("Jan", 45, "GeheimDirecteur", "Directeur");
         }
 
         protected void BtnTotaalDieren_Click(object sender, EventArgs e)
         {
-            TxtAantalTotaal.Text = Convert.ToString(beheerder.TotaalAantalDieren());
+            TxtAantalTotaal.Text = Convert.ToString(this.beheerder.TotaalAantalDieren());
         }
 
         protected void BtnVerblijf_Click(object sender, EventArgs e)
         {
             int diernummer = Convert.ToInt32(TxtDiersoortNr.Text);
-            TxtVerblijf.Text = beheerder.VerblijfVanDier(diernummer);
+            TxtVerblijf.Text = this.beheerder.VerblijfVanDier(diernummer);
         }
 
         protected void BtnMedicijnen_Click(object sender, EventArgs e)
         {
             int diernummer = Convert.ToInt32(TxtDierNr.Text);
-            List<Medicijn> medicijnen = new List<Medicijn>(beheerder.MedicijnVanDier(diernummer));
+            List<Medicijn> medicijnen = new List<Medicijn>(this.beheerder.MedicijnVanDier(diernummer));
             GVMedicijnen.DataSource = medicijnen;
             GVMedicijnen.DataBind();
         }
@@ -41,7 +42,7 @@ namespace WonderZooWeb
         protected void BtnAantalVerblijf_Click(object sender, EventArgs e)
         {
             int huisvesting = Convert.ToInt32(TxtHuisNr.Text);
-            TxtAantalVerblijf.Text = Convert.ToString(beheerder.AantalDierenVeblijf(huisvesting));
+            TxtAantalVerblijf.Text = Convert.ToString(this.beheerder.AantalDierenVeblijf(huisvesting));
         }
 
         protected void BtnToevoegen_Click(object sender, EventArgs e)
@@ -68,7 +69,7 @@ namespace WonderZooWeb
             try
             {
                 Dier dier = new Dier(diernummer, diernaam, leeftijd, geslacht, gewicht, lengte, naammoeder, naamvader, nakomeling, aanschaf, 0, null, null, null, 0, 0, 0, 0, 0, null, null, 0, null, null, null, null, null);
-                directeur.VoegToe(dier, Convert.ToInt32(TxtHuisNrDier.Text));
+                this.directeur.VoegToe(dier, Convert.ToInt32(TxtHuisNrDier.Text));
                 
             }
             catch (Exception ex)
@@ -81,7 +82,7 @@ namespace WonderZooWeb
         {
             string diernaam = TxtNaam.Text;
             int diernummer = Convert.ToInt32(TxtNr.Text);
-            beheerder.VerwijderDier(diernummer, diernaam);
+            this.beheerder.VerwijderDier(diernummer, diernaam);
         }
 
         protected void BtnUitloggen_Click(object sender, EventArgs e)

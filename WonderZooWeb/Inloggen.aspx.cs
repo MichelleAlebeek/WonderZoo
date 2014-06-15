@@ -1,23 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-
+﻿//Inloggen web form. Op dit form kunnen alle gebruikers terrecht komen, maar alleen de gebruikers die in de database voorkomen kunnen ook daadwerkelijk inloggen met het juiste wachtwoord en gebruikersnaam.
 namespace WonderZooWeb
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using System.Web.UI;
+    using System.Web.UI.WebControls;
+
     public partial class Inloggen : System.Web.UI.Page
     {
-        Klassen.Beheer beheerder;
+        private Klassen.Beheer beheerder;
         protected void Page_Load(object sender, EventArgs e)
         {
-            beheerder = new Klassen.Beheer();
+            this.beheerder = new Klassen.Beheer();
         }
 
         protected void BtnInloggen_Click(object sender, EventArgs e)
         {
-            Klassen.Persoon gebruiker = (Klassen.Persoon)beheerder.Inloggen(TxtGebruikersnaam.Text, TxtWachtwoord.Text);
+            Klassen.Persoon gebruiker = (Klassen.Persoon)this.beheerder.Inloggen(TxtGebruikersnaam.Text, TxtWachtwoord.Text);
 
             if (gebruiker.Beroep == "Dierverzorger")
             {
