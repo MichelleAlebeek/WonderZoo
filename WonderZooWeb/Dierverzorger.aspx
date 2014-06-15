@@ -78,3 +78,7 @@
     <asp:Button ID="BtnUitloggen" runat="server" OnClick="BtnUitloggen_Click" Text="Uitloggen" />
     <br />
 </asp:Content>
+<asp:Content ID="Content3" runat="server" contentplaceholderid="MainImage">
+                 <asp:Image ID="IMDierverzorger" runat="server" Height="124px" ImageAlign="Right" Width="385px" style="margin-left: 2px" ImageUrl="~/Images/blauwgeleara.JPG" />                           
+                 </asp:Content>
+

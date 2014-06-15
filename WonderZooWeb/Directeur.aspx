@@ -53,3 +53,7 @@
     <br />
     <br />
 </asp:Content>
+<asp:Content ID="Content3" runat="server" contentplaceholderid="MainImage">
+                 <asp:Image ID="IMDirecteur" runat="server" Height="124px" ImageAlign="Right" Width="385px" style="margin-left: 2px" ImageUrl="~/Images/struisvogel.JPG" />                           
+                 </asp:Content>
+

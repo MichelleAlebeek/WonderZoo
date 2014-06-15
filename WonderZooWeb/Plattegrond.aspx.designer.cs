@@ -10,15 +10,24 @@
 namespace WonderZooWeb {
     
     
-    public partial class Vacatures {
+    public partial class Plattegrond {
         
         /// <summary>
-        /// IMVac control.
+        /// IMPlattegrond control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image IMVac;
+        protected global::System.Web.UI.WebControls.Image IMPlattegrond;
+        
+        /// <summary>
+        /// IMGrond control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image IMGrond;
     }
 }
