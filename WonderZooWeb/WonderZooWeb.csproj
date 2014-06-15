@@ -68,7 +68,9 @@
     <Content Include="Home.aspx" />
     <Content Include="Images\achtergrond.jpg" />
     <Content Include="Images\logomini.png" />
+    <Content Include="Images\plattegrond.png" />
     <Content Include="Images\reuzenmiereneterkop.jpg" />
+    <Content Include="Images\route beschrijving.png" />
     <Content Include="Inloggen.aspx" />
     <Content Include="Plattegrond.aspx" />
     <Content Include="Vacatures.aspx" />
