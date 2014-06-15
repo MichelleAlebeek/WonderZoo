@@ -1,4 +1,4 @@
-﻿//Klasse vaccinatie.
+﻿//Klasse vaccinatie. Deze klasse bevat alle attributen van een vaccinatie. 
 
 namespace Klassen
 {

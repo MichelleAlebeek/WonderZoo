@@ -1,4 +1,4 @@
-﻿// Klassen medicijn
+﻿// Klassen medicijn. Deze klasse bevat alle attributen van een medicijn. Deze klasse bevat de Enum Medicijnnaam. Hiermee wordt de naam van het medicijn aangegeven. 
 
 namespace Klassen
 {

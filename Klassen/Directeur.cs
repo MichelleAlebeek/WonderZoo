@@ -1,4 +1,4 @@
-﻿//Klassen directeur.
+﻿//Klassen directeur. Deze klasse kan alles wat betrekking heeft tot het leiden van het bedrijf.
 
 namespace Klassen
 {
@@ -24,6 +24,11 @@ namespace Klassen
             get { return this.leeftijd; }
             set { this.leeftijd = value; }
         }
+
+        /// <summary>
+        /// totaal aantal dieren opvragen
+        /// </summary>
+        /// <returns>totaal aantal dieren</returns>
         public int AantalDieren()
         {
             // Todo het aantal dieren opvragen
@@ -31,6 +36,11 @@ namespace Klassen
             return aantal;
         }
 
+        /// <summary>
+        /// aantal dieren in een verblijf opvragen
+        /// </summary>
+        /// <param name="huisvestingnummer">nummer van huisvesting</param>
+        /// <returns>aantal dieren in het verblijf</returns>
         public int AantalDierenVerblijf(int huisvestingnummer)
         {
             // Todo het aantal dieren in een verblijf opvragen
@@ -38,6 +48,12 @@ namespace Klassen
             return aantal;
         }
 
+        /// <summary>
+        /// duur van medicijn berekenen
+        /// </summary>
+        /// <param name="vandaag">datum van vandaag</param>
+        /// <param name="begindatum">datum begin met medicijn</param>
+        /// <returns>hoelang het medicijn gebruikt wordt</returns>
         public int BerekenMedicijnDuur(DateTime vandaag, DateTime begindatum)
         {
             // TODO bereken hoelang het medicijn al gebruikt wordt.
@@ -45,18 +61,33 @@ namespace Klassen
             return duur;
         }
 
+        /// <summary>
+        /// een dier verwijderen
+        /// </summary>
+        /// <param name="diernummer">nummer van het dier</param>
+        /// <param name="diernaam">naam van het dier</param>
         public void VerwijderDier(int diernummer, string diernaam)
         {
             // TODO verwijder het dier dier overeenkomt met het diernummer die je meegeeft aan de methode
             this.beheerder.VerwijderDier(diernummer, diernaam);
         }
 
+        /// <summary>
+        /// dier toevoegen 
+        /// </summary>
+        /// <param name="dier">een dier</param>
+        /// <param name="huisvestingnummer">nummer van huisvesting waar het dier komt</param>
         public void VoegToe(Dier dier, int huisvestingnummer)
         {
             // TODO voeg het dier toe aan de dierentuin
             this.beheerder.VoegDierToe(dier, huisvestingnummer);
         }
 
+        /// <summary>
+        /// medicijnen van het dier opvragen
+        /// </summary>
+        /// <param name="diernummer">nummer van het dier</param>
+        /// <returns>een lijst van medicijnen van het dier</returns>
         public List<Medicijn> ZoekMedicijn(int diernummer)
         {
             // TODO zoek bij het meegegeven diernummer het medicijn op die dit dier gebruikt.
@@ -64,6 +95,11 @@ namespace Klassen
             return medicijn;
         }
 
+        /// <summary>
+        /// verblijf van het dier zoeken
+        /// </summary>
+        /// <param name="diernummer">nummer van het dier</param>
+        /// <returns>naam van het verblijf</returns>
         public string ZoekVerblijfDier(int diernummer)
         {
             // TODO zoek het verblijf die bij het meegegeven diernummer hoort.
@@ -71,6 +107,11 @@ namespace Klassen
             return verblijf;
         }
 
+        /// <summary>
+        /// verblijf van diersoort zoeken
+        /// </summary>
+        /// <param name="diersoortnummer">nummer van diersoort</param>
+        /// <returns>een huisvesting</returns>
         public Huisvesting ZoekVerblijf(int diersoortnummer)
         {
             // TODO zoek het verblijf die bij het meegegeven diersoortnummer hoort.

@@ -1,4 +1,4 @@
-﻿//Klasse dierverzorger.
+﻿//Klasse dierverzorger. Deze klasse kan alles wat betrekking heeft tot de verzorging van de dieren. 
 
 namespace Klassen
 {
@@ -94,6 +94,10 @@ namespace Klassen
             set { this.typeContract = value; }
         }
 
+        /// <summary>
+        /// het totaal aantal dieren opvragen
+        /// </summary>
+        /// <returns>aantal dieren</returns>
         public int AantalDieren()
         {
             // Todo het aantal dieren opvragen
@@ -106,6 +110,11 @@ namespace Klassen
         //    // TODO: download de plattegrond
         //}
 
+        /// <summary>
+        /// veelvoorkomende ziektes van een diersoort ovpragen
+        /// </summary>
+        /// <param name="diersoortnummer">nummer van diersoort</param>
+        /// <returns>lijst van strings met de ziektes</returns>
         public List<string> ZoekVeelvoorkomendeZiektes(int diersoortnummer)
         {
             // TODO zoek de veelvoorkomende ziektes op die bij het diersoort horen met het meegegeven rasnaam
@@ -113,12 +122,22 @@ namespace Klassen
             return veelvoorkomendeziektes;
         }
 
+        /// <summary>
+        /// een dier zoeken
+        /// </summary>
+        /// <param name="diernaam">naam van het dier</param>
+        /// <returns>een dier</returns>
         public Dier ZoekDier(string diernaam)
         {
             // TODO zoek het dier in de lijst waarvan de naam overeenkomt met de naam die je meegeeft
             return null;
         }
 
+        /// <summary>
+        /// een diersoort zoeken
+        /// </summary>
+        /// <param name="diersoortnaam">naam van diersoort</param>
+        /// <returns>een diersoort</returns>
         public Diersoort ZoekDiersoort(string diersoortnaam)
         {
             // TODO zoek het dier in de lijst met diersoorten waarvan de naam overeenkomt met de naam die je meegeeft
@@ -132,6 +151,11 @@ namespace Klassen
             return null;
         }
 
+        /// <summary>
+        /// info diersoort opvragen
+        /// </summary>
+        /// <param name="diersoortnummer">nummer diersoort</param>
+        /// <returns>een diersoort</returns>
         public Diersoort ZoekInfoDiersoort(int diersoortnummer)
         {
             // TODO zoek alle info over het diersoort waarvan de naam overeenkomt met de naam die je meegeeft
@@ -139,12 +163,22 @@ namespace Klassen
             return diersoort;
         }
 
+        /// <summary>
+        /// info van dier opvragen
+        /// </summary>
+        /// <param name="naamdier">naam van dier</param>
+        /// <returns>een dier</returns>
         public Dier ZoekInfoDier(string naamdier)
         { // TODO zoek alle info over het dier waarvan de naam overeenkomt met de naam die je meegeeft
             Dier dier = (Dier)this.beheerder.InfoDier(naamdier);
             return dier;
         }
 
+        /// <summary>
+        /// ras van een dier opvragen
+        /// </summary>
+        /// <param name="diernummer">nummer van het dier</param>
+        /// <returns>een ras</returns>
         public Ras ZoekRas(int diernummer)
         {
             // TODO zoek het ras op dat bij het dier hoort waarvan de naam overeenkomt met de naam die je meegeeft
@@ -159,6 +193,11 @@ namespace Klassen
             return null;
         }
 
+        /// <summary>
+        /// voeding van een dier opvragen
+        /// </summary>
+        /// <param name="naamdier">naam van dier</param>
+        /// <returns>naam van de voeding</returns>
         public string ZoekVoeding(string naamdier)
         {
             // TODO zoek het voeding op dat bij het dier hoort waarvan de naam overeenkomt met de naam die je meegeeft

@@ -79,6 +79,10 @@ namespace Klassen
             get { return new List<Dierverzorger>(this.dierverzorgers); }
         }
 
+        /// <summary>
+        /// het totaal aantal dieren op het park
+        /// </summary>
+        /// <returns>het aantal dieren</returns>
         #region Totaal aantal dieren op het park
         public int TotaalAantalDieren()
         {
@@ -88,6 +92,12 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// inloggen van gebruiker
+        /// </summary>
+        /// <param name="username">gebruikersnaam van gebruiker</param>
+        /// <param name="wachtwoord">wachtwoord van gebruiker</param>
+        /// <returns>de gebruiker die inlogt</returns>
         #region Inloggen
         public Persoon Inloggen(string username, string wachtwoord)
         {
@@ -96,6 +106,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// een dier toevoegen
+        /// </summary>
+        /// <param name="dier">een dier</param>
+        /// <param name="huisvestingnummer">nummer van de huisvesting waar het dier komt</param>
         #region Dier toevoegen
         public void VoegDierToe(Dier dier, int huisvestingnummer)
         {
@@ -103,6 +118,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// dier verwijderen
+        /// </summary>
+        /// <param name="diernummer">nummer van het dier</param>
+        /// <param name="diernaam">naam van het dier</param>
         #region Dier verwijderen
         public void VerwijderDier(int diernummer, string diernaam)
         {
@@ -110,6 +130,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// verblijf van het dier opvragen
+        /// </summary>
+        /// <param name="diernummer">nummer van het dier</param>
+        /// <returns>het nummer en de naam van het verblijf</returns>
         #region Verblijf van dier opvragen
         public string VerblijfVanDier(int diernummer)
         {
@@ -118,6 +143,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// medicijnen van dier opvragen
+        /// </summary>
+        /// <param name="diernummer">nummer van dier</param>
+        /// <returns>een lijst van medicijnen</returns>
         #region Medicijn van dier opvragen
         public List<Medicijn> MedicijnVanDier(int diernummer)
         {
@@ -126,6 +156,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// aantal dieren in een verblijf opvragen
+        /// </summary>
+        /// <param name="huisvestingnummer">nummer van het verblijf</param>
+        /// <returns>het aantal dieren in het verblijf</returns>
         #region Aantal dieren van het verblijf
         public int AantalDierenVeblijf(int huisvestingnummer)
         {
@@ -134,6 +169,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// ras van het dier opvragen
+        /// </summary>
+        /// <param name="diernummer">nummer van het dier</param>
+        /// <returns>naam van het ras</returns>
         #region Ras van dier opvragen
         public string RasVanDier(int diernummer)
         {
@@ -142,15 +182,24 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// veel voorkomende ziektes van een diersoort opvragen
+        /// </summary>
+        /// <param name="diersoortnummer">nummer van diersoort</param>
+        /// <returns>een lijst van strings met de ziektes</returns>
         #region Veelvoorkomende ziektes van diersoort
         public List<string> VeelVoorkomendeZiektesDiersoort(int diersoortnummer)
         {
             List<string> ziektes = this.db.VeelVoorkomendeZiektes(diersoortnummer);
             return ziektes;
         }
-
         #endregion
 
+        /// <summary>
+        /// voeding van het diersoort opvragen
+        /// </summary>
+        /// <param name="diersoortnummer">nummer van het diersoort</param>
+        /// <returns>de naam van de voeding</returns>
         #region Voeding van diersoort 
         public string VoedingDiersoort(int diersoortnummer)
         {
@@ -159,6 +208,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// huisvesting van diersoort opvragen
+        /// </summary>
+        /// <param name="diersoortnummer">nummer van het diersoort</param>
+        /// <returns>naam van de huisvesting</returns>
         #region Huisvesting van diersoort opvragen
         public string HuisvestingDiersoort(int diersoortnummer)
         {
@@ -167,6 +221,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// een diersoort zoeken
+        /// </summary>
+        /// <param name="diersoortnummer">nummer van het diersoort</param>
+        /// <returns>een diersoort</returns>
         #region Diersoort zoeken
         public Diersoort ZoekDiersoort(int diersoortnummer)
         {
@@ -175,6 +234,10 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// lijst van diersoorten vullen
+        /// </summary>
+        /// <returns>lijst van diersoorten</returns>
         #region Diersoort zoeken en lijst vullen
         public List<Diersoort> ZoekDiersoortLijst()
         {
@@ -183,15 +246,24 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// info van een specifiek dier opvragen
+        /// </summary>
+        /// <param name="diernaam">naam van het dier</param>
+        /// <returns>een dier</returns>
         #region Info specifiek dier opvragen
         public Dier InfoDier(string diernaam)
         {
             Dier dier = (Dier)this.db.InfoDier(diernaam);
             return dier;
         }
-
         #endregion
 
+        /// <summary>
+        /// begin datum van het medicijn opvragen
+        /// </summary>
+        /// <param name="diernaam">naam van het dier</param>
+        /// <returns>begin datum</returns>
         #region Begindatum van medicijn opvragen
         public DateTime MedicijnStartdatum(string diernaam)
         {
@@ -200,24 +272,36 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// Naam dierverzorgers opvragen
+        /// </summary>
+        /// <returns>een lijst van dierverzorgers namen</returns>
         #region Naam dierverzorgers opvragen
         public List<string> NaamDierverzorgers()
         {
             List<string> namen = this.db.NaamDierverzorgers();
             return namen;
         }
-
         #endregion
 
+        /// <summary>
+        /// naam van een dierverzorger opvragen
+        /// </summary>
+        /// <param name="dierverzorgernummer">nummer van dierverzorger</param>
+        /// <returns>de naam van de dierverzorger</returns>
         #region Naam dierverzorger opvragen
         public string NaamDierverzorger(int dierverzorgernummer)
         {
             string naam = this.db.NaamDierverzorger(dierverzorgernummer);
             return naam;
         }
-
         #endregion
-
+        
+        /// <summary>
+        /// naam van dierenarts opvragen
+        /// </summary>
+        /// <param name="dierenartsnummer">nummer van dierenarts</param>
+        /// <returns>naam van de dierenarts</returns>
         #region Naam dierenarts opvragen
         public string NaamDierenarts(int dierenartsnummer)
         {
@@ -226,15 +310,24 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// telefoonnummer van dierenarts opvragen
+        /// </summary>
+        /// <param name="dierenartsnummer">nummer van dierenarts</param>
+        /// <returns>telefoon nummer</returns>
         #region Telefoonnummer dierenarts opvragen
         public int TelefoonNrDierenarts(int dierenartsnummer)
         {
             int telefoonnummer = this.db.TelDierenarts(dierenartsnummer);
             return telefoonnummer;
         }
-
         #endregion
-
+        
+        /// <summary>
+        /// telefoonnummer van dierenarts opvragen met naam
+        /// </summary>
+        /// <param name="dierenartsnaam">naam van dierenarts</param>
+        /// <returns>telefoon nummer</returns>
         #region Telefoonnummer dierenarts opvragen met naam
         public int TelefoonNrDierenarts(string dierenartsnaam)
         {
@@ -243,6 +336,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// telefoonnummer van dierverzorger opvragen
+        /// </summary>
+        /// <param name="dierverzorgernummer">nummer van dierverzorger</param>
+        /// <returns>telefoon nummer</returns>
         #region Telefoonnummer dierverzorger opvragen
         public int TelefoonNrDierverzorger(int dierverzorgernummer)
         {
@@ -251,6 +349,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// telefoonnummer van dierverzorger opvragen met naam
+        /// </summary>
+        /// <param name="dierverzorgernaam">naam dierverzorger</param>
+        /// <returns>telefoon nummer</returns>
         #region Telefoonnummer dierverzoger opvragen met naam
         public int TelefoonNrDierverzorger(string dierverzorgernaam)
         {
@@ -259,6 +362,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// telefoonnummer zakelijk van dierverzorger opvragen
+        /// </summary>
+        /// <param name="dierverzorgernaam">naam van dierverzorger</param>
+        /// <returns>telefoonnummer zakelijk</returns>
         #region Telefoonnummer zakelijk dierverzorger opvragen met naam
         public int TelefoonNrZakelijkDierverzorger(string dierverzorgernaam)
         {
@@ -267,6 +375,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// telefoonnummer zakelijk van dierverzorger opvragen
+        /// </summary>
+        /// <param name="dierverzorgernummer">nummer van dierverzorger</param>
+        /// <returns>telefoonnummer zakelijk</returns>
         #region Telefoonnummer zakelijk dierverzorger opvragen
         public int TelefoonNrZakelijkDierverzorger(int dierverzorgernummer)
         {
@@ -275,6 +388,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// rekeningnnummer van dierverzorger opvragen met naam
+        /// </summary>
+        /// <param name="dierverzorgernaam">naam dierverzorger</param>
+        /// <returns>rekening nummer</returns>
         #region Rekeningnummer dierverzorger opvragen met naam
         public int RekeningNrDierverzorger(string dierverzorgernaam)
         {
@@ -283,6 +401,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// rekeningnummer dierenarts opvragen met naam
+        /// </summary>
+        /// <param name="dierenartsnaam">naam dierenarts</param>
+        /// <returns>rekening nummer</returns>
         #region Rekeningnummer dierenarts opvragen met naam
         public int RekeningNrDierenarts(string dierenartsnaam)
         {
@@ -291,6 +414,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// rekeningnummer dierverzorger opvragen met nummer
+        /// </summary>
+        /// <param name="dierverzorgernummer">nummer dierverzorger</param>
+        /// <returns>rekening nummer</returns>
         #region Rekeningnummer dierverzorger opvragen met nummer
         public int RekeningNrDierverzorger(int dierverzorgernummer)
         {
@@ -299,6 +427,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// rekeningnummer dierenarts opvragen met nummer
+        /// </summary>
+        /// <param name="dierenartsnummer">nummer dierenarts</param>
+        /// <returns>rekening nummer</returns>
         #region Rekeningnummer dierenarts opvragen met nummer
         public int RekeningNrDierenarts(int dierenartsnummer)
         {
@@ -307,6 +440,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// werkingsduur van vaccinatie opvragen
+        /// </summary>
+        /// <param name="vaccinatienaam">naam van de vaccinatie</param>
+        /// <returns>werkingsduur van vaccinatie</returns>
         #region Werkingsduur vaccinatie opvragen met naam
         public string WerkingsduurVaccinatie(string vaccinatienaam)
         {
@@ -315,6 +453,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// werkingsduur vaccinatie van dierverzorger opvragen 
+        /// </summary>
+        /// <param name="dierverzorgernummer">nummer van dierverzorger</param>
+        /// <returns>werkingsduur van vaccinatie</returns>
         #region Werkingsduur vaccinatie opvragen met dierverzorgernummer
         public string WerkingsduurVaccinatie(int dierverzorgernummer)
         {
@@ -323,6 +466,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// werkingsduur van vaccinatie van dierverzorger opvragen
+        /// </summary>
+        /// <param name="dierverzorgernaam">naam dierverzorger</param>
+        /// <returns>werkingsduur van vaccinatie</returns>
         #region Werkingsduur vaccinatie opvragen met dierverzorgernaam
         public string WerkingsduurVaccinatieVerzorger(string dierverzorgernaam)
         {
@@ -331,6 +479,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// vaccinatie verlopen van dierverzorger
+        /// </summary>
+        /// <param name="dierverzorgernummer">nummer van dierverzorger</param>
+        /// <returns>datum waarop vaccinatie is verlopen</returns>
         #region Vaccinatie verlopen op met dierverzorgernummer
         public DateTime VaccinatieVerlopenOp(int dierverzorgernummer)
         {
@@ -339,6 +492,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// vaccinatie verlopen van dierverzorger
+        /// </summary>
+        /// <param name="dierverzorgernaam">naam dierverzorger</param>
+        /// <returns>datum waarom de vaccinatie is verlopen</returns>
         #region Vaccinatie verlopen op met dierverzorgernaam
         public DateTime VaccinatieVerlopenOp(string dierverzorgernaam)
         {
@@ -347,6 +505,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// vaccinaties van dierverzorger opvragen
+        /// </summary>
+        /// <param name="dierverzorgernummer">nummer van dierverzorger</param>
+        /// <returns>lijst met vaccinaties van dierverzorger</returns>
         #region Vaccinaties van dierverzoger opvragen
         public List<Vaccinatie> VaccinatieDierverzorger(int dierverzorgernummer)
         {
@@ -355,6 +518,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// vaccinaties van dierverzorger opvragen
+        /// </summary>
+        /// <param name="dierverzorgernaam">naam dierverzorger</param>
+        /// <returns>een lijst van vaccinaties van dierverzorger</returns>
         #region Vaccinaties van dierverzorger opvragen met naam
         public List<Vaccinatie> VaccinatiesDierverzorger(string dierverzorgernaam)
         {
@@ -363,6 +531,10 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// een dierverzorger toevoegen
+        /// </summary>
+        /// <param name="dierverzorger">een dierverzorger</param>
         #region Dierverzorger toevoegen
         public void VoegToe(Dierverzorger dierverzorger)
         {
@@ -370,6 +542,10 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// een dierverzorger verwijderen
+        /// </summary>
+        /// <param name="dierverzorgernummer">nummer van dierverzorger</param>
         #region Dierverzorger verwijderen
         public void Verwijder(int dierverzorgernummer)
         {
@@ -377,6 +553,10 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// dierenarts toevoegen
+        /// </summary>
+        /// <param name="dierenarts">een dierenarts</param>
         #region Dierenarts toevoegen
         public void VoegToe(Dierenarts dierenarts)
         {
@@ -384,6 +564,10 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// dierenarts verwijderen
+        /// </summary>
+        /// <param name="dierenartsnummer">nummer van dierenarts</param>
         #region Dierenarts verwijderen
         public void VerwijderArts(int dierenartsnummer)
         {
@@ -391,6 +575,11 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// verblijf van een diersoort zoeken
+        /// </summary>
+        /// <param name="diersoortnummer">nummer van diersoort</param>
+        /// <returns>het verblijf</returns>
         #region Verblijf zoeken
         public Huisvesting ZoekHuisvesting(int diersoortnummer)
         {
@@ -399,6 +588,10 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// diersoort toevoegen
+        /// </summary>
+        /// <param name="diersoort">Diersoort</param>
         #region Diersoort toevoegen
         public void VoegToeDiersoort(Diersoort diersoort)
         {
@@ -406,6 +599,14 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// vaccinatie toevoegen
+        /// </summary>
+        /// <param name="dierverzorgernummer">nummer dierverzorger</param>
+        /// <param name="vaccinatienaam">naam van de vaccinatie</param>
+        /// <param name="datumgevaccineerd">datum waarop vaccinatie is gegeven</param>
+        /// <param name="datumverlopen">datum waarop vaccinatie is verlopen</param>
+        /// <param name="bijwerking">eventuele bijwerkingen</param>
         #region Vaccinatiedatum toevoegen
         public void VoegToeVaccinatiedatum(int dierverzorgernummer, string vaccinatienaam, DateTime datumgevaccineerd, DateTime datumverlopen, string bijwerking)
         {
@@ -413,6 +614,10 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// alle vaccinaties opvragen 
+        /// </summary>
+        /// <returns>een lijst van alle vaccinaties</returns>
         #region Vaccinaties opvragen 
         public List<Vaccinatie> AlleVaccinaties()
         {
@@ -421,6 +626,10 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// alle medicijnen opvragen
+        /// </summary>
+        /// <returns>een lijst van alle medicijnen</returns>
         #region Medicijnen opvragen
         public List<Medicijn> AlleMedicijnen()
         {
@@ -429,6 +638,10 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// alle dieren opvragen
+        /// </summary>
+        /// <returns>een lijst van dieren</returns>
         #region Dieren opvragen
         public List<Dier> AlleDieren()
         {
@@ -437,6 +650,10 @@ namespace Klassen
         }
         #endregion
 
+        /// <summary>
+        /// alle dierverzorgers opvragen
+        /// </summary>
+        /// <returns>een lijst van alle dierverzorgers</returns>
         #region Dierverzorgers opvragen
         public List<Dierverzorger> AlleVerzorgers()
         {

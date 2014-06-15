@@ -1,4 +1,5 @@
-﻿//Klassen huisvesting
+﻿//Klassen huisvesting. Deze klasse bevat alle attributen van een huisvesting. Hierin kunnen een x aantal dieren geplaatst worden.
+//Deze klasse bevat drie Enums: HuisvestingSoort, HuisvestingMateriaal en Gedragsverrijking. Hiermee wordt aangegeven wat voor soort huisvesting het is, welk materiaal er wordt gebruikt in deze huisvesting en wat voor gedragsverrijking hierop toegepast kan worden.
 
 namespace Klassen
 {
@@ -110,6 +111,11 @@ namespace Klassen
             set { this.soorthuisvesting = value; }
         }
 
+        /// <summary>
+        /// het aantal dieren van een verblijf opvragen
+        /// </summary>
+        /// <param name="huisvestingnummer">nummer van huisvesting</param>
+        /// <returns>aantal dieren van het verblijf</returns>
         public int BerekenAantalDieren(int huisvestingnummer)
         {
             // TODO: 

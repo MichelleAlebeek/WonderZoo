@@ -1,4 +1,4 @@
-﻿//Klasse voeding.
+﻿//Klasse voeding. Deze klasse bevat alle attributen van een voeding. Verder heeft deze klasse een Enum: Soortvoeding. Hiermee wordt het soort voer aangegeven.
 
 namespace Klassen
 {

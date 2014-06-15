@@ -1,4 +1,4 @@
-﻿//Klassen dierenarts.
+﻿//Klassen dierenarts. Deze klasse kan alles met betrekking tot medisch gebied. 
 
 namespace Klassen
 {
@@ -60,6 +60,12 @@ namespace Klassen
             set { this.telefoonnummer = value; }
         }
 
+        /// <summary>
+        /// berekenen hoelang een medicijn wordt gebruikt
+        /// </summary>
+        /// <param name="vandaag">datum van vandaag</param>
+        /// <param name="begindatum">begin datum</param>
+        /// <returns></returns>
         public int BerekenDuurMedicijn(DateTime vandaag, DateTime begindatum)
         {
             // TODO bereken hoelang het medicijn al gebruikt wordt.
@@ -67,6 +73,11 @@ namespace Klassen
             return duur;
         }
 
+        /// <summary>
+        /// medicijnen van dier opvragen
+        /// </summary>
+        /// <param name="diernummer">nummer van dier</param>
+        /// <returns>een lijst van medicijnen</returns>
         public List<Medicijn> ZoekMedicijn(int diernummer)
         {
             // TODO zoek bij het meegegeven diernummer het medicijn op die dit dier gebruikt.
@@ -74,6 +85,11 @@ namespace Klassen
             return medicijn;
         }
 
+        /// <summary>
+        /// veelvoorkomende ziektes van ras opvragen
+        /// </summary>
+        /// <param name="rasnaam">naam van het ras</param>
+        /// <returns>een lijst van strings met ziektes</returns>
         public List<string> ZoekVeelvoorkomendeZiektes(string rasnaam)
         {
             // TODO zoek de veelvoorkomende ziektes op die bij het ras horen met het meegegeven rasnaam

@@ -1,4 +1,4 @@
-﻿//Klasse ras. Dit is de basisklasse van Dier en deze overerft de klasse diersoort.
+﻿//Klasse ras. Dit is de basisklasse van Dier en deze overerft van de klasse diersoort. Deze klassen bevat alle attributen van een ras en een diersoort.
 
 namespace Klassen
 {

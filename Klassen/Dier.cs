@@ -1,4 +1,4 @@
-﻿//Klassen dier. 
+﻿//Klassen dier. Deze klasse bevat alle attributen van een dier.
 
 namespace Klassen
 {
