@@ -63,23 +63,32 @@ namespace Databasekoppeling
             {
                 using (OracleConnection conn = this.connection)
                 {
-                    OracleCommand cmd = new OracleCommand("insert into dier values(:diernummer, :diernaam, :leeftijd, :Gewicht, :Lengte, :Geslacht, :Nakomelingen, :DatumAanschaf, :DiersoortNummer, :HuisvestingNummer, :RasNummer, :NaamMoeder, :NaamVader, :NummerMoeder, :NummerVader)", conn);
+                    OracleCommand cmd = new OracleCommand("insert into dier values(:diernummer, :diernaam, :leeftijd, :Gewicht, :Lengte, :Geslacht, :Nakomelingen, sysdate, :DiersoortNummer, :HuisvestingNummer, :RasNummer, '' ,'' , (null), (null))", conn);
 
+                    int nakomeling;
                     cmd.Parameters.Add("diernummer", dier.Diernummer);
                     cmd.Parameters.Add("diernaam", dier.Diernaam);
                     cmd.Parameters.Add("leeftijd", dier.Leeftijd);
                     cmd.Parameters.Add("Gewicht", dier.Gewicht);
                     cmd.Parameters.Add("Lengte", dier.Lengte);
                     cmd.Parameters.Add("Geslacht", dier.Geslacht);
-                    cmd.Parameters.Add("Nakomelingen", dier.Nakomeling);
-                    cmd.Parameters.Add("DatumAanschaf", dier.DatumAanschaf);
+                    if (dier.Nakomeling == true)
+                    {
+                        nakomeling = 1;
+                    }
+                    else
+                    {
+                        nakomeling = 0;
+                    }
+                    cmd.Parameters.Add("Nakomelingen", nakomeling);
+                  //  cmd.Parameters.Add("DatumAanschaf", dier.DatumAanschaf);
                     cmd.Parameters.Add("DiersoortNummer", dier.Diersoortnummer);
                     cmd.Parameters.Add("HuisvestingNummer, ", huisvestingnummer);
                     cmd.Parameters.Add("RasNummer", dier.Rasnummer);
-                    cmd.Parameters.Add("NaamMoeder", dier.NaamMoeder);
-                    cmd.Parameters.Add("NaamVader", dier.NaamVader);
-                    cmd.Parameters.Add("NummerMoeder", null);
-                    cmd.Parameters.Add("NummerVader", null);
+                 //   cmd.Parameters.Add("NaamMoeder", dier.NaamMoeder);
+                //    cmd.Parameters.Add("NaamVader", dier.NaamVader);
+                  //  //cmd.Parameters.Add("NummerMoeder", string.Empty);
+                   // cmd.Parameters.Add("NummerVader", string.Empty);
 
                     this.connection.Open();
                     cmd.ExecuteNonQuery();
@@ -959,13 +968,13 @@ namespace Databasekoppeling
                     cmd.Parameters.Add("naam", vaccinatienaam);
                     this.connection.Open();
                     OracleDataReader rdr = cmd.ExecuteReader();
+                    string werkingstijd = string.Empty;
 
                     if (rdr.Read())
                     {
-                        string werkingstijd = Convert.ToString(rdr["werkingstijd"]);
-                        return werkingstijd;
+                        werkingstijd = Convert.ToString(rdr["werkingstijd"]);
                     }
-                    return null;
+                    return werkingstijd;
                 }
             }
             finally
@@ -1166,7 +1175,7 @@ namespace Databasekoppeling
 
                     List<Vaccinatie> vaccinaties = new List<Vaccinatie>();
 
-                    if (rdr.Read())
+                    while (rdr.Read())
                     {
                         string vaccinatienaam = Convert.ToString(rdr["vaccinatienaam"]);
                         string werkingstijd = Convert.ToString(rdr["WERKINGSTIJD"]);
@@ -1191,13 +1200,12 @@ namespace Databasekoppeling
             {
                 using (OracleConnection conn = this.connection)
                 {
-                    OracleCommand cmd = new OracleCommand("insert into dierverzorger values(:nummer, :naam, :geslacht, :leeftijd, :hoofddiersoort, to_date(:aangenomen), :contract, :telzakelijk, :telprive, :rekeningnummer, 0, 0)", conn);
+                    OracleCommand cmd = new OracleCommand("insert into dierverzorger values(:nummer, :naam, :geslacht, :leeftijd, :hoofddiersoort, sysdate, :contract, :telzakelijk, :telprive, :rekeningnummer, 0, 0)", conn);
 
                     cmd.Parameters.Add("nummer", verzorger.DierverzorgerNummer);
                     cmd.Parameters.Add("naam", verzorger.Naam);
                     cmd.Parameters.Add("geslacht", verzorger.Geslacht);
                     cmd.Parameters.Add("leeftijd", verzorger.Leeftijd);
-                    cmd.Parameters.Add("aangenomen", verzorger.DatumAangenomen);
                     cmd.Parameters.Add("contract", verzorger.TypeContract);
                     cmd.Parameters.Add("telprive", verzorger.TelefoonnummerPrivé);
                     cmd.Parameters.Add("telzakelijk", verzorger.TelefoonnummerZakelijk);

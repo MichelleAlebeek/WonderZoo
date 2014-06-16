@@ -19,65 +19,135 @@ namespace WonderZooWeb
 
         protected void BtnMedicijnen_Click(object sender, EventArgs e)
         {
-            List<Medicijn> medicijnen = new List<Medicijn>(this.beheerder.MedicijnVanDier(Convert.ToInt32(TxtDierNr.Text)));
+            try
+            {
+                List<Medicijn> medicijnen = new List<Medicijn>(this.beheerder.MedicijnVanDier(Convert.ToInt32(TxtDierNr.Text)));
 
-            GVMedicijnen.DataSource = medicijnen;
-            GVMedicijnen.DataBind();
+                GVMedicijnen.DataSource = medicijnen;
+                GVMedicijnen.DataBind();
+            }
+            catch
+            {
+                LblMedicijn.Text = "Het dier gebruikt geen medicijnen";
+            }
         }
 
         protected void BtnDiersoortInfo_Click(object sender, EventArgs e)
         {
-            Diersoort diersoort = this.beheerder.ZoekDiersoort(Convert.ToInt32(TxtDiersoortNr.Text));
-            TxtDiersoort.Text = diersoort.ToString();
+            try
+            {
+                Diersoort diersoort = this.beheerder.ZoekDiersoort(Convert.ToInt32(TxtDiersoortNr.Text));
+                TxtDiersoort.Text = diersoort.ToString();
+            }
+            catch
+            {
+                LblDiersoort.Text = "Het diersoort is niet bekend";
+            }
         }
 
         protected void BtnInfoDier_Click(object sender, EventArgs e)
         {
-            Dier dier = this.beheerder.InfoDier(TxtDiernaam.Text);
-            TxtDier.Text = dier.ToString();
+            try
+            {
+                Dier dier = this.beheerder.InfoDier(TxtDiernaam.Text);
+                TxtDier.Text = dier.ToString();
+            }
+            catch
+            {
+                LblDier.Text = "Geen dier bekend met deze naam";
+            }
         }
 
         protected void BtnRas_Click(object sender, EventArgs e)
         {
-            string ras = this.beheerder.RasVanDier(Convert.ToInt32(TxtDierNummer.Text));
-            TxtRas.Text = ras;
+            try
+            {
+                string ras = this.beheerder.RasVanDier(Convert.ToInt32(TxtDierNummer.Text));
+                TxtRas.Text = ras;
+            }
+            catch
+            {
+                LblRas.Text = "Kan geen ras opvragen";
+            }
         }
 
         protected void BtnZiektes_Click(object sender, EventArgs e)
         {
-            List<string> ziektes = this.beheerder.VeelVoorkomendeZiektesDiersoort(Convert.ToInt32(TxtDiersoortNummer.Text));
-            GVZiektes.DataSource = ziektes;
-            GVZiektes.DataBind();
+            try
+            {
+                List<string> ziektes = this.beheerder.VeelVoorkomendeZiektesDiersoort(Convert.ToInt32(TxtDiersoortNummer.Text));
+                GVZiektes.DataSource = ziektes;
+                GVZiektes.DataBind();
+            }
+            catch
+            {
+                LblZiektes.Text = "Geen ziektes bekend";
+            }
         }
 
         protected void BtnVerblijfDier_Click(object sender, EventArgs e)
         {
-            string verblijf = this.beheerder.VerblijfVanDier(Convert.ToInt32(TxtDNr.Text));
-            TxtVerblijf.Text = verblijf;
+            try
+            {
+                string verblijf = this.beheerder.VerblijfVanDier(Convert.ToInt32(TxtDNr.Text));
+                TxtVerblijf.Text = verblijf;
+            }
+            catch
+            {
+                LblVerblijf.Text = "Geen verblijf bekend";
+            }
         }
 
         protected void BtnAantalVerblijf_Click(object sender, EventArgs e)
         {
-            int aantal = this.beheerder.AantalDierenVeblijf(Convert.ToInt32(TxtHuisNr.Text));
-            TxtAantal.Text = aantal.ToString();
+            try
+            {
+                int aantal = this.beheerder.AantalDierenVeblijf(Convert.ToInt32(TxtHuisNr.Text));
+                TxtAantal.Text = aantal.ToString();
+            }
+            catch
+            {
+                LblHuisvesting.Text = "Er komt geen huisvesting voor met dat nummer";
+            }
         }
 
         protected void BtnVoedingDiersoort_Click(object sender, EventArgs e)
         {
-            string voeding = this.beheerder.VoedingDiersoort(Convert.ToInt32(TxtDSoortNr.Text));
-            TxtVoeding.Text = voeding;
+            try
+            {
+                string voeding = this.beheerder.VoedingDiersoort(Convert.ToInt32(TxtDSoortNr.Text));
+                TxtVoeding.Text = voeding;
+            }
+            catch
+            {
+                LblVoeding.Text = "Er is geen voeding bekend voor deze diersoort";
+            }
         }
 
         protected void BtnHuisvestingDiersoort_Click(object sender, EventArgs e)
         {
-            string huisvesting = this.beheerder.HuisvestingDiersoort(Convert.ToInt32(TxtDSoortNr.Text));
-            TxtHuisvesting.Text = huisvesting;
+            try
+            {
+                string huisvesting = this.beheerder.HuisvestingDiersoort(Convert.ToInt32(TxtDSoortNummer.Text));
+                TxtHuisvesting.Text = huisvesting;
+            }
+            catch
+            {
+                LblHuisDiersoort.Text = "Er is geen huisvesting bekend voor deze diersoort";
+            }
         }
 
         protected void BtnDierenTotaal_Click(object sender, EventArgs e)
         {
-            int aantal = this.beheerder.TotaalAantalDieren();
-            TxtTotaalDieren.Text = aantal.ToString();
+            try
+            {
+                int aantal = this.beheerder.TotaalAantalDieren();
+                TxtTotaalDieren.Text = aantal.ToString();
+            }
+            catch
+            {
+                LblTotaal.Text = "Er zijn geen dieren aanwezig";
+            }
         }
 
         protected void BtnUitloggen_Click(object sender, EventArgs e)

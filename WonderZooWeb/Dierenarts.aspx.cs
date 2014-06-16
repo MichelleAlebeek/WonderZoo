@@ -20,35 +20,48 @@ namespace WonderZooWeb
 
         protected void BtnMedicijnen_Click(object sender, EventArgs e)
         {
-            int diernummer = Convert.ToInt32(TxtDierNr.Text);
-            
             try
             {
+                int diernummer = Convert.ToInt32(TxtDierNr.Text);
                 List<Medicijn> medicijnen = new List<Medicijn>(this.beheerder.MedicijnVanDier(diernummer));
-                GVArts.DataSource = medicijnen;
-                GVArts.DataBind();
+                GVMedicijnen.DataSource = medicijnen;
+                GVMedicijnen.DataBind();
             }
-            catch (Exception ex)
+            catch
             {
-                LblFout.Text = ex.Message;
+                LblFout.Text = "Dier gebruikt geen medicijnen / is niet bekend";
             }
         }
 
         protected void BtnDuurMedicijn_Click(object sender, EventArgs e)
         {
-            string diernaam = TxtDiernaam.Text;
+            try
+            {
+                string diernaam = TxtDiernaam.Text;
 
-            DateTime startdatum = this.beheerder.MedicijnStartdatum(diernaam);       
-            int duurmedicijn = (DateTime.Today - startdatum).Days;
-            TxtDuurMedicijn.Text = Convert.ToString(duurmedicijn + " dag(en)");
+                DateTime startdatum = this.beheerder.MedicijnStartdatum(diernaam);
+                int duurmedicijn = (DateTime.Today - startdatum).Days;
+                TxtDuurMedicijn.Text = Convert.ToString(duurmedicijn + " dag(en)");
+            }
+            catch
+            {
+                LblFout.Text = "Duur van het medicijn is niet bekend";
+            }
         }
 
         protected void BtnZiektes_Click(object sender, EventArgs e)
         {
-            int diersoortnummer = Convert.ToInt32(TxtDiersoortnaam.Text);
-            List<string> ziektes = this.beheerder.VeelVoorkomendeZiektesDiersoort(diersoortnummer);
-            GVArts.DataSource = ziektes;
-            GVArts.DataBind();
+            try
+            {
+                int diersoortnummer = Convert.ToInt32(TxtDiersoortnaam.Text);
+                List<string> ziektes = this.beheerder.VeelVoorkomendeZiektesDiersoort(diersoortnummer);
+                GVZiektes.DataSource = ziektes;
+                GVZiektes.DataBind(); 
+            }
+            catch
+            {
+                LblFout.Text = "Er zijn geen veel voorkomende ziektes van deze diersoort bekend";
+            }
         }
 
         protected void BtnUitloggen_Click(object sender, EventArgs e)

@@ -31,6 +31,15 @@ namespace WonderZooWeb {
         protected global::System.Web.UI.WebControls.TextBox TxtVerzorgerNaam;
         
         /// <summary>
+        /// LblDierverzorger control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblDierverzorger;
+        
+        /// <summary>
         /// BtnNaamVerzorger control.
         /// </summary>
         /// <remarks>
@@ -236,6 +245,15 @@ namespace WonderZooWeb {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TxtDierenartsNr;
+        
+        /// <summary>
+        /// LblDierenarts control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblDierenarts;
         
         /// <summary>
         /// BtnNaamArts control.

@@ -18,27 +18,32 @@ namespace WonderZooWeb
 
         protected void BtnInloggen_Click(object sender, EventArgs e)
         {
-            Klassen.Persoon gebruiker = (Klassen.Persoon)this.beheerder.Inloggen(TxtGebruikersnaam.Text, TxtWachtwoord.Text);
+            try
+            { 
+                Klassen.Persoon gebruiker = (Klassen.Persoon)this.beheerder.Inloggen(TxtGebruikersnaam.Text, TxtWachtwoord.Text);
 
-            if (gebruiker.Beroep == "Dierverzorger")
-            {
-                Response.Redirect("Dierverzorger.aspx");
+                if (gebruiker.Beroep == "Dierverzorger")
+                {
+                    Response.Redirect("Dierverzorger.aspx");
+                }
+                else if (gebruiker.Beroep == "Dierenarts")
+                {
+                    Response.Redirect("Dierenarts.aspx");
+                }
+                else if (gebruiker.Beroep == "Directeur")
+                {
+                    Response.Redirect("Directeur.aspx");
+                }
+                else if (gebruiker.Beroep == "Administratie")
+                {
+                    Response.Redirect("Administratie.aspx");
+                }
             }
-            else if (gebruiker.Beroep == "Dierenarts")
+            catch
             {
-                Response.Redirect("Dierenarts.aspx");
-            }
-            else if (gebruiker.Beroep == "Directeur")
-            {
-                Response.Redirect("Directeur.aspx");
-            }
-            else if (gebruiker.Beroep == "Administratie")
-            {
-                Response.Redirect("Administratie.aspx");
-            }
-            else
-            {
-                LblFout.Text = "Ongeldige combinatie wachtwoord en gebruikersnaam";
+                    LblFout.Text = "Ongeldige combinatie wachtwoord en gebruikersnaam";
+                    TxtGebruikersnaam.Text = string.Empty;
+                    TxtWachtwoord.Text = string.Empty;
             }
         }
 

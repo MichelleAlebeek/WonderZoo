@@ -59,7 +59,7 @@ namespace Klassen
 
         public override string ToString()
         {
-            return this.diersoortnummer + this.afdeling + this.klasse + this.orde + this.familie + this.diersoortgeslacht;
+            return this.diersoortnummer + " " + this.afdeling + " " + this.klasse + " " + this.orde + " " + this.familie + " " + this.diersoortgeslacht;
         }
     }
 }

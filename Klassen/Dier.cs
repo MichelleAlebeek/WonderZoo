@@ -100,7 +100,7 @@ namespace Klassen
 
         public override string ToString()
         {
-            return this.diernummer + this.diernaam + this.geslacht + this.gewicht + "leeftijd: " + this.leeftijd + "Lengte: " + this.lengte + this.datumAanschaf + this.naamMoeder + this.naamVader + this.nakomeling;
+            return this.diernummer + " " + this.diernaam + " " + this.geslacht + " " + this.gewicht + " " + "leeftijd:" + " " + this.leeftijd + " " + "Lengte:" + " " + this.lengte + " " + this.datumAanschaf.Day + this.datumAanschaf.Month + this.datumAanschaf.Year + " " + this.naamMoeder + " " + this.naamVader + " " + this.nakomeling;
         }
 
     }
